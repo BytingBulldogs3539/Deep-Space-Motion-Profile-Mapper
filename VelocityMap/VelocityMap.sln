@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VelocityMap", "VelocityMap\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "bulldogForms", "bulldogForms\bulldogForms.csproj", "{37F2A6CF-7337-4E23-AC94-83438F416773}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Motion-Profiler-Installer", "Motion-Profiler-Installer\Motion-Profiler-Installer.vdproj", "{9C218100-280E-43C5-A810-DC89AD37A4C5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,8 @@ Global
 		{37F2A6CF-7337-4E23-AC94-83438F416773}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{37F2A6CF-7337-4E23-AC94-83438F416773}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{37F2A6CF-7337-4E23-AC94-83438F416773}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C218100-280E-43C5-A810-DC89AD37A4C5}.Debug|Any CPU.ActiveCfg = Debug
+		{9C218100-280E-43C5-A810-DC89AD37A4C5}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
