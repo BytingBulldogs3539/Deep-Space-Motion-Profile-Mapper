@@ -1,0 +1,25 @@
+﻿4484,0,1219,914			'Vault port
+4099,4500,30,4000		'Power strip
+
+
+2165,3556,3899,1422		'Switch Base
+2222,3594,914,1346,0	'Switch target right
+5102,3594,914,1346,0	'Switch target left
+
+2470,6832,3289,1397		'Scale Platform
+1829,8077,4572,152		'Scale
+1829,7620,914,609,0		'Scale target right
+5487,7620,914,609,0		'Scale target left
+
+2222,5000,330,300,1		'block 1
+2935,5000,330,300,1		'block 2
+3648,5000,330,300,1		'block 3
+4361,5000,330,300,1		'block 4
+5074,5000,330,300,1		'block 5
+5734,5000,330,300,1		'block 6
+
+3543,2500,1143,1066,1		'stack of 10 blocks
+
+754,0,711,1006,2		'right side starting
+3760,0,711,1006,2		'middle starting
+6765,0,711,1006,2		'left side starting
