@@ -889,10 +889,18 @@
         /// </summary>
         private void Save_Click(object sender, EventArgs e)
         {
+            //Make sure that we have at least two points that we can actually make a path between.
+            if (!(controlPoints.RowCount - 2 > 0))
+            {
+                //If not cancel this and show an error stating so.
+                MessageBox.Show("Not enought points!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                return;
+            }
             //We are going to apply before we save so that we have the newest data.
             Apply_Click(null, null);
             //Double check that we have more than 1 point for our calculation.
-            if (!(controlPoints.RowCount - 2 > 0))
+            if ((controlPoints.RowCount - 2 > 0))
             {
                 //Create a save dialog window that allows the user to select where they want us to save the information to.
                 SaveFileDialog saveFileDialog1 = new SaveFileDialog();
@@ -1324,6 +1332,19 @@
             byte tempForParsing;
             //check to see if all of the values are bytes.
             return splitValues.All(r => byte.TryParse(r, out tempForParsing));
+        }
+
+        private void refresh_button_Click(object sender, EventArgs e)
+        {
+            //Check to make sure that the user has given us a valid ip for the robot.
+            if (!ValidateIPv4(ipadd.Text))
+            {
+                MessageBox.Show("This ip address is invalid!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            //Create a sftp client that we will use to get the file list from the robot.
+            SftpClient sftp = new SftpClient(ipadd.Text, user.Text, pass.Text);
+            sftp.ListDirectory();
         }
     }
 }
