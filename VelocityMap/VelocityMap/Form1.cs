@@ -85,7 +85,7 @@
             //the test series is really the background series.
             mainField.Series.Add("test");
             mainField.Series["test"].ChartType = SeriesChartType.Point;
-            mainField.Series["test"].Points.AddXY(0, 0);
+            //mainField.Series["test"].Points.AddXY(0, 0);
             mainField.Series["test"].Points.AddXY(fieldWidth, fieldHeight);
             //add different lines to the main field chart.
             mainField.Series.Add("path");
@@ -107,7 +107,7 @@
             mainField.Series["right"].ChartType = SeriesChartType.Point;
             //set what the seperate lines color.
             mainField.Series["cp"].Color = Color.ForestGreen;
-            mainField.Series["path"].Color = Color.Gray;
+            mainField.Series["path"].Color = Color.Lime;
             mainField.Series["left"].Color = Color.Blue;
             mainField.Series["right"].Color = Color.Red;
 
@@ -150,7 +150,7 @@
             VelocityPlot.Series["right"].ChartType = SeriesChartType.FastLine;
 
             //Sets what the point color should look like on the velocity map.
-            VelocityPlot.Series["path"].Color = Color.Gray;
+            VelocityPlot.Series["path"].Color = Color.Lime;
             VelocityPlot.Series["left"].Color = Color.Blue;
             VelocityPlot.Series["right"].Color = Color.Red;
 
@@ -177,7 +177,7 @@
 
 
             //set the color of the lines.
-            DistancePlot.Series["path"].Color = Color.LightGray;
+            DistancePlot.Series["path"].Color = Color.Lime;
             DistancePlot.Series["left"].Color = Color.Blue;
             DistancePlot.Series["right"].Color = Color.Red;
 
@@ -200,7 +200,7 @@
             AnglePlot.Series["angle"].ChartType = SeriesChartType.FastLine;
 
             //set the color of the lines.
-            AnglePlot.Series["angle"].Color = Color.Purple;
+            AnglePlot.Series["angle"].Color = Color.White;
         }
 
         /// <summary>
@@ -248,8 +248,13 @@
             {
                 if (dp != null)
                 {
+                    dp.Color = Color.Yellow;
                     dp = null;
-                    Apply_Click(null, null);
+                    if ((controlPoints.RowCount - 2 > 0))
+                    {
+                        Apply_Click(null, null);
+                    }
+                    
                     return;
                 }
                 Chart c = (Chart)sender;
@@ -271,6 +276,10 @@
                 if (dp != null)
                 {
                     dp = null;
+                    if ((controlPoints.RowCount - 2 > 0))
+                    {
+                        Apply_Click(null, null);
+                    }
                     Apply_Click(null, null);
                     return;
                 }
@@ -413,6 +422,23 @@
         /// </summary>
         private void controlPoints_RowStateChange(object sender, DataGridViewRowStateChangedEventArgs e)
         {
+
+            if (e.Row.Cells[0].Value == null && e.Row.Cells[1].Value == null && e.Row.Cells[1].Value == null)
+            {
+                return;
+            }
+            if (e.Row.Cells[0].Value == null || e.Row.Cells[0].Value.ToString() == "")
+            {
+                e.Row.Cells[0].Value = 0;
+            }
+            if (e.Row.Cells[1].Value == null || e.Row.Cells[1].Value.ToString() == "")
+            {
+                e.Row.Cells[1].Value = 0;
+            }
+            if (e.Row.Cells[2].Value == null || e.Row.Cells[2].Value.ToString() == "")
+            {
+                e.Row.Cells[2].Value = "+";
+            }
             //If the state change is not a selection we don't care about it.
             if (e.StateChanged != DataGridViewElementStates.Selected)
             {
@@ -472,6 +498,23 @@
         private void controlPoints_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
             //Check to see if the user is editing a cell that is in the third column.
+
+            if (controlPoints.CurrentRow.Cells[0].Value == null && controlPoints.CurrentRow.Cells[1].Value == null && controlPoints.CurrentRow.Cells[1].Value == null)
+            {
+                return;
+            }
+            if (controlPoints.CurrentRow.Cells[0].Value == null || controlPoints.CurrentRow.Cells[0].Value.ToString() == "")
+            {
+                controlPoints.CurrentRow.Cells[0].Value = 0;
+            }
+            if (controlPoints.CurrentRow.Cells[1].Value == null || controlPoints.CurrentRow.Cells[1].Value.ToString() == "")
+            {
+                controlPoints.CurrentRow.Cells[1].Value = 0;
+            }
+            if (controlPoints.CurrentRow.Cells[2].Value == null || controlPoints.CurrentRow.Cells[2].Value.ToString() == "")
+            {
+                controlPoints.CurrentRow.Cells[2].Value = "+";
+            }
             if (e.ColumnIndex == 2)
             {
                 //If the cell contains a + or a - the ignore it. Else change the cell text to be a + signs.
@@ -724,10 +767,24 @@
             foreach (DataGridViewRow row in controlPoints.Rows)
             {
                 //If the x cell is not empty.
-                if (row.Cells[0].Value != null)
+                if (row.Cells[0].Value == null && row.Cells[1].Value == null && row.Cells[1].Value == null)
                 {
-                    //update the last row.
-                    lastrow = row;
+                    continue;
+                }
+                if(row.Cells[0].Value == null || row.Cells[0].Value.ToString() == "")
+                {
+                    row.Cells[0].Value = 0;
+                }
+                if (row.Cells[1].Value == null || row.Cells[1].Value.ToString() == "")
+                {
+                    row.Cells[1].Value = 0;
+                }
+                if (row.Cells[2].Value == null || row.Cells[2].Value.ToString() == "")
+                {
+                    row.Cells[2].Value = "+";
+                }
+                //update the last row.
+                lastrow = row;
                     //since we believe that this row is not blank then we should put this point on the chart.
                     mainField.Series["cp"].Points.AddXY(float.Parse(row.Cells[0].Value.ToString()), float.Parse(row.Cells[1].Value.ToString()));
                     //Make sure that the direction cell is not empty so that we dont get an error.
@@ -768,7 +825,7 @@
                     }
                     last = row.Cells[2].Value.ToString();
 
-                }
+                
             }
             //if we have no controlpoints in our path then something is wrong and return.
             if (path.controlPoints.Count() == 0)
@@ -1170,13 +1227,21 @@
                 MessageBox.Show("This ip address is invalid!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+
+            //Make sure that we have at least two points that we can actually make a path between.
+            if (!(controlPoints.RowCount - 2 > 0))
+            {
+                //If not cancel this and show an error stating so.
+                MessageBox.Show("Not enought points!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                return;
+            }
+
             //Create a temp file where we can write this information then upload it to the robot.
             String DirPath = Path.GetTempPath();    // Used for storing the directory path of the saved file.
             String JSONPath = Path.Combine(DirPath, profilename.Text + ".json");     // Used for storing the json saved file directory path.
             //This is almost the same as saving the file however this one will be a temp file which will be deleted after deploying.
             Apply_Click(null, null);
-            if ((controlPoints.RowCount - 2 > 0))
-            {
                 using (var writer = new System.IO.StreamWriter(JSONPath))
                 {
                     writer.WriteLine("{");
@@ -1239,31 +1304,57 @@
                     writer.WriteLine("  ] ");
                     writer.WriteLine("} ");
                 }
-            }
-            else
-            {
-                //Make sure that we have more than 1 point that we can upload to the robot.
-                MessageBox.Show("You can't deploy a file with no points!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
+
             //Create a sftp client that we will use to upload the file to the robot.
             SftpClient sftp = new SftpClient(ipadd.Text, user.Text, pass.Text);
+            sftp.ConnectionInfo.Timeout = TimeSpan.FromSeconds(1);
 
             try
             {
                 //Change the user cursor to a wait cursor because this process can take a minute.
                 this.Cursor = Cursors.WaitCursor;
                 //Connect to the sftp
-                sftp.Connect();
+                try
+                {
+                    sftp.Connect();
+                }
+                catch (Renci.SshNet.Common.SshConnectionException e1)
+                {
+                    //Make sure that we are connected to the robot.
+                    Console.WriteLine("IOException source: {0}", e1.StackTrace);
+                    this.Cursor = Cursors.Default;
+                    MessageBox.Show("Unable to connect to host!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
                 try
                 {
                     //try to create a new directory it will fail if it already exists which is ok.
                     sftp.CreateDirectory("/home/lvuser/Motion_Profiles");
 
                 }
-                catch (Exception e2)
+                catch (Renci.SshNet.Common.SftpPermissionDeniedException e1)
                 {
-
+                    //Make sure that the user has the access to make/put a file here.
+                    Console.WriteLine("IOException source: {0}", e1.StackTrace);
+                    this.Cursor = Cursors.Default;
+                    MessageBox.Show("Permission Denied By Host!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                catch (Renci.SshNet.Common.SftpPathNotFoundException e1)
+                {
+                    //Make sure that the main directory they gave us actually exists.
+                    Console.WriteLine("IOException source: {0}", e1.StackTrace);
+                    this.Cursor = Cursors.Default;
+                    MessageBox.Show("Path Not Found By Host!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                catch (Renci.SshNet.Common.SshConnectionException e1)
+                {
+                    //Make sure that we are connected to the robot.
+                    Console.WriteLine("IOException source: {0}", e1.StackTrace);
+                    this.Cursor = Cursors.Default;
+                    MessageBox.Show("Unable to connect to host!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
                 }
                 //Open that file that we just saved to a temp file.
                 using (FileStream fileStream = File.OpenRead(JSONPath))
@@ -1344,7 +1435,56 @@
             }
             //Create a sftp client that we will use to get the file list from the robot.
             SftpClient sftp = new SftpClient(ipadd.Text, user.Text, pass.Text);
-            sftp.ListDirectory();
+            try
+            {
+                sftp.ListDirectory("/home/lvuser/Motion_Profiles/");
+                sftp.Disconnect();
+
+            }
+            catch (Renci.SshNet.Common.SftpPermissionDeniedException e1)
+            {
+                //Make sure that the user has the access to make/put a file here.
+                Console.WriteLine("IOException source: {0}", e1.StackTrace);
+                this.Cursor = Cursors.Default;
+                MessageBox.Show("Permission Denied By Host!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            catch (Renci.SshNet.Common.SftpPathNotFoundException e1)
+            {
+                //Make sure that the main directory they gave us actually exists.
+                Console.WriteLine("IOException source: {0}", e1.StackTrace);
+                this.Cursor = Cursors.Default;
+                MessageBox.Show("Path Not Found By Host!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            catch (Renci.SshNet.Common.SshConnectionException e1)
+            {
+                //Make sure that we are connected to the robot.
+                Console.WriteLine("IOException source: {0}", e1.StackTrace);
+                this.Cursor = Cursors.Default;
+                MessageBox.Show("Unable to connect to host!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            
+        }
+
+        private void GridCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            switch (GridCheckBox.CheckState)
+            {
+                case CheckState.Checked:
+                    mainField.ChartAreas[0].AxisX.MajorGrid.Enabled = false;
+                    mainField.ChartAreas[0].AxisY.MajorGrid.Enabled = false;
+                    break;
+                case CheckState.Unchecked:
+                    mainField.ChartAreas[0].AxisX.MajorGrid.Enabled = true;
+                    mainField.ChartAreas[0].AxisY.MajorGrid.Enabled = true;
+                    break;
+                case CheckState.Indeterminate:
+                    mainField.ChartAreas[0].AxisX.MajorGrid.Enabled = true;
+                    mainField.ChartAreas[0].AxisY.MajorGrid.Enabled = true;
+                    break;
+            }
         }
     }
 }

@@ -37,6 +37,7 @@
             System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
@@ -92,13 +93,18 @@
             this.moveDownToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.insertAboveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.insertBelowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.Direction = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.y = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.x = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.controlPoints = new System.Windows.Forms.DataGridView();
+            this.x = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.y = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Direction = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label10 = new System.Windows.Forms.Label();
             this.listView1 = new System.Windows.Forms.ListView();
             this.refresh_button = new System.Windows.Forms.Button();
+            this.MainMenuStrip = new System.Windows.Forms.MenuStrip();
+            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aboutToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.GridCheckBox = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.Field.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mainField)).BeginInit();
@@ -113,6 +119,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.AnglePlot)).BeginInit();
             this.contextMenuStrip2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.controlPoints)).BeginInit();
+            this.MainMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -124,29 +131,30 @@
             this.tabControl1.Controls.Add(this.Data);
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Location = new System.Drawing.Point(464, 1);
-            this.tabControl1.Margin = new System.Windows.Forms.Padding(1);
+            this.tabControl1.Margin = new System.Windows.Forms.Padding(0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(797, 916);
+            this.tabControl1.Size = new System.Drawing.Size(797, 821);
             this.tabControl1.TabIndex = 1;
             // 
             // Field
             // 
+            this.Field.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.Field.Controls.Add(this.mainField);
             this.Field.Location = new System.Drawing.Point(4, 22);
             this.Field.Margin = new System.Windows.Forms.Padding(1);
             this.Field.Name = "Field";
             this.Field.Padding = new System.Windows.Forms.Padding(1);
-            this.Field.Size = new System.Drawing.Size(789, 890);
+            this.Field.Size = new System.Drawing.Size(789, 795);
             this.Field.TabIndex = 0;
             this.Field.Text = "Field";
-            this.Field.UseVisualStyleBackColor = true;
             // 
             // mainField
             // 
             this.mainField.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.mainField.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             chartArea1.Name = "ChartArea1";
             this.mainField.ChartAreas.Add(chartArea1);
             this.mainField.Location = new System.Drawing.Point(1, 1);
@@ -154,7 +162,7 @@
             series1.ChartArea = "ChartArea1";
             series1.Name = "Series1";
             this.mainField.Series.Add(series1);
-            this.mainField.Size = new System.Drawing.Size(787, 888);
+            this.mainField.Size = new System.Drawing.Size(787, 793);
             this.mainField.TabIndex = 4;
             this.mainField.Text = "chart2";
             this.mainField.MouseClick += new System.Windows.Forms.MouseEventHandler(this.mainField_MouseClick);
@@ -168,13 +176,14 @@
             this.Data.Margin = new System.Windows.Forms.Padding(1);
             this.Data.Name = "Data";
             this.Data.Padding = new System.Windows.Forms.Padding(1);
-            this.Data.Size = new System.Drawing.Size(789, 890);
+            this.Data.Size = new System.Drawing.Size(789, 795);
             this.Data.TabIndex = 1;
             this.Data.Text = "Data";
             this.Data.UseVisualStyleBackColor = true;
             // 
             // splitContainer1
             // 
+            this.splitContainer1.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer1.IsSplitterFixed = true;
             this.splitContainer1.Location = new System.Drawing.Point(1, 1);
@@ -191,12 +200,14 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.VelocityPlot);
             this.splitContainer1.Panel2.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.splitContainer1.Size = new System.Drawing.Size(787, 888);
-            this.splitContainer1.SplitterDistance = 429;
+            this.splitContainer1.Size = new System.Drawing.Size(787, 793);
+            this.splitContainer1.SplitterDistance = 382;
             this.splitContainer1.TabIndex = 3;
             // 
             // DistancePlot
             // 
+            this.DistancePlot.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            chartArea2.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             chartArea2.Name = "ChartArea1";
             this.DistancePlot.ChartAreas.Add(chartArea2);
             this.DistancePlot.Dock = System.Windows.Forms.DockStyle.Top;
@@ -211,10 +222,12 @@
             // 
             // VelocityPlot
             // 
+            this.VelocityPlot.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            chartArea3.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             chartArea3.Name = "ChartArea1";
             this.VelocityPlot.ChartAreas.Add(chartArea3);
             this.VelocityPlot.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.VelocityPlot.Location = new System.Drawing.Point(0, 5);
+            this.VelocityPlot.Location = new System.Drawing.Point(0, -43);
             this.VelocityPlot.Name = "VelocityPlot";
             this.VelocityPlot.Padding = new System.Windows.Forms.Padding(0, 0, 0, 10);
             series3.ChartArea = "ChartArea1";
@@ -226,17 +239,20 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.tabPage1.Controls.Add(this.AnglePlot);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(789, 890);
+            this.tabPage1.Size = new System.Drawing.Size(789, 795);
             this.tabPage1.TabIndex = 2;
             this.tabPage1.Text = "More Data";
-            this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // AnglePlot
             // 
+            this.AnglePlot.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.AnglePlot.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            chartArea4.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             chartArea4.Name = "ChartArea1";
             this.AnglePlot.ChartAreas.Add(chartArea4);
             this.AnglePlot.Dock = System.Windows.Forms.DockStyle.Top;
@@ -255,29 +271,40 @@
             // 
             // save
             // 
+            this.save.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.save.FlatAppearance.BorderSize = 0;
+            this.save.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.save.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.save.Location = new System.Drawing.Point(21, 152);
             this.save.Margin = new System.Windows.Forms.Padding(1);
             this.save.Name = "save";
             this.save.Size = new System.Drawing.Size(86, 21);
             this.save.TabIndex = 3;
             this.save.Text = "Save";
-            this.save.UseVisualStyleBackColor = true;
+            this.save.UseVisualStyleBackColor = false;
             this.save.Click += new System.EventHandler(this.Save_Click);
             // 
             // apply
             // 
+            this.apply.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.apply.FlatAppearance.BorderSize = 0;
+            this.apply.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.apply.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.apply.Location = new System.Drawing.Point(19, 110);
             this.apply.Margin = new System.Windows.Forms.Padding(1);
             this.apply.Name = "apply";
             this.apply.Size = new System.Drawing.Size(231, 34);
             this.apply.TabIndex = 3;
             this.apply.Text = "Apply";
-            this.apply.UseVisualStyleBackColor = true;
+            this.apply.UseVisualStyleBackColor = false;
             this.apply.Click += new System.EventHandler(this.Apply_Click);
             // 
             // maxVelocity
             // 
-            this.maxVelocity.Location = new System.Drawing.Point(179, 17);
+            this.maxVelocity.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.maxVelocity.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.maxVelocity.ForeColor = System.Drawing.Color.White;
+            this.maxVelocity.Location = new System.Drawing.Point(179, 30);
             this.maxVelocity.Margin = new System.Windows.Forms.Padding(1);
             this.maxVelocity.Name = "maxVelocity";
             this.maxVelocity.Size = new System.Drawing.Size(71, 20);
@@ -321,10 +348,11 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(18, 17);
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(18, 30);
             this.label1.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(67, 13);
+            this.label1.Size = new System.Drawing.Size(79, 13);
             this.label1.TabIndex = 5;
             this.label1.Text = "Max Velocity";
             // 
@@ -334,7 +362,7 @@
             this.label2.Location = new System.Drawing.Point(18, 424);
             this.label2.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(52, 13);
+            this.label2.Size = new System.Drawing.Size(61, 13);
             this.label2.TabIndex = 5;
             this.label2.Text = "Time (ms)";
             this.label2.Visible = false;
@@ -345,7 +373,7 @@
             this.label3.Location = new System.Drawing.Point(18, 443);
             this.label3.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(66, 13);
+            this.label3.Size = new System.Drawing.Size(77, 13);
             this.label3.TabIndex = 5;
             this.label3.Text = "Track Width";
             this.label3.Visible = false;
@@ -356,7 +384,7 @@
             this.label4.Location = new System.Drawing.Point(18, 462);
             this.label4.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(86, 13);
+            this.label4.Size = new System.Drawing.Size(104, 13);
             this.label4.TabIndex = 5;
             this.label4.Text = "Accel Filter (FL1)";
             this.label4.Visible = false;
@@ -364,10 +392,12 @@
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
+            this.checkBox1.Checked = true;
+            this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBox1.Location = new System.Drawing.Point(53, 312);
             this.checkBox1.Margin = new System.Windows.Forms.Padding(1);
             this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(104, 17);
+            this.checkBox1.Size = new System.Drawing.Size(119, 17);
             this.checkBox1.TabIndex = 6;
             this.checkBox1.Text = "Limit Max Speed";
             this.checkBox1.UseVisualStyleBackColor = true;
@@ -375,13 +405,17 @@
             // 
             // ClearCP
             // 
+            this.ClearCP.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.ClearCP.FlatAppearance.BorderSize = 0;
+            this.ClearCP.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ClearCP.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ClearCP.Location = new System.Drawing.Point(164, 175);
             this.ClearCP.Margin = new System.Windows.Forms.Padding(1);
             this.ClearCP.Name = "ClearCP";
             this.ClearCP.Size = new System.Drawing.Size(86, 21);
             this.ClearCP.TabIndex = 3;
             this.ClearCP.Text = "Clear";
-            this.ClearCP.UseVisualStyleBackColor = true;
+            this.ClearCP.UseVisualStyleBackColor = false;
             this.ClearCP.Click += new System.EventHandler(this.ClearCP_Click);
             // 
             // CTRE
@@ -389,17 +423,21 @@
             this.CTRE.AutoSize = true;
             this.CTRE.Checked = true;
             this.CTRE.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CTRE.Location = new System.Drawing.Point(21, 75);
+            this.CTRE.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CTRE.Location = new System.Drawing.Point(21, 87);
             this.CTRE.Margin = new System.Windows.Forms.Padding(1);
             this.CTRE.Name = "CTRE";
-            this.CTRE.Size = new System.Drawing.Size(88, 17);
+            this.CTRE.Size = new System.Drawing.Size(99, 17);
             this.CTRE.TabIndex = 6;
             this.CTRE.Text = "CTRE output";
             this.CTRE.UseVisualStyleBackColor = true;
             // 
             // wheel
             // 
-            this.wheel.Location = new System.Drawing.Point(205, 73);
+            this.wheel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.wheel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.wheel.ForeColor = System.Drawing.Color.White;
+            this.wheel.Location = new System.Drawing.Point(205, 85);
             this.wheel.Margin = new System.Windows.Forms.Padding(1);
             this.wheel.Name = "wheel";
             this.wheel.Size = new System.Drawing.Size(45, 20);
@@ -433,13 +471,17 @@
             // 
             // cpLoad
             // 
+            this.cpLoad.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.cpLoad.FlatAppearance.BorderSize = 0;
+            this.cpLoad.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cpLoad.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cpLoad.Location = new System.Drawing.Point(164, 152);
             this.cpLoad.Margin = new System.Windows.Forms.Padding(1);
             this.cpLoad.Name = "cpLoad";
             this.cpLoad.Size = new System.Drawing.Size(86, 21);
             this.cpLoad.TabIndex = 3;
             this.cpLoad.Text = "Load";
-            this.cpLoad.UseVisualStyleBackColor = true;
+            this.cpLoad.UseVisualStyleBackColor = false;
             this.cpLoad.Click += new System.EventHandler(this.Load_Click);
             // 
             // label5
@@ -449,7 +491,7 @@
             this.label5.Location = new System.Drawing.Point(18, 333);
             this.label5.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(75, 13);
+            this.label5.Size = new System.Drawing.Size(90, 13);
             this.label5.TabIndex = 5;
             this.label5.Text = "Velocity Offset";
             this.label5.Visible = false;
@@ -461,7 +503,7 @@
             this.label6.Location = new System.Drawing.Point(18, 352);
             this.label6.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(73, 13);
+            this.label6.Size = new System.Drawing.Size(86, 13);
             this.label6.TabIndex = 5;
             this.label6.Text = "Vel Tolerence";
             this.label6.Visible = false;
@@ -479,13 +521,17 @@
             // 
             // invert
             // 
+            this.invert.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.invert.FlatAppearance.BorderSize = 0;
+            this.invert.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.invert.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.invert.Location = new System.Drawing.Point(21, 175);
             this.invert.Margin = new System.Windows.Forms.Padding(1);
             this.invert.Name = "invert";
             this.invert.Size = new System.Drawing.Size(86, 21);
             this.invert.TabIndex = 3;
             this.invert.Text = "Invert";
-            this.invert.UseVisualStyleBackColor = true;
+            this.invert.UseVisualStyleBackColor = false;
             this.invert.Click += new System.EventHandler(this.Invert_Click);
             // 
             // SpeedLimit
@@ -505,14 +551,17 @@
             this.label7.Location = new System.Drawing.Point(18, 481);
             this.label7.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(95, 13);
+            this.label7.Size = new System.Drawing.Size(113, 13);
             this.label7.TabIndex = 5;
             this.label7.Text = "Speed Limit Factor";
             this.label7.Visible = false;
             // 
             // smoothness
             // 
-            this.smoothness.Location = new System.Drawing.Point(205, 45);
+            this.smoothness.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.smoothness.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.smoothness.ForeColor = System.Drawing.Color.White;
+            this.smoothness.Location = new System.Drawing.Point(205, 53);
             this.smoothness.Margin = new System.Windows.Forms.Padding(1);
             this.smoothness.Name = "smoothness";
             this.smoothness.Size = new System.Drawing.Size(45, 20);
@@ -523,24 +572,29 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(18, 48);
+            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.Location = new System.Drawing.Point(18, 56);
             this.label8.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(57, 13);
+            this.label8.Size = new System.Drawing.Size(66, 13);
             this.label8.TabIndex = 5;
             this.label8.Text = "Smoothing";
             // 
             // Label9
             // 
             this.Label9.AutoSize = true;
-            this.Label9.Location = new System.Drawing.Point(136, 75);
+            this.Label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Label9.Location = new System.Drawing.Point(126, 87);
             this.Label9.Name = "Label9";
-            this.Label9.Size = new System.Drawing.Size(67, 13);
+            this.Label9.Size = new System.Drawing.Size(79, 13);
             this.Label9.TabIndex = 9;
             this.Label9.Text = "Wheel Size :";
             // 
             // deploy
             // 
+            this.deploy.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.deploy.FlatAppearance.BorderSize = 0;
+            this.deploy.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.deploy.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.deploy.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
             this.deploy.Location = new System.Drawing.Point(293, 21);
@@ -548,29 +602,34 @@
             this.deploy.Size = new System.Drawing.Size(140, 46);
             this.deploy.TabIndex = 11;
             this.deploy.Text = "Deploy";
-            this.deploy.UseVisualStyleBackColor = true;
+            this.deploy.UseVisualStyleBackColor = false;
             this.deploy.Click += new System.EventHandler(this.deploy_Click);
             // 
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(290, 116);
+            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label11.Location = new System.Drawing.Point(282, 116);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(58, 13);
+            this.label11.Size = new System.Drawing.Size(67, 13);
             this.label11.TabIndex = 12;
             this.label11.Text = "Username:";
             // 
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(286, 179);
+            this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label12.Location = new System.Drawing.Point(278, 179);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(60, 13);
+            this.label12.Size = new System.Drawing.Size(71, 13);
             this.label12.TabIndex = 13;
             this.label12.Text = "Ip-Address:";
             // 
             // user
             // 
+            this.user.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.user.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.user.ForeColor = System.Drawing.Color.White;
             this.user.Location = new System.Drawing.Point(346, 113);
             this.user.Name = "user";
             this.user.Size = new System.Drawing.Size(100, 20);
@@ -579,6 +638,9 @@
             // 
             // ipadd
             // 
+            this.ipadd.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.ipadd.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.ipadd.ForeColor = System.Drawing.Color.White;
             this.ipadd.Location = new System.Drawing.Point(346, 176);
             this.ipadd.Name = "ipadd";
             this.ipadd.Size = new System.Drawing.Size(100, 20);
@@ -587,6 +649,9 @@
             // 
             // pass
             // 
+            this.pass.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.pass.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pass.ForeColor = System.Drawing.Color.White;
             this.pass.Location = new System.Drawing.Point(346, 145);
             this.pass.Name = "pass";
             this.pass.PasswordChar = '*';
@@ -596,14 +661,18 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(290, 148);
+            this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label13.Location = new System.Drawing.Point(284, 148);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(56, 13);
+            this.label13.Size = new System.Drawing.Size(65, 13);
             this.label13.TabIndex = 17;
             this.label13.Text = "Password:";
             // 
             // profilename
             // 
+            this.profilename.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.profilename.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.profilename.ForeColor = System.Drawing.Color.White;
             this.profilename.Location = new System.Drawing.Point(346, 82);
             this.profilename.Name = "profilename";
             this.profilename.Size = new System.Drawing.Size(100, 20);
@@ -613,9 +682,10 @@
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(279, 85);
+            this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label15.Location = new System.Drawing.Point(266, 85);
             this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(70, 13);
+            this.label15.Size = new System.Drawing.Size(83, 13);
             this.label15.TabIndex = 21;
             this.label15.Text = "Profile Name:";
             // 
@@ -666,37 +736,6 @@
             this.insertBelowToolStripMenuItem.Text = "Insert Below";
             this.insertBelowToolStripMenuItem.Click += new System.EventHandler(this.insertBelow_Click);
             // 
-            // Direction
-            // 
-            this.Direction.Frozen = true;
-            this.Direction.HeaderText = "Direction(+/-)";
-            this.Direction.MaxInputLength = 1;
-            this.Direction.Name = "Direction";
-            this.Direction.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // y
-            // 
-            dataGridViewCellStyle1.Format = "N0";
-            dataGridViewCellStyle1.NullValue = null;
-            this.y.DefaultCellStyle = dataGridViewCellStyle1;
-            this.y.Frozen = true;
-            this.y.HeaderText = "Y";
-            this.y.Name = "y";
-            this.y.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.y.Width = 58;
-            // 
-            // x
-            // 
-            dataGridViewCellStyle2.Format = "N0";
-            dataGridViewCellStyle2.NullValue = null;
-            this.x.DefaultCellStyle = dataGridViewCellStyle2;
-            this.x.Frozen = true;
-            this.x.HeaderText = "X";
-            this.x.Name = "x";
-            this.x.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.x.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.x.Width = 58;
-            // 
             // controlPoints
             // 
             this.controlPoints.AllowUserToResizeColumns = false;
@@ -704,6 +743,7 @@
             this.controlPoints.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.controlPoints.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.controlPoints.BackgroundColor = System.Drawing.Color.Gray;
             this.controlPoints.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.controlPoints.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
             this.controlPoints.ColumnHeadersHeight = 20;
@@ -712,22 +752,63 @@
             this.x,
             this.y,
             this.Direction});
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.controlPoints.DefaultCellStyle = dataGridViewCellStyle3;
             this.controlPoints.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnKeystroke;
+            this.controlPoints.GridColor = System.Drawing.Color.Black;
             this.controlPoints.Location = new System.Drawing.Point(19, 204);
             this.controlPoints.Margin = new System.Windows.Forms.Padding(1);
             this.controlPoints.MultiSelect = false;
             this.controlPoints.Name = "controlPoints";
             this.controlPoints.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.controlPoints.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            this.controlPoints.RowHeadersVisible = false;
             this.controlPoints.RowHeadersWidth = 20;
             this.controlPoints.RowTemplate.Height = 40;
             this.controlPoints.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.controlPoints.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.controlPoints.Size = new System.Drawing.Size(231, 702);
+            this.controlPoints.Size = new System.Drawing.Size(231, 607);
             this.controlPoints.TabIndex = 2;
             this.controlPoints.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.controlPoints_CellEndEdit);
             this.controlPoints.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.controlPoints_CellMouseUp);
             this.controlPoints.RowStateChanged += new System.Windows.Forms.DataGridViewRowStateChangedEventHandler(this.controlPoints_RowStateChange);
+            // 
+            // x
+            // 
+            dataGridViewCellStyle1.Format = "N0";
+            dataGridViewCellStyle1.NullValue = null;
+            this.x.DefaultCellStyle = dataGridViewCellStyle1;
+            this.x.Frozen = true;
+            this.x.HeaderText = "X";
+            this.x.Name = "x";
+            this.x.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.x.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.x.Width = 65;
+            // 
+            // y
+            // 
+            dataGridViewCellStyle2.Format = "N0";
+            dataGridViewCellStyle2.NullValue = null;
+            this.y.DefaultCellStyle = dataGridViewCellStyle2;
+            this.y.Frozen = true;
+            this.y.HeaderText = "Y";
+            this.y.Name = "y";
+            this.y.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.y.Width = 65;
+            // 
+            // Direction
+            // 
+            this.Direction.Frozen = true;
+            this.Direction.HeaderText = "Direction(+/-)";
+            this.Direction.MaxInputLength = 1;
+            this.Direction.Name = "Direction";
+            this.Direction.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // label10
             // 
@@ -741,28 +822,86 @@
             // 
             // listView1
             // 
+            this.listView1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.listView1.BackColor = System.Drawing.Color.Gray;
+            this.listView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.listView1.Location = new System.Drawing.Point(254, 225);
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(206, 623);
+            this.listView1.Size = new System.Drawing.Size(206, 538);
             this.listView1.TabIndex = 24;
             this.listView1.UseCompatibleStateImageBehavior = false;
             // 
             // refresh_button
             // 
+            this.refresh_button.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.refresh_button.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.refresh_button.FlatAppearance.BorderSize = 0;
+            this.refresh_button.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.refresh_button.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.refresh_button.ForeColor = System.Drawing.SystemColors.MenuHighlight;
-            this.refresh_button.Location = new System.Drawing.Point(254, 854);
+            this.refresh_button.Location = new System.Drawing.Point(254, 767);
             this.refresh_button.Name = "refresh_button";
             this.refresh_button.Size = new System.Drawing.Size(206, 50);
             this.refresh_button.TabIndex = 25;
             this.refresh_button.Text = "Refresh";
-            this.refresh_button.UseVisualStyleBackColor = true;
+            this.refresh_button.UseVisualStyleBackColor = false;
             this.refresh_button.Click += new System.EventHandler(this.refresh_button_Click);
+            // 
+            // MainMenuStrip
+            // 
+            this.MainMenuStrip.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.MainMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileToolStripMenuItem,
+            this.aboutToolStripMenuItem1});
+            this.MainMenuStrip.Location = new System.Drawing.Point(0, 0);
+            this.MainMenuStrip.Name = "MainMenuStrip";
+            this.MainMenuStrip.Padding = new System.Windows.Forms.Padding(0);
+            this.MainMenuStrip.Size = new System.Drawing.Size(1249, 24);
+            this.MainMenuStrip.TabIndex = 26;
+            this.MainMenuStrip.Text = "menuStrip1";
+            // 
+            // fileToolStripMenuItem
+            // 
+            this.fileToolStripMenuItem.BackColor = System.Drawing.SystemColors.ScrollBar;
+            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.optionsToolStripMenuItem});
+            this.fileToolStripMenuItem.ForeColor = System.Drawing.Color.Black;
+            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 24);
+            this.fileToolStripMenuItem.Text = "File";
+            // 
+            // optionsToolStripMenuItem
+            // 
+            this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+            this.optionsToolStripMenuItem.Text = "Options";
+            // 
+            // aboutToolStripMenuItem1
+            // 
+            this.aboutToolStripMenuItem1.BackColor = System.Drawing.SystemColors.ScrollBar;
+            this.aboutToolStripMenuItem1.Name = "aboutToolStripMenuItem1";
+            this.aboutToolStripMenuItem1.Size = new System.Drawing.Size(52, 24);
+            this.aboutToolStripMenuItem1.Text = "About";
+            // 
+            // GridCheckBox
+            // 
+            this.GridCheckBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.GridCheckBox.Location = new System.Drawing.Point(21, 70);
+            this.GridCheckBox.Margin = new System.Windows.Forms.Padding(1);
+            this.GridCheckBox.Name = "GridCheckBox";
+            this.GridCheckBox.Size = new System.Drawing.Size(79, 17);
+            this.GridCheckBox.TabIndex = 27;
+            this.GridCheckBox.Text = "Hide Grid";
+            this.GridCheckBox.UseVisualStyleBackColor = true;
+            this.GridCheckBox.CheckedChanged += new System.EventHandler(this.GridCheckBox_CheckedChanged);
             // 
             // Form1
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
-            this.ClientSize = new System.Drawing.Size(1249, 916);
+            this.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.ClientSize = new System.Drawing.Size(1249, 821);
+            this.Controls.Add(this.GridCheckBox);
             this.Controls.Add(this.refresh_button);
             this.Controls.Add(this.listView1);
             this.Controls.Add(this.label10);
@@ -803,6 +942,9 @@
             this.Controls.Add(this.save);
             this.Controls.Add(this.controlPoints);
             this.Controls.Add(this.tabControl1);
+            this.Controls.Add(this.MainMenuStrip);
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ForeColor = System.Drawing.Color.White;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "Form1";
@@ -824,6 +966,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.AnglePlot)).EndInit();
             this.contextMenuStrip2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.controlPoints)).EndInit();
+            this.MainMenuStrip.ResumeLayout(false);
+            this.MainMenuStrip.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -883,13 +1027,18 @@
         private System.Windows.Forms.ToolStripMenuItem insertBelowToolStripMenuItem;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.DataVisualization.Charting.Chart AnglePlot;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Direction;
-        private System.Windows.Forms.DataGridViewTextBoxColumn y;
-        private System.Windows.Forms.DataGridViewTextBoxColumn x;
         private System.Windows.Forms.DataGridView controlPoints;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.ListView listView1;
         private System.Windows.Forms.Button refresh_button;
+        private System.Windows.Forms.DataGridViewTextBoxColumn x;
+        private System.Windows.Forms.DataGridViewTextBoxColumn y;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Direction;
+        private System.Windows.Forms.MenuStrip MainMenuStrip;
+        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem1;
+        private System.Windows.Forms.CheckBox GridCheckBox;
     }
 }
 

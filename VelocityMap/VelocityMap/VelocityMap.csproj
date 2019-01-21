@@ -99,9 +99,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="FieldPoints.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\bulldogForms\bulldogForms.csproj">
       <Project>{37f2a6cf-7337-4e23-ac94-83438f416773}</Project>
       <Name>bulldogForms</Name>
