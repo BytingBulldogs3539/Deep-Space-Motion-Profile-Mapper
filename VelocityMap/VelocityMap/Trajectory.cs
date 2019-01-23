@@ -107,29 +107,36 @@ namespace MotionProfile
                 }
                 else
                 {
-                    headings.Add(findAngleChange(pointList[i + 1].x, pointList[i].x, pointList[i + 1].y, pointList[i].y, headings[headings.Count - 1]));
+
+                    headings.Add(findAngleChange(pointList[i + 1].x, pointList[i].x, pointList[i + 1].y, pointList[i].y, headings[headings.Count - 1], pointList,i));
                 }
             }
 
             for (int i = 0; i < (pointList.Count - 2); i++) //converts the values from raw graph angles to angles the robot can use.
             {
+
                 float angle = headings[i];
                 angle = (angle - startAngle);
-                Boolean forward;
-                if (i == pointList.Count - 1) forward = pointList[i].direction;
-                else forward = pointList[i + 1].direction;
-                if (!forward)
-                {
-                    int add = 0;
-                    if (angle > 0)
-                        add = -180;
-                    if (angle < 0)
-                        add = 180;
-                    angle = angle + add;
-                }
                 angle = -angle;
 
                 headings[i] = angle;
+
+            }
+
+            for (int i = 0; i < (pointList.Count - 2); i++) //converts the values from raw graph angles to angles the robot can use.
+            {
+                if (i > 0)
+                {
+                    float ang = headings[i];
+                    float prevAngle = headings[i - 1];
+                    float angleChange = ang - prevAngle;
+                    if (angleChange > 300) angleChange -= 360;
+                    if (angleChange < -300) angleChange += 360;
+
+                    float angle = (prevAngle + angleChange);
+
+                    headings[i] = angle;
+                }
 
             }
 
@@ -289,7 +296,7 @@ namespace MotionProfile
         /// Returns the angle of this point by adding the angle change to the prevAngle.
         /// </summary>
 
-        private float findAngleChange(double x2, double x1, double y2, double y1, float prevAngle)
+        private float findAngleChange(double x2, double x1, double y2, double y1, float prevAngle, List<Point> pointList, int i)
         {
             float ang = 0;
             float chx = (float)(x2 - x1);
@@ -332,6 +339,25 @@ namespace MotionProfile
                     //ang = (float)(CONVERT * Math.Atan(chx / chy));
                     //ang = 3;
                 }
+            }
+            Boolean forward;
+            if (i == pointList.Count - 1)
+            {
+                forward = pointList[i].direction;
+            }
+            else
+            {
+                forward = pointList[i + 1].direction;
+            }
+
+            if (!forward)
+            {
+                int add = 0;
+                if (ang > 0)
+                    add = -180;
+                if (ang < 0)
+                    add = 180;
+                ang = ang + add;
             }
 
             float angleChange = ang - prevAngle;
