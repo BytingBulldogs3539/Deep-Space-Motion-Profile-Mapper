@@ -89,9 +89,10 @@ namespace MotionProfile
 
             foreach (ControlPoint p in BuildPath(0))
             {
-                foreach (System.Drawing.PointF p1 in p.point)
+                for(int i =0; i<p.point.Length; i++)
                 {
-                    pointList.Add(new Point(p1.X, p1.Y, p.direction, p.pointNumber));
+                    System.Drawing.PointF p1 = p.point[i];
+                    pointList.Add(new Point(p1.X, p1.Y, p.direction, p.pointnumbers[i]));
                 }
             }
 
@@ -107,33 +108,55 @@ namespace MotionProfile
                 }
                 else
                 {
-                    headings.Add(findAngleChange(pointList[i + 1].x, pointList[i].x, pointList[i + 1].y, pointList[i].y, headings[headings.Count - 1]));
+
+                    headings.Add(findAngleChange(pointList[i + 1].x, pointList[i].x, pointList[i + 1].y, pointList[i].y, headings[headings.Count - 1], pointList,i));
+                    Console.WriteLine(pointList[i].pointNumber);
                 }
             }
 
             for (int i = 0; i < (pointList.Count - 2); i++) //converts the values from raw graph angles to angles the robot can use.
             {
+
                 float angle = headings[i];
                 angle = (angle - startAngle);
-                Boolean forward;
-                if (i == pointList.Count - 1) forward = pointList[i].direction;
-                else forward = pointList[i + 1].direction;
-                if (!forward)
-                {
-                    int add = 0;
-                    if (angle > 0)
-                        add = -180;
-                    if (angle < 0)
-                        add = 180;
-                    angle = angle + add;
-                }
                 angle = -angle;
 
                 headings[i] = angle;
 
             }
 
+            for (int i = 0; i < (pointList.Count - 2); i++) //converts the values from raw graph angles to angles the robot can use.
+            {
+                if (i > 0)
+                {
+                    float ang = headings[i];
+                    float prevAngle = headings[i - 1];
+                    float angleChange = ang - prevAngle;
+                    if (angleChange > 300) angleChange -= 360;
+                    if (angleChange < -300) angleChange += 360;
+
+                    float angle = (prevAngle + angleChange);
+
+                    headings[i] = angle;
+                }
+
+            }
+
             return headings.ToArray<float>();
+        }
+
+        public List<int> getControlPointNumberProfile()
+        {
+            List<int> controlPoints = new List<int>();
+            foreach (ControlPoint p in BuildPath(0))
+            {
+                for (int i = 0; i < p.point.Length; i++)
+                {
+                    System.Drawing.PointF p1 = p.point[i];
+                    controlPoints.Add(p.pointnumbers[i]);
+                }
+            }
+            return controlPoints;
         }
         /// <summary>
         /// Returns the velocity profile of the right or left wheel while using the offset from the middle of the robot.
@@ -214,9 +237,12 @@ namespace MotionProfile
                 {
                     if (!p.direction)
                         offset = -offset;
-                    ControlPoint p2 = new ControlPoint(this.IndexOf(p));
+                    ControlPoint p2 = new ControlPoint();
                     p2.point = p.buildOffsetPoints(offset).ToArray<System.Drawing.PointF>();
                     p2.direction = p.direction;
+                    p2.pointnumbers = p.findPointControlPoints().ToArray();
+
+
 
 
 
@@ -225,9 +251,12 @@ namespace MotionProfile
                 }
                 else
                 {
-                    ControlPoint p3 = new ControlPoint(this.IndexOf(p));
+                    ControlPoint p3 = new ControlPoint();
                     p3.point = p.buildPath().ToArray<System.Drawing.PointF>();
+                    p3.pointnumbers = p.findPointControlPoints().ToArray();
+
                     p3.direction = p.direction;
+                    
 
                     values.Add(p3);
                 }
@@ -289,7 +318,7 @@ namespace MotionProfile
         /// Returns the angle of this point by adding the angle change to the prevAngle.
         /// </summary>
 
-        private float findAngleChange(double x2, double x1, double y2, double y1, float prevAngle)
+        private float findAngleChange(double x2, double x1, double y2, double y1, float prevAngle, List<Point> pointList, int i)
         {
             float ang = 0;
             float chx = (float)(x2 - x1);
@@ -332,6 +361,25 @@ namespace MotionProfile
                     //ang = (float)(CONVERT * Math.Atan(chx / chy));
                     //ang = 3;
                 }
+            }
+            Boolean forward;
+            if (i == pointList.Count - 1)
+            {
+                forward = pointList[i].direction;
+            }
+            else
+            {
+                forward = pointList[i + 1].direction;
+            }
+
+            if (!forward)
+            {
+                int add = 0;
+                if (ang > 0)
+                    add = -180;
+                if (ang < 0)
+                    add = 180;
+                ang = ang + add;
             }
 
             float angleChange = ang - prevAngle;

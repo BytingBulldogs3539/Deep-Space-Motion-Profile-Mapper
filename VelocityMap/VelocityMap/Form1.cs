@@ -266,7 +266,7 @@
                 {
                     c.Series["cp"].Points.AddXY(x, y);
 
-                    controlPoints.Rows[controlPoints.Rows.Add((int)x, (int)y, "+", Int32.Parse(maxVelocity.Text))].Selected = true;
+                    controlPoints.Rows[controlPoints.Rows.Add((int)x, (int)y, "+", "")].Selected = true;
                 }
             }
             //if the button click is a right mouse click then add a negative point to the field chart.
@@ -1004,6 +1004,13 @@
 
                         float[] angles = paths.getHeadingProfile();
 
+                        List<String> state = new List<String>();
+
+                        foreach(int cpNum in paths.getControlPointNumberProfile())
+                        {
+                            state.Add(controlPoints.Rows[cpNum].Cells[3].Value.ToString());
+                        }
+
 
                         r = paths.getOffsetVelocityProfile(-trackwidth).ToArray();
                         rd = paths.getOffsetDistanceProfile(-trackwidth);
@@ -1023,12 +1030,12 @@
                             {
                                 double dConvert = Math.PI * double.Parse(wheel.Text) * 25.4;
 
-                                line.Add("  {   \"Rotation\":" + cd.Take(i).Sum() / dConvert + " , " + "\"Velocity\":" + (c[i] / dConvert * 60).ToString() + " , " + "\"Time\":" + paths[0].velocityMap.time * 1000 + " , " + "\"Angle\":" + angles[i] + "}");
+                                line.Add("  {   \"Rotation\":" + cd.Take(i).Sum() / dConvert + " , " + "\"Velocity\":" + (c[i] / dConvert * 60).ToString() + " , " + "\"Time\":" + paths[0].velocityMap.time * 1000 + " , " + "\"Angle\":" + angles[i] + " , " + "\"State\":" + "\"" + state[i] + "\"" + "}");
 
                             }
                             else
                             {
-                                line.Add("  {   \"Rotation\":" + cd.Take(i).Sum().ToString() + " , " + "\"Velocity\":" + c[i].ToString() + " , " + "\"Time\":" + paths[0].velocityMap.time * 1000 + " , " + "\"Angle\":" + angles[i] + "}");
+                                line.Add("  {   \"Rotation\":" + cd.Take(i).Sum().ToString() + " , " + "\"Velocity\":" + c[i].ToString() + " , " + "\"Time\":" + paths[0].velocityMap.time * 1000 + " , " + "\"Angle\":" + angles[i] + " , " + "\"State\":" +"\"" +state[i] +"\""+"}");
                             }
                         }
                         right.Add(string.Join(",\n", line));
@@ -1269,8 +1276,15 @@
                     r = paths.getOffsetVelocityProfile(-trackwidth).ToArray();
                     rd = paths.getOffsetDistanceProfile(-trackwidth);
 
+                    List<String> state = new List<String>();
 
-                    r.NoiseReduction(int.Parse(smoothness.Text));
+                    foreach (int cpNum in paths.getControlPointNumberProfile())
+                    {
+                        state.Add(controlPoints.Rows[cpNum].Cells[3].Value.ToString());
+                    }
+
+
+                r.NoiseReduction(int.Parse(smoothness.Text));
                     rd.NoiseReduction(int.Parse(smoothness.Text));
                     l.NoiseReduction(int.Parse(smoothness.Text));
                     ld.NoiseReduction(int.Parse(smoothness.Text));
@@ -1287,14 +1301,14 @@
                         {
                             double dConvert = Math.PI * double.Parse(wheel.Text) * 25.4;
 
-                            line.Add("  {   \"Rotation\":" + cd.Take(i).Sum() / dConvert + " , " + "\"Velocity\":" + (c[i] / dConvert * 60).ToString() + " , " + "\"Time\":" + paths[0].velocityMap.time * 1000 + " , " + "\"Angle\":" + angles[i] + "}");
+                            line.Add("  {   \"Rotation\":" + cd.Take(i).Sum() / dConvert + " , " + "\"Velocity\":" + (c[i] / dConvert * 60).ToString() + " , " + "\"Time\":" + paths[0].velocityMap.time * 1000 + " , " + "\"Angle\":" + angles[i] + " , "+ "\"State\":" + "\"" + state[i] + "\"" + "}");
 
                         }
                         else
                         {
-                            line.Add("  {   \"Rotation\":" + cd.Take(i).Sum().ToString() + " , " + "\"Velocity\":" + c[i].ToString() + " , " + "\"Time\":" + paths[0].velocityMap.time * 1000 + " , " + "\"Angle\":" + angles[i] + "}");
+                            line.Add("  {   \"Rotation\":" + cd.Take(i).Sum().ToString() + " , " + "\"Velocity\":" + c[i].ToString() + " , " + "\"Time\":" + paths[0].velocityMap.time * 1000 + " , " + "\"Angle\":" + angles[i] + " , " + "\"State\":" + "\"" + state[i] + "\"" + "}");
                         }
-                    }
+                }
                     right.Add(string.Join(",\n", line));
 
                     foreach (string ret in right)
