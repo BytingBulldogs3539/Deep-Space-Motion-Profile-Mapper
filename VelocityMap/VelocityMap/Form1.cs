@@ -1307,7 +1307,6 @@
 
             //Create a sftp client that we will use to upload the file to the robot.
             SftpClient sftp = new SftpClient(ipadd.Text, user.Text, pass.Text);
-            sftp.ConnectionInfo.Timeout = TimeSpan.FromSeconds(1);
 
             try
             {
@@ -1348,13 +1347,9 @@
                     MessageBox.Show("Path Not Found By Host!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
-                catch (Renci.SshNet.Common.SshConnectionException e1)
+                catch (Exception e1)
                 {
-                    //Make sure that we are connected to the robot.
-                    Console.WriteLine("IOException source: {0}", e1.StackTrace);
-                    this.Cursor = Cursors.Default;
-                    MessageBox.Show("Unable to connect to host!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
+
                 }
                 //Open that file that we just saved to a temp file.
                 using (FileStream fileStream = File.OpenRead(JSONPath))
@@ -1382,7 +1377,7 @@
                 MessageBox.Show("Path Not Found By Host!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            catch (Exception e1)
+            catch (Renci.SshNet.Common.SshConnectionException e1)
             {
                 //Make sure that we are connected to the robot.
                 Console.WriteLine("IOException source: {0}", e1.StackTrace);
@@ -1427,6 +1422,7 @@
 
         private void refresh_button_Click(object sender, EventArgs e)
         {
+            RioFiles.Clear();
             //Check to make sure that the user has given us a valid ip for the robot.
             if (!ValidateIPv4(ipadd.Text))
             {
@@ -1437,7 +1433,19 @@
             SftpClient sftp = new SftpClient(ipadd.Text, user.Text, pass.Text);
             try
             {
-                sftp.ListDirectory("/home/lvuser/Motion_Profiles/");
+                sftp.Connect();
+                if(!sftp.Exists("/home/lvuser/Motion_Profiles/"))
+                {
+                    MessageBox.Show("Motion_Profiles Folder Not Found!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                List<Renci.SshNet.Sftp.SftpFile> files = sftp.ListDirectory("/home/lvuser/Motion_Profiles/").ToList();
+
+                foreach(Renci.SshNet.Sftp.SftpFile file in files)
+                {
+                    RioFiles.Items.Add(file.Name);
+                }
+
                 sftp.Disconnect();
 
             }

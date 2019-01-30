@@ -33,20 +33,14 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_F615435560AD4F979AAC72858793C3EB"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_F90DBB6B935D2C761049A25639E8F12A"
+        "MsmKey" = "8:_E4F93475B1F3B7DA8E1F7B1C7ED8D477"
         "OwnerKey" = "8:_0A5E5AFCF82A4BD5BA7A19D158218E34"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_F90DBB6B935D2C761049A25639E8F12A"
+        "MsmKey" = "8:_F615435560AD4F979AAC72858793C3EB"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -67,6 +61,12 @@
         "OwnerKey" = "8:_7AE7E5AB3ADCED6D63518A2386EBCBD5"
         "MsmSig" = "8:_UNDEFINED"
         }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_E4F93475B1F3B7DA8E1F7B1C7ED8D477"
+        "MsmSig" = "8:_UNDEFINED"
+        }
     }
     "Configurations"
     {
@@ -85,6 +85,22 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.6.1"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.6.1 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.6.1"
+                    }
+                }
+            }
         }
         "Release"
         {
@@ -101,6 +117,22 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.6.1"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.6.1 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.6.1"
+                    }
+                }
+            }
         }
     }
     "Deployable"
@@ -192,34 +224,14 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_F615435560AD4F979AAC72858793C3EB"
-            {
-            "SourcePath" = "8:..\\..\\..\\..\\image_NUW_icon.ico"
-            "TargetName" = "8:image_NUW_icon.ico"
-            "Tag" = "8:"
-            "Folder" = "8:_39048F06E6F04D4B99DC7D290B5254E1"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_F90DBB6B935D2C761049A25639E8F12A"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_E4F93475B1F3B7DA8E1F7B1C7ED8D477"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
             "AssemblyAsmDisplayName" = "8:bulldogForms, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_F90DBB6B935D2C761049A25639E8F12A"
+                    "_E4F93475B1F3B7DA8E1F7B1C7ED8D477"
                     {
                     "Name" = "8:bulldogForms.dll"
                     "Attributes" = "3:512"
@@ -241,6 +253,26 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_F615435560AD4F979AAC72858793C3EB"
+            {
+            "SourcePath" = "8:..\\..\\..\\..\\image_NUW_icon.ico"
+            "TargetName" = "8:image_NUW_icon.ico"
+            "Tag" = "8:"
+            "Folder" = "8:_39048F06E6F04D4B99DC7D290B5254E1"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
         }
@@ -299,15 +331,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Motion-Profiler-Installer"
-        "ProductCode" = "8:{CAD3D520-2087-47FE-99D0-413DFB24B9E5}"
-        "PackageCode" = "8:{A55263EB-263A-4E91-A0C2-6AF307C6D08F}"
+        "ProductCode" = "8:{F9B5F3A7-904F-497A-ADDE-D7B96FE31064}"
+        "PackageCode" = "8:{C038BBD6-1E8A-4678-8BFF-6F0CF4290131}"
         "UpgradeCode" = "8:{F109F2B2-7D8A-43ED-B73A-025A4428AA32}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:FALSE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.0.0"
+        "ProductVersion" = "8:1.1.0"
         "Manufacturer" = "8:Byting Bulldogs"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
