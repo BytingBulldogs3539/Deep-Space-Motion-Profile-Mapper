@@ -38,6 +38,8 @@
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
@@ -94,10 +96,6 @@
             this.insertAboveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.insertBelowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.controlPoints = new System.Windows.Forms.DataGridView();
-            this.x = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.y = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Direction = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.State = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label10 = new System.Windows.Forms.Label();
             this.RioFiles = new System.Windows.Forms.ListView();
             this.refresh_button = new System.Windows.Forms.Button();
@@ -106,6 +104,12 @@
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.GridCheckBox = new System.Windows.Forms.CheckBox();
+            this.commandPointsList = new System.Windows.Forms.DataGridView();
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.x = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.y = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Direction = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabControl1.SuspendLayout();
             this.Field.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mainField)).BeginInit();
@@ -121,6 +125,7 @@
             this.contextMenuStrip2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.controlPoints)).BeginInit();
             this.MainMenuStrip.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.commandPointsList)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -131,22 +136,22 @@
             this.tabControl1.Controls.Add(this.Field);
             this.tabControl1.Controls.Add(this.Data);
             this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Location = new System.Drawing.Point(546, 1);
+            this.tabControl1.Location = new System.Drawing.Point(461, 1);
             this.tabControl1.Margin = new System.Windows.Forms.Padding(0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(804, 821);
+            this.tabControl1.Size = new System.Drawing.Size(754, 821);
             this.tabControl1.TabIndex = 1;
             // 
             // Field
             // 
             this.Field.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.Field.Controls.Add(this.mainField);
-            this.Field.Location = new System.Drawing.Point(4, 26);
+            this.Field.Location = new System.Drawing.Point(4, 22);
             this.Field.Margin = new System.Windows.Forms.Padding(1);
             this.Field.Name = "Field";
             this.Field.Padding = new System.Windows.Forms.Padding(1);
-            this.Field.Size = new System.Drawing.Size(789, 791);
+            this.Field.Size = new System.Drawing.Size(746, 795);
             this.Field.TabIndex = 0;
             this.Field.Text = "Field";
             // 
@@ -163,7 +168,7 @@
             series1.ChartArea = "ChartArea1";
             series1.Name = "Series1";
             this.mainField.Series.Add(series1);
-            this.mainField.Size = new System.Drawing.Size(787, 791);
+            this.mainField.Size = new System.Drawing.Size(737, 791);
             this.mainField.TabIndex = 4;
             this.mainField.Text = "chart2";
             this.mainField.MouseClick += new System.Windows.Forms.MouseEventHandler(this.mainField_MouseClick);
@@ -173,11 +178,11 @@
             // Data
             // 
             this.Data.Controls.Add(this.splitContainer1);
-            this.Data.Location = new System.Drawing.Point(4, 25);
+            this.Data.Location = new System.Drawing.Point(4, 22);
             this.Data.Margin = new System.Windows.Forms.Padding(1);
             this.Data.Name = "Data";
             this.Data.Padding = new System.Windows.Forms.Padding(1);
-            this.Data.Size = new System.Drawing.Size(789, 792);
+            this.Data.Size = new System.Drawing.Size(796, 795);
             this.Data.TabIndex = 1;
             this.Data.Text = "Data";
             this.Data.UseVisualStyleBackColor = true;
@@ -201,8 +206,8 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.VelocityPlot);
             this.splitContainer1.Panel2.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.splitContainer1.Size = new System.Drawing.Size(787, 790);
-            this.splitContainer1.SplitterDistance = 380;
+            this.splitContainer1.Size = new System.Drawing.Size(794, 793);
+            this.splitContainer1.SplitterDistance = 381;
             this.splitContainer1.TabIndex = 3;
             // 
             // DistancePlot
@@ -228,7 +233,7 @@
             chartArea3.Name = "ChartArea1";
             this.VelocityPlot.ChartAreas.Add(chartArea3);
             this.VelocityPlot.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.VelocityPlot.Location = new System.Drawing.Point(0, -44);
+            this.VelocityPlot.Location = new System.Drawing.Point(0, -42);
             this.VelocityPlot.Name = "VelocityPlot";
             this.VelocityPlot.Padding = new System.Windows.Forms.Padding(0, 0, 0, 10);
             series3.ChartArea = "ChartArea1";
@@ -242,10 +247,10 @@
             // 
             this.tabPage1.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.tabPage1.Controls.Add(this.AnglePlot);
-            this.tabPage1.Location = new System.Drawing.Point(4, 25);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(789, 792);
+            this.tabPage1.Size = new System.Drawing.Size(796, 795);
             this.tabPage1.TabIndex = 2;
             this.tabPage1.Text = "More Data";
             // 
@@ -308,7 +313,7 @@
             this.maxVelocity.Location = new System.Drawing.Point(179, 30);
             this.maxVelocity.Margin = new System.Windows.Forms.Padding(1);
             this.maxVelocity.Name = "maxVelocity";
-            this.maxVelocity.Size = new System.Drawing.Size(71, 23);
+            this.maxVelocity.Size = new System.Drawing.Size(71, 20);
             this.maxVelocity.TabIndex = 4;
             this.maxVelocity.Text = "1000";
             this.maxVelocity.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -318,7 +323,7 @@
             this.timeSample.Location = new System.Drawing.Point(179, 424);
             this.timeSample.Margin = new System.Windows.Forms.Padding(1);
             this.timeSample.Name = "timeSample";
-            this.timeSample.Size = new System.Drawing.Size(71, 23);
+            this.timeSample.Size = new System.Drawing.Size(71, 20);
             this.timeSample.TabIndex = 4;
             this.timeSample.Text = "10";
             this.timeSample.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -329,7 +334,7 @@
             this.trackWidth.Location = new System.Drawing.Point(179, 443);
             this.trackWidth.Margin = new System.Windows.Forms.Padding(1);
             this.trackWidth.Name = "trackWidth";
-            this.trackWidth.Size = new System.Drawing.Size(71, 23);
+            this.trackWidth.Size = new System.Drawing.Size(71, 20);
             this.trackWidth.TabIndex = 4;
             this.trackWidth.Text = "838";
             this.trackWidth.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -340,7 +345,7 @@
             this.AccelRate.Location = new System.Drawing.Point(179, 462);
             this.AccelRate.Margin = new System.Windows.Forms.Padding(1);
             this.AccelRate.Name = "AccelRate";
-            this.AccelRate.Size = new System.Drawing.Size(71, 23);
+            this.AccelRate.Size = new System.Drawing.Size(71, 20);
             this.AccelRate.TabIndex = 4;
             this.AccelRate.Text = "80";
             this.AccelRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -353,7 +358,7 @@
             this.label1.Location = new System.Drawing.Point(18, 30);
             this.label1.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(98, 17);
+            this.label1.Size = new System.Drawing.Size(79, 13);
             this.label1.TabIndex = 5;
             this.label1.Text = "Max Velocity";
             // 
@@ -363,7 +368,7 @@
             this.label2.Location = new System.Drawing.Point(18, 424);
             this.label2.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(80, 17);
+            this.label2.Size = new System.Drawing.Size(61, 13);
             this.label2.TabIndex = 5;
             this.label2.Text = "Time (ms)";
             this.label2.Visible = false;
@@ -374,7 +379,7 @@
             this.label3.Location = new System.Drawing.Point(18, 443);
             this.label3.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(95, 17);
+            this.label3.Size = new System.Drawing.Size(77, 13);
             this.label3.TabIndex = 5;
             this.label3.Text = "Track Width";
             this.label3.Visible = false;
@@ -385,7 +390,7 @@
             this.label4.Location = new System.Drawing.Point(18, 462);
             this.label4.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(133, 17);
+            this.label4.Size = new System.Drawing.Size(104, 13);
             this.label4.TabIndex = 5;
             this.label4.Text = "Accel Filter (FL1)";
             this.label4.Visible = false;
@@ -398,7 +403,7 @@
             this.checkBox1.Location = new System.Drawing.Point(53, 312);
             this.checkBox1.Margin = new System.Windows.Forms.Padding(1);
             this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(148, 21);
+            this.checkBox1.Size = new System.Drawing.Size(119, 17);
             this.checkBox1.TabIndex = 6;
             this.checkBox1.Text = "Limit Max Speed";
             this.checkBox1.UseVisualStyleBackColor = true;
@@ -428,7 +433,7 @@
             this.CTRE.Location = new System.Drawing.Point(21, 87);
             this.CTRE.Margin = new System.Windows.Forms.Padding(1);
             this.CTRE.Name = "CTRE";
-            this.CTRE.Size = new System.Drawing.Size(122, 21);
+            this.CTRE.Size = new System.Drawing.Size(99, 17);
             this.CTRE.TabIndex = 6;
             this.CTRE.Text = "CTRE output";
             this.CTRE.UseVisualStyleBackColor = true;
@@ -441,7 +446,7 @@
             this.wheel.Location = new System.Drawing.Point(205, 85);
             this.wheel.Margin = new System.Windows.Forms.Padding(1);
             this.wheel.Name = "wheel";
-            this.wheel.Size = new System.Drawing.Size(45, 23);
+            this.wheel.Size = new System.Drawing.Size(45, 20);
             this.wheel.TabIndex = 4;
             this.wheel.Text = "8";
             this.wheel.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -452,7 +457,7 @@
             this.tolerence.Location = new System.Drawing.Point(138, 331);
             this.tolerence.Margin = new System.Windows.Forms.Padding(1);
             this.tolerence.Name = "tolerence";
-            this.tolerence.Size = new System.Drawing.Size(71, 23);
+            this.tolerence.Size = new System.Drawing.Size(71, 20);
             this.tolerence.TabIndex = 7;
             this.tolerence.Text = "660";
             this.tolerence.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -464,7 +469,7 @@
             this.offset.Location = new System.Drawing.Point(138, 350);
             this.offset.Margin = new System.Windows.Forms.Padding(1);
             this.offset.Name = "offset";
-            this.offset.Size = new System.Drawing.Size(71, 23);
+            this.offset.Size = new System.Drawing.Size(71, 20);
             this.offset.TabIndex = 8;
             this.offset.Text = "50";
             this.offset.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -492,7 +497,7 @@
             this.label5.Location = new System.Drawing.Point(18, 333);
             this.label5.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(114, 17);
+            this.label5.Size = new System.Drawing.Size(90, 13);
             this.label5.TabIndex = 5;
             this.label5.Text = "Velocity Offset";
             this.label5.Visible = false;
@@ -504,7 +509,7 @@
             this.label6.Location = new System.Drawing.Point(18, 352);
             this.label6.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(109, 17);
+            this.label6.Size = new System.Drawing.Size(86, 13);
             this.label6.TabIndex = 5;
             this.label6.Text = "Vel Tolerence";
             this.label6.Visible = false;
@@ -540,7 +545,7 @@
             this.SpeedLimit.Location = new System.Drawing.Point(179, 481);
             this.SpeedLimit.Margin = new System.Windows.Forms.Padding(1);
             this.SpeedLimit.Name = "SpeedLimit";
-            this.SpeedLimit.Size = new System.Drawing.Size(71, 23);
+            this.SpeedLimit.Size = new System.Drawing.Size(71, 20);
             this.SpeedLimit.TabIndex = 4;
             this.SpeedLimit.Text = "2.5";
             this.SpeedLimit.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -552,7 +557,7 @@
             this.label7.Location = new System.Drawing.Point(18, 481);
             this.label7.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(144, 17);
+            this.label7.Size = new System.Drawing.Size(113, 13);
             this.label7.TabIndex = 5;
             this.label7.Text = "Speed Limit Factor";
             this.label7.Visible = false;
@@ -565,7 +570,7 @@
             this.smoothness.Location = new System.Drawing.Point(205, 53);
             this.smoothness.Margin = new System.Windows.Forms.Padding(1);
             this.smoothness.Name = "smoothness";
-            this.smoothness.Size = new System.Drawing.Size(45, 23);
+            this.smoothness.Size = new System.Drawing.Size(45, 20);
             this.smoothness.TabIndex = 8;
             this.smoothness.Text = "10";
             this.smoothness.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -577,7 +582,7 @@
             this.label8.Location = new System.Drawing.Point(18, 56);
             this.label8.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(84, 17);
+            this.label8.Size = new System.Drawing.Size(66, 13);
             this.label8.TabIndex = 5;
             this.label8.Text = "Smoothing";
             // 
@@ -587,7 +592,7 @@
             this.Label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Label9.Location = new System.Drawing.Point(126, 87);
             this.Label9.Name = "Label9";
-            this.Label9.Size = new System.Drawing.Size(99, 17);
+            this.Label9.Size = new System.Drawing.Size(79, 13);
             this.Label9.TabIndex = 9;
             this.Label9.Text = "Wheel Size :";
             // 
@@ -598,7 +603,7 @@
             this.deploy.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.deploy.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.deploy.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.deploy.Location = new System.Drawing.Point(376, 19);
+            this.deploy.Location = new System.Drawing.Point(292, 19);
             this.deploy.Name = "deploy";
             this.deploy.Size = new System.Drawing.Size(140, 46);
             this.deploy.TabIndex = 11;
@@ -610,9 +615,9 @@
             // 
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.Location = new System.Drawing.Point(365, 114);
+            this.label11.Location = new System.Drawing.Point(281, 114);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(86, 17);
+            this.label11.Size = new System.Drawing.Size(67, 13);
             this.label11.TabIndex = 12;
             this.label11.Text = "Username:";
             // 
@@ -620,9 +625,9 @@
             // 
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label12.Location = new System.Drawing.Point(361, 177);
+            this.label12.Location = new System.Drawing.Point(277, 177);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(91, 17);
+            this.label12.Size = new System.Drawing.Size(71, 13);
             this.label12.TabIndex = 13;
             this.label12.Text = "Ip-Address:";
             // 
@@ -631,9 +636,9 @@
             this.user.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.user.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.user.ForeColor = System.Drawing.Color.White;
-            this.user.Location = new System.Drawing.Point(429, 111);
+            this.user.Location = new System.Drawing.Point(345, 111);
             this.user.Name = "user";
-            this.user.Size = new System.Drawing.Size(100, 23);
+            this.user.Size = new System.Drawing.Size(100, 20);
             this.user.TabIndex = 14;
             this.user.Text = "lvuser";
             // 
@@ -642,9 +647,9 @@
             this.ipadd.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.ipadd.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.ipadd.ForeColor = System.Drawing.Color.White;
-            this.ipadd.Location = new System.Drawing.Point(429, 174);
+            this.ipadd.Location = new System.Drawing.Point(345, 174);
             this.ipadd.Name = "ipadd";
-            this.ipadd.Size = new System.Drawing.Size(100, 23);
+            this.ipadd.Size = new System.Drawing.Size(100, 20);
             this.ipadd.TabIndex = 15;
             this.ipadd.Text = "10.35.39.2";
             // 
@@ -653,19 +658,19 @@
             this.pass.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.pass.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pass.ForeColor = System.Drawing.Color.White;
-            this.pass.Location = new System.Drawing.Point(429, 143);
+            this.pass.Location = new System.Drawing.Point(345, 143);
             this.pass.Name = "pass";
             this.pass.PasswordChar = '*';
-            this.pass.Size = new System.Drawing.Size(100, 23);
+            this.pass.Size = new System.Drawing.Size(100, 20);
             this.pass.TabIndex = 18;
             // 
             // label13
             // 
             this.label13.AutoSize = true;
             this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label13.Location = new System.Drawing.Point(367, 146);
+            this.label13.Location = new System.Drawing.Point(283, 146);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(82, 17);
+            this.label13.Size = new System.Drawing.Size(65, 13);
             this.label13.TabIndex = 17;
             this.label13.Text = "Password:";
             // 
@@ -674,9 +679,9 @@
             this.profilename.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.profilename.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.profilename.ForeColor = System.Drawing.Color.White;
-            this.profilename.Location = new System.Drawing.Point(429, 80);
+            this.profilename.Location = new System.Drawing.Point(345, 80);
             this.profilename.Name = "profilename";
-            this.profilename.Size = new System.Drawing.Size(100, 23);
+            this.profilename.Size = new System.Drawing.Size(100, 20);
             this.profilename.TabIndex = 22;
             this.profilename.Text = "AUSA";
             // 
@@ -684,9 +689,9 @@
             // 
             this.label15.AutoSize = true;
             this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label15.Location = new System.Drawing.Point(349, 83);
+            this.label15.Location = new System.Drawing.Point(265, 83);
             this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(106, 17);
+            this.label15.Size = new System.Drawing.Size(83, 13);
             this.label15.TabIndex = 21;
             this.label15.Text = "Profile Name:";
             // 
@@ -700,40 +705,40 @@
             this.insertAboveToolStripMenuItem,
             this.insertBelowToolStripMenuItem});
             this.contextMenuStrip2.Name = "contextMenuStrip2";
-            this.contextMenuStrip2.Size = new System.Drawing.Size(162, 124);
+            this.contextMenuStrip2.Size = new System.Drawing.Size(141, 114);
             // 
             // deleteToolStripMenuItem
             // 
             this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
-            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(161, 24);
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
             this.deleteToolStripMenuItem.Text = "Delete";
             this.deleteToolStripMenuItem.Click += new System.EventHandler(this.Delete_Click);
             // 
             // moveUpToolStripMenuItem
             // 
             this.moveUpToolStripMenuItem.Name = "moveUpToolStripMenuItem";
-            this.moveUpToolStripMenuItem.Size = new System.Drawing.Size(161, 24);
+            this.moveUpToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
             this.moveUpToolStripMenuItem.Text = "Move Up";
             this.moveUpToolStripMenuItem.Click += new System.EventHandler(this.btnUp_Click);
             // 
             // moveDownToolStripMenuItem
             // 
             this.moveDownToolStripMenuItem.Name = "moveDownToolStripMenuItem";
-            this.moveDownToolStripMenuItem.Size = new System.Drawing.Size(161, 24);
+            this.moveDownToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
             this.moveDownToolStripMenuItem.Text = "Move Down";
             this.moveDownToolStripMenuItem.Click += new System.EventHandler(this.btnDown_Click);
             // 
             // insertAboveToolStripMenuItem
             // 
             this.insertAboveToolStripMenuItem.Name = "insertAboveToolStripMenuItem";
-            this.insertAboveToolStripMenuItem.Size = new System.Drawing.Size(161, 24);
+            this.insertAboveToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
             this.insertAboveToolStripMenuItem.Text = "Insert Above";
             this.insertAboveToolStripMenuItem.Click += new System.EventHandler(this.insertAbove_Click);
             // 
             // insertBelowToolStripMenuItem
             // 
             this.insertBelowToolStripMenuItem.Name = "insertBelowToolStripMenuItem";
-            this.insertBelowToolStripMenuItem.Size = new System.Drawing.Size(161, 24);
+            this.insertBelowToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
             this.insertBelowToolStripMenuItem.Text = "Insert Below";
             this.insertBelowToolStripMenuItem.Click += new System.EventHandler(this.insertBelow_Click);
             // 
@@ -752,8 +757,7 @@
             this.controlPoints.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.x,
             this.y,
-            this.Direction,
-            this.State});
+            this.Direction});
             dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -775,11 +779,158 @@
             this.controlPoints.RowTemplate.Height = 40;
             this.controlPoints.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.controlPoints.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.controlPoints.Size = new System.Drawing.Size(314, 607);
+            this.controlPoints.Size = new System.Drawing.Size(231, 607);
             this.controlPoints.TabIndex = 2;
             this.controlPoints.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.controlPoints_CellEndEdit);
             this.controlPoints.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.controlPoints_CellMouseUp);
             this.controlPoints.RowStateChanged += new System.Windows.Forms.DataGridViewRowStateChangedEventHandler(this.controlPoints_RowStateChange);
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.Location = new System.Drawing.Point(272, 202);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(171, 17);
+            this.label10.TabIndex = 23;
+            this.label10.Text = "Motion Profiles On Rio";
+            // 
+            // RioFiles
+            // 
+            this.RioFiles.Alignment = System.Windows.Forms.ListViewAlignment.Left;
+            this.RioFiles.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.RioFiles.AutoArrange = false;
+            this.RioFiles.BackColor = System.Drawing.Color.Gray;
+            this.RioFiles.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.RioFiles.Location = new System.Drawing.Point(252, 225);
+            this.RioFiles.Name = "RioFiles";
+            this.RioFiles.Size = new System.Drawing.Size(206, 219);
+            this.RioFiles.TabIndex = 24;
+            this.RioFiles.UseCompatibleStateImageBehavior = false;
+            // 
+            // refresh_button
+            // 
+            this.refresh_button.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.refresh_button.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.refresh_button.FlatAppearance.BorderSize = 0;
+            this.refresh_button.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.refresh_button.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.refresh_button.ForeColor = System.Drawing.SystemColors.MenuHighlight;
+            this.refresh_button.Location = new System.Drawing.Point(252, 448);
+            this.refresh_button.Name = "refresh_button";
+            this.refresh_button.Size = new System.Drawing.Size(206, 50);
+            this.refresh_button.TabIndex = 25;
+            this.refresh_button.Text = "Refresh";
+            this.refresh_button.UseVisualStyleBackColor = false;
+            this.refresh_button.Click += new System.EventHandler(this.refresh_button_Click);
+            // 
+            // MainMenuStrip
+            // 
+            this.MainMenuStrip.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.MainMenuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.MainMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileToolStripMenuItem,
+            this.aboutToolStripMenuItem1});
+            this.MainMenuStrip.Location = new System.Drawing.Point(0, 0);
+            this.MainMenuStrip.Name = "MainMenuStrip";
+            this.MainMenuStrip.Padding = new System.Windows.Forms.Padding(0);
+            this.MainMenuStrip.Size = new System.Drawing.Size(1203, 24);
+            this.MainMenuStrip.TabIndex = 26;
+            this.MainMenuStrip.Text = "menuStrip1";
+            // 
+            // fileToolStripMenuItem
+            // 
+            this.fileToolStripMenuItem.BackColor = System.Drawing.SystemColors.ScrollBar;
+            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.optionsToolStripMenuItem});
+            this.fileToolStripMenuItem.ForeColor = System.Drawing.Color.Black;
+            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 24);
+            this.fileToolStripMenuItem.Text = "File";
+            // 
+            // optionsToolStripMenuItem
+            // 
+            this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+            this.optionsToolStripMenuItem.Text = "Options";
+            // 
+            // aboutToolStripMenuItem1
+            // 
+            this.aboutToolStripMenuItem1.BackColor = System.Drawing.SystemColors.ScrollBar;
+            this.aboutToolStripMenuItem1.Name = "aboutToolStripMenuItem1";
+            this.aboutToolStripMenuItem1.Size = new System.Drawing.Size(52, 24);
+            this.aboutToolStripMenuItem1.Text = "About";
+            // 
+            // GridCheckBox
+            // 
+            this.GridCheckBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.GridCheckBox.Location = new System.Drawing.Point(21, 70);
+            this.GridCheckBox.Margin = new System.Windows.Forms.Padding(1);
+            this.GridCheckBox.Name = "GridCheckBox";
+            this.GridCheckBox.Size = new System.Drawing.Size(79, 17);
+            this.GridCheckBox.TabIndex = 27;
+            this.GridCheckBox.Text = "Hide Grid";
+            this.GridCheckBox.UseVisualStyleBackColor = true;
+            this.GridCheckBox.CheckedChanged += new System.EventHandler(this.GridCheckBox_CheckedChanged);
+            // 
+            // commandPointsList
+            // 
+            this.commandPointsList.AllowUserToResizeColumns = false;
+            this.commandPointsList.AllowUserToResizeRows = false;
+            this.commandPointsList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.commandPointsList.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.commandPointsList.BackgroundColor = System.Drawing.Color.Gray;
+            this.commandPointsList.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.commandPointsList.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
+            this.commandPointsList.ColumnHeadersHeight = 20;
+            this.commandPointsList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            this.commandPointsList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dataGridViewTextBoxColumn1,
+            this.dataGridViewTextBoxColumn4});
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle5.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.commandPointsList.DefaultCellStyle = dataGridViewCellStyle5;
+            this.commandPointsList.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnKeystroke;
+            this.commandPointsList.GridColor = System.Drawing.Color.Black;
+            this.commandPointsList.Location = new System.Drawing.Point(252, 502);
+            this.commandPointsList.Margin = new System.Windows.Forms.Padding(1);
+            this.commandPointsList.MultiSelect = false;
+            this.commandPointsList.Name = "commandPointsList";
+            this.commandPointsList.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.commandPointsList.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            this.commandPointsList.RowHeadersVisible = false;
+            this.commandPointsList.RowHeadersWidth = 20;
+            this.commandPointsList.RowTemplate.Height = 40;
+            this.commandPointsList.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.commandPointsList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.commandPointsList.Size = new System.Drawing.Size(206, 309);
+            this.commandPointsList.TabIndex = 28;
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            dataGridViewCellStyle4.Format = "N0";
+            dataGridViewCellStyle4.NullValue = null;
+            this.dataGridViewTextBoxColumn1.DefaultCellStyle = dataGridViewCellStyle4;
+            this.dataGridViewTextBoxColumn1.Frozen = true;
+            this.dataGridViewTextBoxColumn1.HeaderText = "Point";
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            this.dataGridViewTextBoxColumn1.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridViewTextBoxColumn1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.dataGridViewTextBoxColumn1.Width = 65;
+            // 
+            // dataGridViewTextBoxColumn4
+            // 
+            this.dataGridViewTextBoxColumn4.Frozen = true;
+            this.dataGridViewTextBoxColumn4.HeaderText = "State";
+            this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
+            this.dataGridViewTextBoxColumn4.Width = 140;
             // 
             // x
             // 
@@ -812,106 +963,12 @@
             this.Direction.Name = "Direction";
             this.Direction.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
-            // State
-            // 
-            this.State.Frozen = true;
-            this.State.HeaderText = "State";
-            this.State.Name = "State";
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(356, 202);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(200, 20);
-            this.label10.TabIndex = 23;
-            this.label10.Text = "Motion Profiles On Rio";
-            // 
-            // RioFiles
-            // 
-            this.RioFiles.Alignment = System.Windows.Forms.ListViewAlignment.Left;
-            this.RioFiles.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.RioFiles.AutoArrange = false;
-            this.RioFiles.BackColor = System.Drawing.Color.Gray;
-            this.RioFiles.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.RioFiles.Location = new System.Drawing.Point(254, 225);
-            this.RioFiles.Name = "RioFiles";
-            this.RioFiles.Size = new System.Drawing.Size(206, 538);
-            this.RioFiles.TabIndex = 24;
-            this.RioFiles.UseCompatibleStateImageBehavior = false;
-            // 
-            // refresh_button
-            // 
-            this.refresh_button.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.refresh_button.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.refresh_button.FlatAppearance.BorderSize = 0;
-            this.refresh_button.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.refresh_button.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.refresh_button.ForeColor = System.Drawing.SystemColors.MenuHighlight;
-            this.refresh_button.Location = new System.Drawing.Point(337, 767);
-            this.refresh_button.Name = "refresh_button";
-            this.refresh_button.Size = new System.Drawing.Size(206, 50);
-            this.refresh_button.TabIndex = 25;
-            this.refresh_button.Text = "Refresh";
-            this.refresh_button.UseVisualStyleBackColor = false;
-            this.refresh_button.Click += new System.EventHandler(this.refresh_button_Click);
-            // 
-            // MainMenuStrip
-            // 
-            this.MainMenuStrip.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.MainMenuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.MainMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem,
-            this.aboutToolStripMenuItem1});
-            this.MainMenuStrip.Location = new System.Drawing.Point(0, 0);
-            this.MainMenuStrip.Name = "MainMenuStrip";
-            this.MainMenuStrip.Padding = new System.Windows.Forms.Padding(0);
-            this.MainMenuStrip.Size = new System.Drawing.Size(1338, 24);
-            this.MainMenuStrip.TabIndex = 26;
-            this.MainMenuStrip.Text = "menuStrip1";
-            // 
-            // fileToolStripMenuItem
-            // 
-            this.fileToolStripMenuItem.BackColor = System.Drawing.SystemColors.ScrollBar;
-            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.optionsToolStripMenuItem});
-            this.fileToolStripMenuItem.ForeColor = System.Drawing.Color.Black;
-            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(44, 24);
-            this.fileToolStripMenuItem.Text = "File";
-            // 
-            // optionsToolStripMenuItem
-            // 
-            this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(136, 26);
-            this.optionsToolStripMenuItem.Text = "Options";
-            // 
-            // aboutToolStripMenuItem1
-            // 
-            this.aboutToolStripMenuItem1.BackColor = System.Drawing.SystemColors.ScrollBar;
-            this.aboutToolStripMenuItem1.Name = "aboutToolStripMenuItem1";
-            this.aboutToolStripMenuItem1.Size = new System.Drawing.Size(62, 24);
-            this.aboutToolStripMenuItem1.Text = "About";
-            // 
-            // GridCheckBox
-            // 
-            this.GridCheckBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.GridCheckBox.Location = new System.Drawing.Point(21, 70);
-            this.GridCheckBox.Margin = new System.Windows.Forms.Padding(1);
-            this.GridCheckBox.Name = "GridCheckBox";
-            this.GridCheckBox.Size = new System.Drawing.Size(79, 17);
-            this.GridCheckBox.TabIndex = 27;
-            this.GridCheckBox.Text = "Hide Grid";
-            this.GridCheckBox.UseVisualStyleBackColor = true;
-            this.GridCheckBox.CheckedChanged += new System.EventHandler(this.GridCheckBox_CheckedChanged);
-            // 
             // Form1
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.ClientSize = new System.Drawing.Size(1338, 821);
+            this.ClientSize = new System.Drawing.Size(1203, 821);
+            this.Controls.Add(this.commandPointsList);
             this.Controls.Add(this.GridCheckBox);
             this.Controls.Add(this.refresh_button);
             this.Controls.Add(this.RioFiles);
@@ -979,6 +1036,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.controlPoints)).EndInit();
             this.MainMenuStrip.ResumeLayout(false);
             this.MainMenuStrip.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.commandPointsList)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1047,10 +1105,12 @@
         private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem1;
         private System.Windows.Forms.CheckBox GridCheckBox;
+        private System.Windows.Forms.DataGridView commandPointsList;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
         private System.Windows.Forms.DataGridViewTextBoxColumn x;
         private System.Windows.Forms.DataGridViewTextBoxColumn y;
         private System.Windows.Forms.DataGridViewTextBoxColumn Direction;
-        private System.Windows.Forms.DataGridViewTextBoxColumn State;
     }
 }
 

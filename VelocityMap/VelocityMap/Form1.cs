@@ -94,7 +94,7 @@
             mainField.Series.Add("cp");
             //setup the point size(the dot size on the graph)
             mainField.Series["cp"].MarkerSize = 10;
-            mainField.Series["path"].MarkerSize = 2;
+            mainField.Series["path"].MarkerSize = 4;
             mainField.Series["left"].MarkerSize = 2;
             mainField.Series["right"].MarkerSize = 2;
 
@@ -297,6 +297,33 @@
                     controlPoints.Rows[controlPoints.Rows.Add((int)x, (int)y, "-", Int32.Parse(maxVelocity.Text))].Selected = true;
                 }
 
+            }
+            if (e.Button == MouseButtons.Middle)
+            {
+                DataPoint p;
+                HitTestResult hit = mainField.HitTest(e.X, e.Y);
+                //get the point the user is clicking on.
+                if (hit.PointIndex >= 0)
+                {
+                    //check to see if the point is part of the controlpoints because we have more than just controlpoints on the field chart
+                    if (hit.Series == null)
+                        return;
+                    if (hit.Series.ToString() != "Series-path")
+                        return;
+
+                    if (hit.Series.Points[hit.PointIndex] == null)
+                        return;
+                    //if the point is real and exists then set dp to the point.
+                    p = hit.Series.Points[hit.PointIndex];
+                    p.Color = Color.Red;
+                    p.MarkerStyle = MarkerStyle.Square;
+                    p.MarkerSize = 8;
+
+                    commandPointsList.Rows.Add(mainField.Series["path"].Points.IndexOf(p), "");
+
+
+                    Console.WriteLine();
+                }
             }
         }
 
@@ -576,6 +603,7 @@
         {
             //Clear all of the rows in the controlpoints table.
             controlPoints.Rows.Clear();
+            commandPointsList.Rows.Clear();
             //Clear all of the plots.
             mainField.Series["cp"].Points.Clear();
             mainField.Series["path"].Points.Clear();
@@ -591,6 +619,8 @@
             DistancePlot.Series["left"].Points.Clear();
 
             AnglePlot.Series["angle"].Points.Clear();
+            
+
         }
 
         /// <summary>
@@ -939,6 +969,24 @@
                     mainField.Series["right"].Points.AddXY(p1.Y, p1.X);
                 }
             }
+            foreach (DataGridViewRow row in commandPointsList.Rows)
+            {
+                if (row.Cells[0].Value != null)
+                {
+                    if(row.Cells[0].Value.ToString() != "")
+                    {
+                        Console.WriteLine("TEST");
+                        if(mainField.Series["path"].Points.Count>= int.Parse(row.Cells[0].Value.ToString()))
+                        {
+                            DataPoint p = mainField.Series["path"].Points[int.Parse(row.Cells[0].Value.ToString())];
+                            p.Color = Color.Red;
+                            p.MarkerStyle = MarkerStyle.Square;
+                            p.MarkerSize = 8;
+                        }
+                    }
+                }
+            }
+                
         }
 
         /// <summary>
@@ -1004,12 +1052,7 @@
 
                         float[] angles = paths.getHeadingProfile();
 
-                        List<String> state = new List<String>();
 
-                        foreach(int cpNum in paths.getControlPointNumberProfile())
-                        {
-                            state.Add(controlPoints.Rows[cpNum].Cells[3].Value.ToString());
-                        }
 
 
                         r = paths.getOffsetVelocityProfile(-trackwidth).ToArray();
@@ -1024,18 +1067,39 @@
                         c.NoiseReduction(int.Parse(smoothness.Text));
                         cd.NoiseReduction(int.Parse(smoothness.Text));
                         //write the information to the json file.
+                        Dictionary<int, String> commandPoints = new Dictionary<int, String>();
+                        foreach (DataGridViewRow row in commandPointsList.Rows)
+                        {
+                            if (row.Cells[0].Value != null)
+                            {
+                                if (row.Cells[0].Value.ToString() != "")
+                                {
+                                    Console.WriteLine("TEST");
+                                    if (mainField.Series["path"].Points.Count >= int.Parse(row.Cells[0].Value.ToString()))
+                                    {
+                                        if(row.Cells[1].Value!=null)
+                                            commandPoints[int.Parse(row.Cells[0].Value.ToString())] = row.Cells[1].Value.ToString();
+                                    }
+                                }
+                            }
+                        }
                         for (int i = 0; i < l.Length; i++)
                         {
+                            String text = "";
+                            if (commandPoints.ContainsKey(i))
+                            {
+                                text = commandPoints[i];
+                            }
                             if (CTRE.Checked)
                             {
                                 double dConvert = Math.PI * double.Parse(wheel.Text) * 25.4;
 
-                                line.Add("  {   \"Rotation\":" + cd.Take(i).Sum() / dConvert + " , " + "\"Velocity\":" + (c[i] / dConvert * 60).ToString() + " , " + "\"Time\":" + paths[0].velocityMap.time * 1000 + " , " + "\"Angle\":" + angles[i] + " , " + "\"State\":" + "\"" + state[i] + "\"" + "}");
+                                line.Add("  {   \"Rotation\":" + cd.Take(i).Sum() / dConvert + " , " + "\"Velocity\":" + (c[i] / dConvert * 60).ToString() + " , " + "\"Time\":" + paths[0].velocityMap.time * 1000 + " , " + "\"Angle\":" + angles[i] + " , " + "\"State\":" + "\"" + text + "\"" + "}");
 
                             }
                             else
                             {
-                                line.Add("  {   \"Rotation\":" + cd.Take(i).Sum().ToString() + " , " + "\"Velocity\":" + c[i].ToString() + " , " + "\"Time\":" + paths[0].velocityMap.time * 1000 + " , " + "\"Angle\":" + angles[i] + " , " + "\"State\":" +"\"" +state[i] +"\""+"}");
+                                line.Add("  {   \"Rotation\":" + cd.Take(i).Sum().ToString() + " , " + "\"Velocity\":" + c[i].ToString() + " , " + "\"Time\":" + paths[0].velocityMap.time * 1000 + " , " + "\"Angle\":" + angles[i] + " , " + "\"State\":" +"\"" +text +"\""+"}");
                             }
                         }
                         right.Add(string.Join(",\n", line));
@@ -1128,6 +1192,22 @@
                 }
                 //close our writer up
                 writer.WriteEndArray();
+                writer.WritePropertyName("CommandPoints");
+                writer.WriteStartArray();
+
+                foreach (DataGridViewRow row in commandPointsList.Rows)
+                {
+                    if (row.Cells[0].Value != null)
+                    {
+                        writer.WriteStartArray();
+                        writer.WriteValue(string.Concat(row.Cells[0].Value.ToString()));
+                        writer.WriteValue(row.Cells[1].Value.ToString());
+                        writer.WriteEndArray();
+                    }
+                }
+                //close our writer up
+                writer.WriteEndArray();
+
                 writer.WriteEndObject();
             }
             writer1.WriteLine(sb.ToString());
@@ -1153,6 +1233,7 @@
                 {
                     //First clear out our points.
                     controlPoints.Rows.Clear();
+                    commandPointsList.Rows.Clear();
                     //Read the file and load our points and other variables.
                     string json = reader1.ReadToEnd();
 
@@ -1177,6 +1258,13 @@
                     for (int x = 0; x <= a.Count - 1; x++)
                     {
                         controlPoints.Rows.Add(float.Parse((string)a[x][0]), float.Parse((string)a[x][1]), (string)a[x][2]);
+                    }
+
+                    JArray CommandPointsArray = (JArray)o["CommandPoints"];
+
+                    for (int x = 0; x <= CommandPointsArray.Count - 1; x++)
+                    {
+                        commandPointsList.Rows.Add(int.Parse((string)CommandPointsArray[x][0]), (string)CommandPointsArray[x][1]);
                     }
                 }
             }
@@ -1295,21 +1383,42 @@
 
 
 
-                    for (int i = 0; i < l.Length; i++)
+                Dictionary<int, String> commandPoints = new Dictionary<int, String>();
+                foreach (DataGridViewRow row in commandPointsList.Rows)
+                {
+                    if (row.Cells[0].Value != null)
                     {
-                        if (CTRE.Checked)
+                        if (row.Cells[0].Value.ToString() != "")
                         {
-                            double dConvert = Math.PI * double.Parse(wheel.Text) * 25.4;
-
-                            line.Add("  {   \"Rotation\":" + cd.Take(i).Sum() / dConvert + " , " + "\"Velocity\":" + (c[i] / dConvert * 60).ToString() + " , " + "\"Time\":" + paths[0].velocityMap.time * 1000 + " , " + "\"Angle\":" + angles[i] + " , "+ "\"State\":" + "\"" + state[i] + "\"" + "}");
-
+                            Console.WriteLine("TEST");
+                            if (mainField.Series["path"].Points.Count >= int.Parse(row.Cells[0].Value.ToString()))
+                            {
+                                if (row.Cells[1].Value != null)
+                                    commandPoints[int.Parse(row.Cells[0].Value.ToString())] = row.Cells[1].Value.ToString();
+                            }
                         }
-                        else
-                        {
-                            line.Add("  {   \"Rotation\":" + cd.Take(i).Sum().ToString() + " , " + "\"Velocity\":" + c[i].ToString() + " , " + "\"Time\":" + paths[0].velocityMap.time * 1000 + " , " + "\"Angle\":" + angles[i] + " , " + "\"State\":" + "\"" + state[i] + "\"" + "}");
-                        }
+                    }
                 }
-                    right.Add(string.Join(",\n", line));
+                for (int i = 0; i < l.Length; i++)
+                {
+                    String text = "";
+                    if (commandPoints.ContainsKey(i))
+                    {
+                        text = commandPoints[i];
+                    }
+                    if (CTRE.Checked)
+                    {
+                        double dConvert = Math.PI * double.Parse(wheel.Text) * 25.4;
+
+                        line.Add("  {   \"Rotation\":" + cd.Take(i).Sum() / dConvert + " , " + "\"Velocity\":" + (c[i] / dConvert * 60).ToString() + " , " + "\"Time\":" + paths[0].velocityMap.time * 1000 + " , " + "\"Angle\":" + angles[i] + " , " + "\"State\":" + "\"" + text + "\"" + "}");
+
+                    }
+                    else
+                    {
+                        line.Add("  {   \"Rotation\":" + cd.Take(i).Sum().ToString() + " , " + "\"Velocity\":" + c[i].ToString() + " , " + "\"Time\":" + paths[0].velocityMap.time * 1000 + " , " + "\"Angle\":" + angles[i] + " , " + "\"State\":" + "\"" + text + "\"" + "}");
+                    }
+                }
+                right.Add(string.Join(",\n", line));
 
                     foreach (string ret in right)
                     {
