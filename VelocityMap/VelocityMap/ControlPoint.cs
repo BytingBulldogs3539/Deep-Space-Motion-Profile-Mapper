@@ -9,13 +9,12 @@ namespace VelocityMap
     class ControlPoint
     {
         public Boolean direction = false;
-        public int pointNumber;
         public int velocity;
         public System.Drawing.PointF[] point;
+        public int[] pointnumbers;
 
-        public ControlPoint(int pointNumber)
+        public ControlPoint()
         {
-            this.pointNumber = pointNumber;
         }
     }
 }

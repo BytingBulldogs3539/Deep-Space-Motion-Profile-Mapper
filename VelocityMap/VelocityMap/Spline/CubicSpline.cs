@@ -129,6 +129,7 @@ namespace MotionProfile.Spline
             float dx = xOrig[j + 1] - xOrig[j];
             float t = (x - xOrig[j]) / dx;
             float y = (1 - t) * yOrig[j] + t * yOrig[j + 1] + t * (1 - t) * (a[j] * (1 - t) + b[j] * t); // equation 9
+
             if (debug) Console.WriteLine("xs = {0}, j = {1}, t = {2}", x, j, t);
             return y;
         }
@@ -180,6 +181,8 @@ namespace MotionProfile.Spline
 
             int n = x.Length;
             float[] r = new float[n]; // the right hand side numbers: wikipedia page overloads b
+
+
 
             TriDiagonalMatrixF m = new TriDiagonalMatrixF(n);
             float dx1, dx2, dy1, dy2;
@@ -245,6 +248,9 @@ namespace MotionProfile.Spline
                 dy1 = y[i] - y[i - 1];
                 a[i - 1] = k[i - 1] * dx1 - dy1; // equation 10 from the article
                 b[i - 1] = -k[i] * dx1 + dy1; // equation 11 from the article
+
+                
+
             }
 
             if (debug) Console.WriteLine("a: {0}", ArrayUtil.ToString<float>(a));
@@ -282,6 +288,27 @@ namespace MotionProfile.Spline
             }
 
             return y;
+        }
+        public List<int> findControlPoint(float[] x, bool debug = false)
+        {
+            List<int> test = new List<int>();
+            CheckAlreadyFitted();
+
+            int n = x.Length;
+            float[] y = new float[n];
+            _lastIndex = 0; // Reset simultaneous traversal in case there are multiple calls
+
+            for (int i = 0; i < n; i++)
+            {
+                // Find which spline can be used to compute this x (by simultaneous traverse)
+                int j = GetNextXIndex(x[i]);
+
+                // Evaluate using j'th spline
+                y[i] = EvalSpline(x[i], j, debug);
+                test.Add(j);
+            }
+
+            return test;
         }
 
         /// <summary>
@@ -486,6 +513,7 @@ namespace MotionProfile.Spline
                 float dist = (float)Math.Sqrt(dx * dx + dy * dy);
                 totalDist += dist;
                 distance[i] = totalDist;
+
             }
             getxs = xs;
             getys = ys;
@@ -501,6 +529,16 @@ namespace MotionProfile.Spline
             float[] ys = ySpline.Eval(xx, debug);
 
             return new System.Drawing.PointF(xs[0], ys[0]);
+        }
+
+        public int findControlPoint(float x, bool debug = false)
+        {
+            float[] xx = { x };
+
+            int[] xs = xSpline.findControlPoint(xx, debug).ToArray();
+            int[] ys = ySpline.findControlPoint(xx, debug).ToArray();
+
+            return xs[0];
         }
         public List<System.Drawing.PointF> Eval(float[] x, bool debug = false)
         {

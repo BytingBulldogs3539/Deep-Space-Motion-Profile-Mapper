@@ -31,7 +31,6 @@ namespace MotionProfile
         private float[] distance;
         private float[] velocity;
         private float[] time;
-        public float[] heading;
 
         public float[] xs, ys;
 
@@ -47,6 +46,9 @@ namespace MotionProfile
                 controlPointsY.Add(p.Y);
             }
             path = new Spline.ParametricSpline(controlPointsX.ToArray(), controlPointsY.ToArray(), resolution, out xs, out ys);
+          
+            
+            
             velocityMap.setLength(path.distance.Last());
 
         }
@@ -148,15 +150,28 @@ namespace MotionProfile
             foreach (float d in distance)
             {
                 PointF p2 = path.Eval(d);
+                
+                
 
                 if (p1.X != 0 && p1.Y != 0)
                 {
                     ret.Add(new Segment(p1, p2).perp(offset));
                 }
                 p1 = p2;
+                
             }
+            
             return ret;
 
+        }
+        public List<int> findPointControlPoints()
+        {
+            List<int> pts = new List<int>();
+            foreach (float p in distance)
+            {
+                pts.Add(path.findControlPoint(p));
+            }
+            return pts;
         }
         //Build the throttled maps.
         public void buildMapsThrottled(float offset)
@@ -250,10 +265,6 @@ namespace MotionProfile
         public float[] getDistanceProfile()
         {
             return this.distance;
-        }
-        public float[] getHeadingProfile()
-        {
-            return this.heading;
         }
         public float[] getVelocityProfile()
         {
