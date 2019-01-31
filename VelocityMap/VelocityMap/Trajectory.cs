@@ -110,7 +110,6 @@ namespace MotionProfile
                 {
 
                     headings.Add(findAngleChange(pointList[i + 1].x, pointList[i].x, pointList[i + 1].y, pointList[i].y, headings[headings.Count - 1], pointList,i));
-                    Console.WriteLine(pointList[i].pointNumber);
                 }
             }
 

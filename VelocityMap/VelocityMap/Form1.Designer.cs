@@ -38,10 +38,10 @@
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.Field = new System.Windows.Forms.TabPage();
@@ -96,8 +96,10 @@
             this.insertAboveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.insertBelowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.controlPoints = new System.Windows.Forms.DataGridView();
+            this.x = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.y = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Direction = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label10 = new System.Windows.Forms.Label();
-            this.RioFiles = new System.Windows.Forms.ListView();
             this.refresh_button = new System.Windows.Forms.Button();
             this.MainMenuStrip = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -107,9 +109,13 @@
             this.commandPointsList = new System.Windows.Forms.DataGridView();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.x = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.y = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Direction = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.commandPointListMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
+            this.RioFiles = new System.Windows.Forms.ListBox();
             this.tabControl1.SuspendLayout();
             this.Field.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mainField)).BeginInit();
@@ -126,6 +132,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.controlPoints)).BeginInit();
             this.MainMenuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.commandPointsList)).BeginInit();
+            this.commandPointListMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -182,7 +189,7 @@
             this.Data.Margin = new System.Windows.Forms.Padding(1);
             this.Data.Name = "Data";
             this.Data.Padding = new System.Windows.Forms.Padding(1);
-            this.Data.Size = new System.Drawing.Size(796, 795);
+            this.Data.Size = new System.Drawing.Size(746, 795);
             this.Data.TabIndex = 1;
             this.Data.Text = "Data";
             this.Data.UseVisualStyleBackColor = true;
@@ -206,7 +213,7 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.VelocityPlot);
             this.splitContainer1.Panel2.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.splitContainer1.Size = new System.Drawing.Size(794, 793);
+            this.splitContainer1.Size = new System.Drawing.Size(744, 793);
             this.splitContainer1.SplitterDistance = 381;
             this.splitContainer1.TabIndex = 3;
             // 
@@ -222,7 +229,7 @@
             series2.ChartArea = "ChartArea1";
             series2.Name = "Series1";
             this.DistancePlot.Series.Add(series2);
-            this.DistancePlot.Size = new System.Drawing.Size(794, 427);
+            this.DistancePlot.Size = new System.Drawing.Size(744, 427);
             this.DistancePlot.TabIndex = 2;
             this.DistancePlot.Text = "chart2";
             // 
@@ -239,7 +246,7 @@
             series3.ChartArea = "ChartArea1";
             series3.Name = "Series1";
             this.VelocityPlot.Series.Add(series3);
-            this.VelocityPlot.Size = new System.Drawing.Size(794, 450);
+            this.VelocityPlot.Size = new System.Drawing.Size(744, 450);
             this.VelocityPlot.TabIndex = 1;
             this.VelocityPlot.Text = "chart2";
             // 
@@ -250,7 +257,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(796, 795);
+            this.tabPage1.Size = new System.Drawing.Size(746, 795);
             this.tabPage1.TabIndex = 2;
             this.tabPage1.Text = "More Data";
             // 
@@ -267,7 +274,7 @@
             series4.ChartArea = "ChartArea1";
             series4.Name = "Series1";
             this.AnglePlot.Series.Add(series4);
-            this.AnglePlot.Size = new System.Drawing.Size(790, 431);
+            this.AnglePlot.Size = new System.Drawing.Size(740, 431);
             this.AnglePlot.TabIndex = 3;
             this.AnglePlot.Text = "chart2";
             // 
@@ -785,6 +792,37 @@
             this.controlPoints.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.controlPoints_CellMouseUp);
             this.controlPoints.RowStateChanged += new System.Windows.Forms.DataGridViewRowStateChangedEventHandler(this.controlPoints_RowStateChange);
             // 
+            // x
+            // 
+            dataGridViewCellStyle1.Format = "N0";
+            dataGridViewCellStyle1.NullValue = null;
+            this.x.DefaultCellStyle = dataGridViewCellStyle1;
+            this.x.Frozen = true;
+            this.x.HeaderText = "X";
+            this.x.Name = "x";
+            this.x.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.x.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.x.Width = 65;
+            // 
+            // y
+            // 
+            dataGridViewCellStyle2.Format = "N0";
+            dataGridViewCellStyle2.NullValue = null;
+            this.y.DefaultCellStyle = dataGridViewCellStyle2;
+            this.y.Frozen = true;
+            this.y.HeaderText = "Y";
+            this.y.Name = "y";
+            this.y.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.y.Width = 65;
+            // 
+            // Direction
+            // 
+            this.Direction.Frozen = true;
+            this.Direction.HeaderText = "Direction(+/-)";
+            this.Direction.MaxInputLength = 1;
+            this.Direction.Name = "Direction";
+            this.Direction.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
             // label10
             // 
             this.label10.AutoSize = true;
@@ -794,20 +832,6 @@
             this.label10.Size = new System.Drawing.Size(171, 17);
             this.label10.TabIndex = 23;
             this.label10.Text = "Motion Profiles On Rio";
-            // 
-            // RioFiles
-            // 
-            this.RioFiles.Alignment = System.Windows.Forms.ListViewAlignment.Left;
-            this.RioFiles.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.RioFiles.AutoArrange = false;
-            this.RioFiles.BackColor = System.Drawing.Color.Gray;
-            this.RioFiles.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.RioFiles.Location = new System.Drawing.Point(252, 225);
-            this.RioFiles.Name = "RioFiles";
-            this.RioFiles.Size = new System.Drawing.Size(206, 219);
-            this.RioFiles.TabIndex = 24;
-            this.RioFiles.UseCompatibleStateImageBehavior = false;
             // 
             // refresh_button
             // 
@@ -912,6 +936,9 @@
             this.commandPointsList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.commandPointsList.Size = new System.Drawing.Size(206, 309);
             this.commandPointsList.TabIndex = 28;
+            this.commandPointsList.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.commandPoints_CellEndEdit);
+            this.commandPointsList.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.commandPoints_CellMouseUp);
+            this.commandPointsList.RowStateChanged += new System.Windows.Forms.DataGridViewRowStateChangedEventHandler(this.commandPoints_RowStateChange);
             // 
             // dataGridViewTextBoxColumn1
             // 
@@ -932,46 +959,76 @@
             this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
             this.dataGridViewTextBoxColumn4.Width = 140;
             // 
-            // x
+            // commandPointListMenuStrip
             // 
-            dataGridViewCellStyle1.Format = "N0";
-            dataGridViewCellStyle1.NullValue = null;
-            this.x.DefaultCellStyle = dataGridViewCellStyle1;
-            this.x.Frozen = true;
-            this.x.HeaderText = "X";
-            this.x.Name = "x";
-            this.x.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.x.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.x.Width = 65;
+            this.commandPointListMenuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.commandPointListMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem1,
+            this.toolStripMenuItem2,
+            this.toolStripMenuItem3,
+            this.toolStripMenuItem4,
+            this.toolStripMenuItem5});
+            this.commandPointListMenuStrip.Name = "contextMenuStrip2";
+            this.commandPointListMenuStrip.Size = new System.Drawing.Size(141, 114);
             // 
-            // y
+            // toolStripMenuItem1
             // 
-            dataGridViewCellStyle2.Format = "N0";
-            dataGridViewCellStyle2.NullValue = null;
-            this.y.DefaultCellStyle = dataGridViewCellStyle2;
-            this.y.Frozen = true;
-            this.y.HeaderText = "Y";
-            this.y.Name = "y";
-            this.y.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.y.Width = 65;
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(140, 22);
+            this.toolStripMenuItem1.Text = "Delete";
+            this.toolStripMenuItem1.Click += new System.EventHandler(this.Delete_Click_commandPoints);
             // 
-            // Direction
+            // toolStripMenuItem2
             // 
-            this.Direction.Frozen = true;
-            this.Direction.HeaderText = "Direction(+/-)";
-            this.Direction.MaxInputLength = 1;
-            this.Direction.Name = "Direction";
-            this.Direction.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(140, 22);
+            this.toolStripMenuItem2.Text = "Move Up";
+            this.toolStripMenuItem2.Click += new System.EventHandler(this.btnUp_Click_commandPoints);
+            // 
+            // toolStripMenuItem3
+            // 
+            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(140, 22);
+            this.toolStripMenuItem3.Text = "Move Down";
+            this.toolStripMenuItem3.Click += new System.EventHandler(this.btnDown_Click_commandPoints);
+            // 
+            // toolStripMenuItem4
+            // 
+            this.toolStripMenuItem4.Name = "toolStripMenuItem4";
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(140, 22);
+            this.toolStripMenuItem4.Text = "Insert Above";
+            this.toolStripMenuItem4.Click += new System.EventHandler(this.insertAbove_Click_commandPoints);
+            // 
+            // toolStripMenuItem5
+            // 
+            this.toolStripMenuItem5.Name = "toolStripMenuItem5";
+            this.toolStripMenuItem5.Size = new System.Drawing.Size(140, 22);
+            this.toolStripMenuItem5.Text = "Insert Below";
+            this.toolStripMenuItem5.Click += new System.EventHandler(this.insertBelow_Click_commandPoints);
+            // 
+            // RioFiles
+            // 
+            this.RioFiles.BackColor = System.Drawing.Color.Gray;
+            this.RioFiles.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.RioFiles.FormattingEnabled = true;
+            this.RioFiles.HorizontalExtent = 250;
+            this.RioFiles.HorizontalScrollbar = true;
+            this.RioFiles.IntegralHeight = false;
+            this.RioFiles.Location = new System.Drawing.Point(252, 222);
+            this.RioFiles.Name = "RioFiles";
+            this.RioFiles.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.RioFiles.Size = new System.Drawing.Size(206, 222);
+            this.RioFiles.TabIndex = 29;
             // 
             // Form1
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.ClientSize = new System.Drawing.Size(1203, 821);
+            this.Controls.Add(this.RioFiles);
             this.Controls.Add(this.commandPointsList);
             this.Controls.Add(this.GridCheckBox);
             this.Controls.Add(this.refresh_button);
-            this.Controls.Add(this.RioFiles);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.profilename);
             this.Controls.Add(this.label15);
@@ -1037,6 +1094,7 @@
             this.MainMenuStrip.ResumeLayout(false);
             this.MainMenuStrip.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.commandPointsList)).EndInit();
+            this.commandPointListMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1098,7 +1156,6 @@
         private System.Windows.Forms.DataVisualization.Charting.Chart AnglePlot;
         private System.Windows.Forms.DataGridView controlPoints;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.ListView RioFiles;
         private System.Windows.Forms.Button refresh_button;
         private System.Windows.Forms.MenuStrip MainMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
@@ -1111,6 +1168,13 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn x;
         private System.Windows.Forms.DataGridViewTextBoxColumn y;
         private System.Windows.Forms.DataGridViewTextBoxColumn Direction;
+        private System.Windows.Forms.ContextMenuStrip commandPointListMenuStrip;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem3;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem4;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem5;
+        private System.Windows.Forms.ListBox RioFiles;
     }
 }
 

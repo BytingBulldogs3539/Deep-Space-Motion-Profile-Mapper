@@ -46,9 +46,8 @@ namespace MotionProfile
                 controlPointsY.Add(p.Y);
             }
             path = new Spline.ParametricSpline(controlPointsX.ToArray(), controlPointsY.ToArray(), resolution, out xs, out ys);
-          
-            
-            
+
+
             velocityMap.setLength(path.distance.Last());
 
         }

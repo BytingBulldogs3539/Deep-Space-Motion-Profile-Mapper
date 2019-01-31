@@ -316,13 +316,10 @@
                     //if the point is real and exists then set dp to the point.
                     p = hit.Series.Points[hit.PointIndex];
                     p.Color = Color.Red;
-                    p.MarkerStyle = MarkerStyle.Square;
-                    p.MarkerSize = 8;
+                    p.MarkerStyle = MarkerStyle.Triangle;
+                    p.MarkerSize = 10;
 
-                    commandPointsList.Rows.Add(mainField.Series["path"].Points.IndexOf(p), "");
-
-
-                    Console.WriteLine();
+                    commandPointsList.Rows[commandPointsList.Rows.Add(mainField.Series["path"].Points.IndexOf(p), "")].Selected=true;
                 }
             }
         }
@@ -422,6 +419,10 @@
         /// The currently selected row from the controlpoint table.
         /// </summary>
         private int rowIndex;
+        /// <summary>
+        /// The currently selected row from the commandPointList table.
+        /// </summary>
+        private int commandRowIndex;
 
         /// <summary>
         /// The currently selected point.
@@ -520,6 +521,46 @@
         }
 
         /// <summary>
+        /// The event that is called when a rows state is changed ex: the row is selected.
+        /// </summary>
+        private void commandPoints_RowStateChange(object sender, DataGridViewRowStateChangedEventArgs e)
+        {
+            if (e.StateChanged != DataGridViewElementStates.Selected)
+            {
+                return;
+            }
+
+            foreach(DataGridViewRow row in commandPointsList.Rows)
+            {
+                if (row.Cells[0].Value != null)
+                {
+                    if (row.Cells[0].Value.ToString() != "")
+                    {
+                        if (mainField.Series["path"].Points.Count >= int.Parse(row.Cells[0].Value.ToString()))
+                        {
+                            DataPoint p = mainField.Series["path"].Points[int.Parse(row.Cells[0].Value.ToString())];
+                            p.Color = Color.Red;
+                        }
+                    }
+                }
+            }
+
+            if (e.Row.Cells[0].Value != null)
+            {
+                if (e.Row.Cells[0].Value.ToString() != "")
+                {
+                    if (mainField.Series["path"].Points.Count >= int.Parse(e.Row.Cells[0].Value.ToString()))
+                    {
+                        DataPoint p = mainField.Series["path"].Points[int.Parse(e.Row.Cells[0].Value.ToString())];
+                        p.Color = Color.Blue;
+                        p.MarkerStyle = MarkerStyle.Triangle;
+                        p.MarkerSize =10;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
         /// The event that is called when the user stopes editing a cell.
         /// </summary>
         private void controlPoints_CellEndEdit(object sender, DataGridViewCellEventArgs e)
@@ -542,6 +583,24 @@
             {
                 controlPoints.CurrentRow.Cells[2].Value = "+";
             }
+
+            try
+            {
+                float.Parse(controlPoints.CurrentRow.Cells[0].Value.ToString());
+            }
+            catch (Exception)
+            {
+                controlPoints.CurrentRow.Cells[0].Value = 0;
+            }
+            try
+            {
+                float.Parse(controlPoints.CurrentRow.Cells[1].Value.ToString());
+            }
+            catch (Exception)
+            {
+                controlPoints.CurrentRow.Cells[1].Value = 0;
+            }
+
             if (e.ColumnIndex == 2)
             {
                 //If the cell contains a + or a - the ignore it. Else change the cell text to be a + signs.
@@ -553,6 +612,19 @@
                     controlPoints.CurrentCell.Value = "+";
                 }
             }
+        }
+        private void commandPoints_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                int.Parse(commandPointsList.CurrentRow.Cells[0].Value.ToString());
+            }
+            catch (Exception)
+            {
+                commandPointsList.CurrentRow.Cells[0].Value = 0;
+            }
+
+            Apply_Click(null, null);
         }
 
         /// <summary>
@@ -580,6 +652,28 @@
 
             }
         }
+        private void commandPoints_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            //make sure that the button that was released was the right mouse button.
+            if (e.Button == MouseButtons.Right)
+            {
+                //Make sure that the cell that was selected was a cell that is real
+                if (e.RowIndex >= 0)
+                {
+                    //on mouse up select that row.
+                    this.commandPointsList.Rows[e.RowIndex].Selected = true;
+                    //When the row is selected set the rowindex to the index of the row that was just selected. (aka update the rowIndex value)
+                    this.commandRowIndex = e.RowIndex;
+                    //set the tables currentcell to the cell we just clicked.
+                    this.commandPointsList.CurrentCell = this.commandPointsList.Rows[e.RowIndex].Cells[1];
+                    //since we right clicked we open a context strip with things that allow us to delete and move the current row.
+                    var relativeMousePosition = this.commandPointsList.PointToClient(System.Windows.Forms.Cursor.Position);
+                    this.commandPointListMenuStrip.Show(this.commandPointsList, relativeMousePosition);
+                }
+
+
+            }
+        }
 
         /// <summary>
         /// The event that is called when the user clicks the delete button in the context strip.
@@ -593,7 +687,19 @@
                 controlPoints.Rows.RemoveAt(rowIndex);
             }
             //Reload the points because we just deleted one and we need the rest of the program to know.
-            ReloadControlPoints();
+            Apply_Click(null, null);
+        }
+
+        private void Delete_Click_commandPoints(object sender, EventArgs e)
+        {
+            //Make sure we are not deleting the always blank last row.
+            if (commandRowIndex != commandPointsList.RowCount - 1)
+            {
+                //Delete the row that is selected.
+                commandPointsList.Rows.RemoveAt(commandRowIndex);
+            }
+            //Reload the points because we just deleted one and we need the rest of the program to know.
+            Apply_Click(null, null);
         }
 
         /// <summary>
@@ -633,6 +739,15 @@
         }
 
         /// <summary>
+        /// The event that is called when the user clicks the insert above button in the context stip.
+        /// </summary>
+        private void insertAbove_Click_commandPoints(object sender, EventArgs e)
+        {
+            //insert a new row at the selected index. (this will push the current index down one.)
+            commandPointsList.Rows.Insert(commandRowIndex);
+        }
+
+        /// <summary>
         /// The event that is called when the user clicks the insert below button in the context stip.
         /// </summary>
 
@@ -640,6 +755,18 @@
         {
             //insert a new row at the selected index plus one.
             controlPoints.Rows.Insert(rowIndex + 1);
+        }
+
+        /// <summary>
+        /// The event that is called when the user clicks the insert below button in the context stip.
+        /// </summary>
+
+        private void insertBelow_Click_commandPoints(object sender, EventArgs e)
+        {
+            //insert a new row at the selected index plus one.
+            if(!(commandPointsList.Rows.Count >= commandRowIndex))
+                commandPointsList.Rows.Insert(commandRowIndex+1);
+
         }
 
         /// <summary>
@@ -668,6 +795,31 @@
         }
 
         /// <summary>
+        /// The event that is called when the user clicks the move up button in the context stip.
+        /// </summary>
+        private void btnUp_Click_commandPoints(object sender, EventArgs e)
+        {
+            //lets convert our object name because I copied this from the internet and am to lazy to change it.
+            DataGridView dgv = commandPointsList;
+            try
+            {
+                int totalRows = dgv.Rows.Count;
+                // get index of the row for the selected cell
+                int commandRowIndex = dgv.SelectedCells[0].OwningRow.Index;
+                if (commandRowIndex == 0)
+                    return;
+                // get index of the column for the selected cell
+                int colIndex = dgv.SelectedCells[0].OwningColumn.Index;
+                DataGridViewRow selectedRow = dgv.Rows[commandRowIndex];
+                dgv.Rows.Remove(selectedRow);
+                dgv.Rows.Insert(commandRowIndex - 1, selectedRow);
+                dgv.ClearSelection();
+                dgv.Rows[commandRowIndex - 1].Cells[colIndex].Selected = true;
+            }
+            catch { }
+        }
+
+        /// <summary>
         /// The event that is called when the user clicks the move down button in the context stip.
         /// </summary>
         private void btnDown_Click(object sender, EventArgs e)
@@ -689,6 +841,32 @@
                 dgv.Rows.Insert(rowIndex + 1, selectedRow);
                 dgv.ClearSelection();
                 dgv.Rows[rowIndex + 1].Cells[colIndex].Selected = true;
+            }
+            catch { }
+        }
+
+        /// <summary>
+        /// The event that is called when the user clicks the move down button in the context stip.
+        /// </summary>
+        private void btnDown_Click_commandPoints(object sender, EventArgs e)
+        {
+            DataGridView dgv = commandPointsList;
+            try
+            {
+                //lets convert our object name because I copied this from the internet and am to lazy to change it.
+
+                int totalRows = dgv.Rows.Count;
+                // get index of the row for the selected cell
+                int commandRowIndex = dgv.SelectedCells[0].OwningRow.Index;
+                if (commandRowIndex == totalRows - 1)
+                    return;
+                // get index of the column for the selected cell
+                int colIndex = dgv.SelectedCells[0].OwningColumn.Index;
+                DataGridViewRow selectedRow = dgv.Rows[commandRowIndex];
+                dgv.Rows.Remove(selectedRow);
+                dgv.Rows.Insert(commandRowIndex + 1, selectedRow);
+                dgv.ClearSelection();
+                dgv.Rows[commandRowIndex + 1].Cells[colIndex].Selected = true;
             }
             catch { }
         }
@@ -723,19 +901,46 @@
         /// <summary>
         /// A method that reloads the control points and redraws them on the main field plot.
         /// </summary>
-        private void ReloadControlPoints()
+        /*private void ReloadControlPoints()
         {
             //Clear all of the points from the main field controlpoint series.
             mainField.Series["cp"].Points.Clear();
             //Go though each of the rows and if the x value is not blank then add the point to the main field plot.
             foreach (DataGridViewRow row in controlPoints.Rows)
             {
+                //If the x cell is not empty.
+                if (row.Cells[0].Value == null && row.Cells[1].Value == null && row.Cells[1].Value == null)
+                {
+                    continue;
+                }
+                if (row.Cells[0].Value == null || row.Cells[0].Value.ToString() == "")
+                {
+                    row.Cells[0].Value = 0;
+                }
+                if (row.Cells[1].Value == null || row.Cells[1].Value.ToString() == "")
+                {
+                    row.Cells[1].Value = 0;
+                }
+                if (row.Cells[2].Value == null || row.Cells[2].Value.ToString() == "")
+                {
+                    row.Cells[2].Value = "+";
+                }
                 if (row.Cells[0].Value != null)
                 {
                     mainField.Series["cp"].Points.AddXY(float.Parse(row.Cells[0].Value.ToString()), float.Parse(row.Cells[1].Value.ToString()));
                 }
+                if (row.Cells[2].Value.ToString() == "-")
+                {
+                    mainField.Series["cp"].Points[row.Index].Color = Color.Red;
+                }
+                //If the third row contains a + then change the corresponding point on the graph to green.
+                if (row.Cells[2].Value.ToString() == "+")
+                {
+                    mainField.Series["cp"].Points[row.Index].Color = Color.Green;
+
+                }
             }
-        }
+        }*/
 
         /// <summary>
         /// The method that is called when we want create a new path containing all of the information that we can input.
@@ -853,8 +1058,22 @@
                         path.addControlPoint(float.Parse(row.Cells[1].Value.ToString()), float.Parse(row.Cells[0].Value.ToString()));
 
                     }
-                    last = row.Cells[2].Value.ToString();
 
+                if (row.Selected)
+                {
+                    //Make sure that we at least have 1 point otherwise don't run this.
+                    if (controlPoints.Rows.Count - 2 != 0)
+                    {
+                        //Make sure that the row that is being selected is one of the ones that might have data.
+                        if (row.Index >= 0 && row.Index <= controlPoints.Rows.Count - 2)
+                        {
+                            //Change the selected point to the color yellow.
+                            mainField.Series["cp"].Points[row.Index].Color = Color.Yellow;
+                        }
+                    }
+                    last = row.Cells[2].Value.ToString();
+                }
+                    
                 
             }
             //if we have no controlpoints in our path then something is wrong and return.
@@ -944,8 +1163,9 @@
             //Build the path and use the controlPoints that are returned to plot.
             foreach (ControlPoint p in paths.BuildPath())
             {
-                foreach (PointF p1 in p.point)
+                for(int i = 0; i<p.point.Length-2; i++)
                 {
+                    PointF p1 = p.point[i];
                     mainField.Series["path"].Points.AddXY(p1.Y, p1.X);
 
                 }
@@ -975,16 +1195,20 @@
                 {
                     if(row.Cells[0].Value.ToString() != "")
                     {
-                        Console.WriteLine("TEST");
                         if(mainField.Series["path"].Points.Count>= int.Parse(row.Cells[0].Value.ToString()))
                         {
                             DataPoint p = mainField.Series["path"].Points[int.Parse(row.Cells[0].Value.ToString())];
                             p.Color = Color.Red;
-                            p.MarkerStyle = MarkerStyle.Square;
-                            p.MarkerSize = 8;
+                            p.MarkerStyle = MarkerStyle.Triangle;
+                            p.MarkerSize = 10;
+                            if(row.Selected)
+                            {
+                                p.Color = Color.Blue;
+                            }
                         }
                     }
                 }
+
             }
                 
         }
@@ -1074,7 +1298,6 @@
                             {
                                 if (row.Cells[0].Value.ToString() != "")
                                 {
-                                    Console.WriteLine("TEST");
                                     if (mainField.Series["path"].Points.Count >= int.Parse(row.Cells[0].Value.ToString()))
                                     {
                                         if(row.Cells[1].Value!=null)
@@ -1364,13 +1587,6 @@
                     r = paths.getOffsetVelocityProfile(-trackwidth).ToArray();
                     rd = paths.getOffsetDistanceProfile(-trackwidth);
 
-                    List<String> state = new List<String>();
-
-                    foreach (int cpNum in paths.getControlPointNumberProfile())
-                    {
-                        state.Add(controlPoints.Rows[cpNum].Cells[3].Value.ToString());
-                    }
-
 
                 r.NoiseReduction(int.Parse(smoothness.Text));
                     rd.NoiseReduction(int.Parse(smoothness.Text));
@@ -1390,7 +1606,6 @@
                     {
                         if (row.Cells[0].Value.ToString() != "")
                         {
-                            Console.WriteLine("TEST");
                             if (mainField.Series["path"].Points.Count >= int.Parse(row.Cells[0].Value.ToString()))
                             {
                                 if (row.Cells[1].Value != null)
@@ -1545,7 +1760,8 @@
 
         private void refresh_button_Click(object sender, EventArgs e)
         {
-            RioFiles.Clear();
+            RioFiles.Items.Clear();
+            //RioFiles.Items.Add("TTTTTTTTTTTTTESttttttttttttttttttttttttT");
             //Check to make sure that the user has given us a valid ip for the robot.
             if (!ValidateIPv4(ipadd.Text))
             {
@@ -1566,7 +1782,10 @@
 
                 foreach(Renci.SshNet.Sftp.SftpFile file in files)
                 {
-                    RioFiles.Items.Add(file.Name);
+                    if(!(file.Name==".." &&file.Name == "."))
+                    {
+                        RioFiles.Items.Add(file.Name);
+                    }
                 }
 
                 sftp.Disconnect();
@@ -1596,7 +1815,17 @@
                 MessageBox.Show("Unable to connect to host!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+            catch (System.Net.Sockets.SocketException e1)
+            {
+                //Make sure that we are connected to the robot.
+                Console.WriteLine("IOException source: {0}", e1.StackTrace);
+                this.Cursor = Cursors.Default;
+                MessageBox.Show("Unable to connect to host!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
             
+
+
         }
 
         private void GridCheckBox_CheckedChanged(object sender, EventArgs e)
@@ -1617,5 +1846,7 @@
                     break;
             }
         }
+
+
     }
 }
