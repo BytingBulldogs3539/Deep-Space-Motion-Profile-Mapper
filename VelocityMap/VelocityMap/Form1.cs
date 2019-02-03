@@ -1663,6 +1663,14 @@
                     MessageBox.Show("Unable to connect to host!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
+                catch (System.Net.Sockets.SocketException e1)
+                {
+                    //Make sure that we are connected to the robot.
+                    Console.WriteLine("IOException source: {0}", e1.StackTrace);
+                    this.Cursor = Cursors.Default;
+                    MessageBox.Show("Unable to connect to host!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
                 try
                 {
                     //try to create a new directory it will fail if it already exists which is ok.
@@ -1684,6 +1692,10 @@
                     this.Cursor = Cursors.Default;
                     MessageBox.Show("Path Not Found By Host!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
+                }
+                catch (System.Net.Sockets.SocketException)
+                {
+
                 }
                 catch (Exception e1)
                 {
@@ -1782,7 +1794,7 @@
 
                 foreach(Renci.SshNet.Sftp.SftpFile file in files)
                 {
-                    if(!(file.Name==".." &&file.Name == "."))
+                    if(!file.Name.Equals("..") && !file.Name.Equals("."))
                     {
                         RioFiles.Items.Add(file.Name);
                     }
