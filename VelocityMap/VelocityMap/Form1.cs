@@ -1041,10 +1041,12 @@
 
                     //Add our controlpoint to our path.
                     path.addControlPoint(float.Parse(row.Cells[1].Value.ToString()), float.Parse(row.Cells[0].Value.ToString()));
+                Console.WriteLine(row.Cells[2].Value.ToString());
 
-                    //used to split our main path into seperate paths when we have a split in our negative and positive points.
-                    if (last != "" && last != row.Cells[2].Value.ToString())
+                //used to split our main path into seperate paths when we have a split in our negative and positive points.
+                if (last != "" && last != row.Cells[2].Value.ToString())
                     {
+                        Console.WriteLine("WTF");
                         if (row.Cells[2].Value.ToString() == "+")
                             path.direction = false;
 
@@ -1071,10 +1073,10 @@
                             mainField.Series["cp"].Points[row.Index].Color = Color.Yellow;
                         }
                     }
-                    last = row.Cells[2].Value.ToString();
-                }
                     
-                
+                }
+                last = row.Cells[2].Value.ToString();
+
             }
             //if we have no controlpoints in our path then something is wrong and return.
             if (path.controlPoints.Count() == 0)
