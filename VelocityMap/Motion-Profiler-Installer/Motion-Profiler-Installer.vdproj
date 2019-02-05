@@ -330,9 +330,9 @@
         "Product"
         {
         "Name" = "8:Microsoft Visual Studio"
-        "ProductName" = "8:Motion-Profiler-Installer"
+        "ProductName" = "8:Motion-Profiler"
         "ProductCode" = "8:{F9B5F3A7-904F-497A-ADDE-D7B96FE31064}"
-        "PackageCode" = "8:{C038BBD6-1E8A-4678-8BFF-6F0CF4290131}"
+        "PackageCode" = "8:{E5AB677B-1BB8-4722-AB4D-FE3AE982026D}"
         "UpgradeCode" = "8:{F109F2B2-7D8A-43ED-B73A-025A4428AA32}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"

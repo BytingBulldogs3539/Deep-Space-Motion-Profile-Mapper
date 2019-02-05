@@ -1775,7 +1775,6 @@
         private void refresh_button_Click(object sender, EventArgs e)
         {
             RioFiles.Items.Clear();
-            //RioFiles.Items.Add("TTTTTTTTTTTTTESttttttttttttttttttttttttT");
             //Check to make sure that the user has given us a valid ip for the robot.
             if (!ValidateIPv4(ipadd.Text))
             {
@@ -1793,6 +1792,7 @@
                     return;
                 }
                 List<Renci.SshNet.Sftp.SftpFile> files = sftp.ListDirectory("/home/lvuser/Motion_Profiles/").ToList();
+                
 
                 foreach(Renci.SshNet.Sftp.SftpFile file in files)
                 {
@@ -1860,7 +1860,5 @@
                     break;
             }
         }
-
-
     }
 }
