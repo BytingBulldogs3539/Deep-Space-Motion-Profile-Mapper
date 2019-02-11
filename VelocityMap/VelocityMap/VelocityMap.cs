@@ -51,7 +51,7 @@ namespace MotionProfile
             for (int i = 1; i < FL2 + FL1; i++)
             {
                 velocity.Add((float)((_filter1[i] + _filter2[i]) / (1 + FL2) * vMax));
-                position.Add((float)((velocity[i] + velocity[i - 1]) / 2 * time + position.Last()));
+                position.Add((float)((velocity[i] + velocity[i - 1]) / 2.0 * time + position.Last()));
             }
 
             _rampDistance = position.Last();

@@ -5,11 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("VelocityMap")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("Motion Profile Mapper")]
+[assembly: AssemblyDescription("Creates points which a talon srx can follow to drive around on the field. " +
+    "\r\n\r\n\r\nCreated originally by Todd (2018) later edited by Devin (2018) and Cameron (2018-2019) ")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("VelocityMap")]
+[assembly: AssemblyCompany("Byting Bulldogs")]
+[assembly: AssemblyProduct("Motion Profile Mapper")]
 [assembly: AssemblyCopyright("Copyright ©  2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -32,5 +33,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyVersion("1.2.0.0")]
+[assembly: AssemblyFileVersion("1.2.0.0")]

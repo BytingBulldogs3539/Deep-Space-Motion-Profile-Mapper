@@ -43,6 +43,9 @@
         /// </summary>
         private MotionProfile.Trajectory paths;
 
+
+       
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Form1"/> class.
         /// </summary>
@@ -50,6 +53,7 @@
         {
             //Create the window with all the fancy buttons.
             InitializeComponent();
+            
         }
 
         /// <summary>
@@ -254,7 +258,7 @@
                     {
                         Apply_Click(null, null);
                     }
-                    
+
                     return;
                 }
                 Chart c = (Chart)sender;
@@ -319,7 +323,7 @@
                     p.MarkerStyle = MarkerStyle.Triangle;
                     p.MarkerSize = 10;
 
-                    commandPointsList.Rows[commandPointsList.Rows.Add(mainField.Series["path"].Points.IndexOf(p), "")].Selected=true;
+                    commandPointsList.Rows[commandPointsList.Rows.Add(mainField.Series["path"].Points.IndexOf(p), "")].Selected = true;
                 }
             }
         }
@@ -359,7 +363,7 @@
                         dp = hit.Series.Points[hit.PointIndex];
                         foreach (DataGridViewRow row in controlPoints.Rows)
                         {
-                            if (row.Cells[0].Value != null)
+                            if (RowContainData(row,true))
                             {
                                 // Debug.Print(row.Cells[0].Value.ToString() + ":" + ((int)dp.XValue).ToString() + ":" + row.Cells[1].Value.ToString() + ":" + ((int)dp.YValues[0]).ToString());
                                 if (row.Cells[0].Value.ToString() == ((int)dp.XValue).ToString() && row.Cells[1].Value.ToString() == ((int)dp.YValues[0]).ToString())
@@ -425,6 +429,11 @@
         private int commandRowIndex;
 
         /// <summary>
+        /// The currently selected row from the RioFilesList table.
+        /// </summary>
+        private int RioFilesRowIndex;
+
+        /// <summary>
         /// The currently selected point.
         /// </summary>
         internal DataPoint dp;
@@ -439,7 +448,7 @@
             //goes though ever row and changes the x value from the left side to the right side by taking the field width and subracting the current x value.
             foreach (DataGridViewRow row in controlPoints.Rows)
             {
-                if (row.Cells[0].Value != null)
+                if (RowContainData(row,true))
                     row.Cells[0].Value = this.fieldWidth - float.Parse(row.Cells[0].Value.ToString());
             }
             Apply_Click(sender, e);
@@ -482,28 +491,23 @@
                     foreach (DataGridViewRow row in controlPoints.Rows)
                     {
                         //Make sure that the row that is being selected is one of the ones that might have data.
-                        if (row.Index >= 0 && row.Index <= controlPoints.Rows.Count - 2)
+                        if (RowContainData(row, true))
                         {
-                            //Make sure that the cell is not blank so we dont get an error.
-                            if (row.Cells[2].Value != null)
-                            {
-                                //Make sure that the cell is not blank so we dont get an error.
-                                if (row.Cells[2].Value.ToString() != "")
-                                {
-                                    //If the third row contains a - then change the corresponding point on the graph to red.
-                                    if (row.Cells[2].Value.ToString() == "-")
-                                    {
-                                        mainField.Series["cp"].Points[row.Index].Color = Color.Red;
-                                    }
-                                    //If the third row contains a + then change the corresponding point on the graph to green.
-                                    if (row.Cells[2].Value.ToString() == "+")
-                                    {
-                                        mainField.Series["cp"].Points[row.Index].Color = Color.Green;
 
-                                    }
-                                }
+                            //If the third row contains a - then change the corresponding point on the graph to red.
+                            if (row.Cells[2].Value.ToString() == "-")
+                            {
+                                mainField.Series["cp"].Points[row.Index].Color = Color.Red;
+                            }
+                            //If the third row contains a + then change the corresponding point on the graph to green.
+                            if (row.Cells[2].Value.ToString() == "+")
+                            {
+                                mainField.Series["cp"].Points[row.Index].Color = Color.Green;
+
                             }
                         }
+
+
                     }
                 }
 
@@ -530,33 +534,31 @@
                 return;
             }
 
-            foreach(DataGridViewRow row in commandPointsList.Rows)
+            foreach (DataGridViewRow row in commandPointsList.Rows)
             {
-                if (row.Cells[0].Value != null)
+                if (RowContainData(row, true))
                 {
-                    if (row.Cells[0].Value.ToString() != "")
+
+                    if (mainField.Series["path"].Points.Count >= int.Parse(row.Cells[0].Value.ToString()))
                     {
-                        if (mainField.Series["path"].Points.Count >= int.Parse(row.Cells[0].Value.ToString()))
-                        {
-                            DataPoint p = mainField.Series["path"].Points[int.Parse(row.Cells[0].Value.ToString())];
-                            p.Color = Color.Red;
-                        }
+                        DataPoint p = mainField.Series["path"].Points[int.Parse(row.Cells[0].Value.ToString())];
+                        p.Color = Color.Red;
                     }
+
                 }
             }
 
-            if (e.Row.Cells[0].Value != null)
+            if (RowContainData(e.Row,true))
             {
-                if (e.Row.Cells[0].Value.ToString() != "")
+
+                if (mainField.Series["path"].Points.Count >= int.Parse(e.Row.Cells[0].Value.ToString()))
                 {
-                    if (mainField.Series["path"].Points.Count >= int.Parse(e.Row.Cells[0].Value.ToString()))
-                    {
-                        DataPoint p = mainField.Series["path"].Points[int.Parse(e.Row.Cells[0].Value.ToString())];
-                        p.Color = Color.Blue;
-                        p.MarkerStyle = MarkerStyle.Triangle;
-                        p.MarkerSize =10;
-                    }
+                    DataPoint p = mainField.Series["path"].Points[int.Parse(e.Row.Cells[0].Value.ToString())];
+                    p.Color = Color.Blue;
+                    p.MarkerStyle = MarkerStyle.Triangle;
+                    p.MarkerSize = 10;
                 }
+
             }
         }
 
@@ -725,7 +727,7 @@
             DistancePlot.Series["left"].Points.Clear();
 
             AnglePlot.Series["angle"].Points.Clear();
-            
+
 
         }
 
@@ -764,8 +766,8 @@
         private void insertBelow_Click_commandPoints(object sender, EventArgs e)
         {
             //insert a new row at the selected index plus one.
-            if(!(commandPointsList.Rows.Count >= commandRowIndex))
-                commandPointsList.Rows.Insert(commandRowIndex+1);
+            if (!(commandPointsList.Rows.Count >= commandRowIndex))
+                commandPointsList.Rows.Insert(commandRowIndex + 1);
 
         }
 
@@ -1006,7 +1008,7 @@
                 {
                     continue;
                 }
-                if(row.Cells[0].Value == null || row.Cells[0].Value.ToString() == "")
+                if (row.Cells[0].Value == null || row.Cells[0].Value.ToString() == "")
                 {
                     row.Cells[0].Value = 0;
                 }
@@ -1020,60 +1022,59 @@
                 }
                 //update the last row.
                 lastrow = row;
-                    //since we believe that this row is not blank then we should put this point on the chart.
-                    mainField.Series["cp"].Points.AddXY(float.Parse(row.Cells[0].Value.ToString()), float.Parse(row.Cells[1].Value.ToString()));
-                    //Make sure that the direction cell is not empty so that we dont get an error.
-                    if(row.Cells[2].Value==null)
-                    {
-                        row.Cells[2].Value = "+";
-                    }
-                    //If the direction cell contains a negative then we should turn the corresponding point to red and set that path direction to true.
-                    if (row.Cells[2].Value.ToString() == "-")
-                    {
-                        mainField.Series["cp"].Points.Last().Color = Color.Red;
-                        path.direction = true;
-                    }
-                    //If the direction cell contains a positive then set that path direction to false.
-                    if (row.Cells[2].Value.ToString() == "+")
-                    {
-                        path.direction = false;
-                    }
+                //since we believe that this row is not blank then we should put this point on the chart.
+                mainField.Series["cp"].Points.AddXY(float.Parse(row.Cells[0].Value.ToString()), float.Parse(row.Cells[1].Value.ToString()));
+                //Make sure that the direction cell is not empty so that we dont get an error.
+                if (row.Cells[2].Value == null)
+                {
+                    row.Cells[2].Value = "+";
+                }
+                //If the direction cell contains a negative then we should turn the corresponding point to red and set that path direction to true.
+                if (row.Cells[2].Value.ToString() == "-")
+                {
+                    mainField.Series["cp"].Points.Last().Color = Color.Red;
+                    path.direction = true;
+                }
+                //If the direction cell contains a positive then set that path direction to false.
+                if (row.Cells[2].Value.ToString() == "+")
+                {
+                    path.direction = false;
+                }
 
-                    //Add our controlpoint to our path.
-                    path.addControlPoint(float.Parse(row.Cells[1].Value.ToString()), float.Parse(row.Cells[0].Value.ToString()));
+                //Add our controlpoint to our path.
+                path.addControlPoint(float.Parse(row.Cells[1].Value.ToString()), float.Parse(row.Cells[0].Value.ToString()));
                 Console.WriteLine(row.Cells[2].Value.ToString());
 
                 //used to split our main path into seperate paths when we have a split in our negative and positive points.
                 if (last != "" && last != row.Cells[2].Value.ToString())
-                    {
-                        Console.WriteLine("WTF");
-                        if (row.Cells[2].Value.ToString() == "+")
-                            path.direction = false;
+                {
+                    Console.WriteLine("WTF");
+                    if (row.Cells[2].Value.ToString() == "+")
+                        path.direction = false;
 
-                        if (row.Cells[2].Value.ToString() == "-")
-                            path.direction = true;
+                    if (row.Cells[2].Value.ToString() == "-")
+                        path.direction = true;
 
-                        if (path.controlPoints.Count >= 2)
-                            paths.Add(path);
+                    if (path.controlPoints.Count >= 2)
+                        paths.Add(path);
 
-                        path = CreateNewPath();
-                        path.addControlPoint(float.Parse(row.Cells[1].Value.ToString()), float.Parse(row.Cells[0].Value.ToString()));
+                    path = CreateNewPath();
+                    path.addControlPoint(float.Parse(row.Cells[1].Value.ToString()), float.Parse(row.Cells[0].Value.ToString()));
 
-                    }
+                }
 
                 if (row.Selected)
                 {
-                    //Make sure that we at least have 1 point otherwise don't run this.
-                    if (controlPoints.Rows.Count - 2 != 0)
-                    {
-                        //Make sure that the row that is being selected is one of the ones that might have data.
-                        if (row.Index >= 0 && row.Index <= controlPoints.Rows.Count - 2)
+                    if (RowContainData(row,true))
+                        if (controlPoints.Rows.Count - 2 != 0)
                         {
-                            //Change the selected point to the color yellow.
-                            mainField.Series["cp"].Points[row.Index].Color = Color.Yellow;
+                            if (row.Index >= 0 && row.Index <= controlPoints.Rows.Count - 2)
+                            {
+                                //Change the selected point to the color yellow.
+                                mainField.Series["cp"].Points[row.Index].Color = Color.Yellow;
+                            }
                         }
-                    }
-                    
+
                 }
                 last = row.Cells[2].Value.ToString();
 
@@ -1138,7 +1139,7 @@
             {
                 ldv += ld[i];
                 rdv += rd[i];
-                
+
                 DistancePlot.Series["left"].Points.AddXY(t[i], ldv);
                 DistancePlot.Series["right"].Points.AddXY(t[i], rdv);
 
@@ -1165,7 +1166,7 @@
             //Build the path and use the controlPoints that are returned to plot.
             foreach (ControlPoint p in paths.BuildPath())
             {
-                for(int i = 0; i<p.point.Length-2; i++)
+                for (int i = 0; i < p.point.Length - 2; i++)
                 {
                     PointF p1 = p.point[i];
                     mainField.Series["path"].Points.AddXY(p1.Y, p1.X);
@@ -1193,26 +1194,23 @@
             }
             foreach (DataGridViewRow row in commandPointsList.Rows)
             {
-                if (row.Cells[0].Value != null)
+                if (RowContainData(row, true))
                 {
-                    if(row.Cells[0].Value.ToString() != "")
+                    if (mainField.Series["path"].Points.Count >= int.Parse(row.Cells[0].Value.ToString()))
                     {
-                        if(mainField.Series["path"].Points.Count>= int.Parse(row.Cells[0].Value.ToString()))
+                        DataPoint p = mainField.Series["path"].Points[int.Parse(row.Cells[0].Value.ToString())];
+                        p.Color = Color.Red;
+                        p.MarkerStyle = MarkerStyle.Triangle;
+                        p.MarkerSize = 10;
+                        if (row.Selected)
                         {
-                            DataPoint p = mainField.Series["path"].Points[int.Parse(row.Cells[0].Value.ToString())];
-                            p.Color = Color.Red;
-                            p.MarkerStyle = MarkerStyle.Triangle;
-                            p.MarkerSize = 10;
-                            if(row.Selected)
-                            {
-                                p.Color = Color.Blue;
-                            }
+                            p.Color = Color.Blue;
                         }
                     }
                 }
 
             }
-                
+
         }
 
         /// <summary>
@@ -1296,16 +1294,14 @@
                         Dictionary<int, String> commandPoints = new Dictionary<int, String>();
                         foreach (DataGridViewRow row in commandPointsList.Rows)
                         {
-                            if (row.Cells[0].Value != null)
+                            if (RowContainData(row, true))
                             {
-                                if (row.Cells[0].Value.ToString() != "")
+
+                                if (mainField.Series["path"].Points.Count >= int.Parse(row.Cells[0].Value.ToString()))
                                 {
-                                    if (mainField.Series["path"].Points.Count >= int.Parse(row.Cells[0].Value.ToString()))
-                                    {
-                                        if(row.Cells[1].Value!=null)
-                                            commandPoints[int.Parse(row.Cells[0].Value.ToString())] = row.Cells[1].Value.ToString();
-                                    }
+                                        commandPoints[int.Parse(row.Cells[0].Value.ToString())] = row.Cells[1].Value.ToString();
                                 }
+
                             }
                         }
                         for (int i = 0; i < l.Length; i++)
@@ -1324,7 +1320,7 @@
                             }
                             else
                             {
-                                line.Add("  {   \"Rotation\":" + cd.Take(i).Sum().ToString() + " , " + "\"Velocity\":" + c[i].ToString() + " , " + "\"Time\":" + paths[0].velocityMap.time * 1000 + " , " + "\"Angle\":" + angles[i] + " , " + "\"State\":" +"\"" +text +"\""+"}");
+                                line.Add("  {   \"Rotation\":" + cd.Take(i).Sum().ToString() + " , " + "\"Velocity\":" + c[i].ToString() + " , " + "\"Time\":" + paths[0].velocityMap.time * 1000 + " , " + "\"Angle\":" + angles[i] + " , " + "\"State\":" + "\"" + text + "\"" + "}");
                             }
                         }
                         right.Add(string.Join(",\n", line));
@@ -1394,18 +1390,15 @@
                 writer.WritePropertyName("Profile Name");
                 writer.WriteValue(profilename.Text);
 
-                writer.WritePropertyName("Username");
-                writer.WriteValue(user.Text);
 
-                writer.WritePropertyName("Ip-Address");
-                writer.WriteValue(ipadd.Text);
+
                 //put our points in as an array.
                 writer.WritePropertyName("Points");
                 writer.WriteStartArray();
 
                 foreach (DataGridViewRow row in controlPoints.Rows)
                 {
-                    if (row.Cells[0].Value != null)
+                    if (RowContainData(row,false))
                     {
 
                         writer.WriteStartArray();
@@ -1422,7 +1415,7 @@
 
                 foreach (DataGridViewRow row in commandPointsList.Rows)
                 {
-                    if (row.Cells[0].Value != null)
+                    if (RowContainData(row,false))
                     {
                         writer.WriteStartArray();
                         writer.WriteValue(string.Concat(row.Cells[0].Value.ToString()));
@@ -1475,8 +1468,6 @@
                     isntaVel.Checked = Boolean.Parse((string)o["isntaVel"]);
 
                     profilename.Text = (string)o["Profile Name"];
-                    user.Text = (string)o["Username"];
-                    ipadd.Text = (string)o["Ip-Address"];
 
                     JArray a = (JArray)o["Points"];
 
@@ -1504,7 +1495,7 @@
         /// <param name="e">The e<see cref="EventArgs"/></param>
         /// 
 
-            //HARDLY USED!
+        //HARDLY USED!
         private void CalCheck_CheckedChanged(object sender, EventArgs e)
         {
             offset.Text = "0";
@@ -1521,7 +1512,7 @@
         /// HARDLY USED
         public float fpstodps(float Vel)
         {
-            
+
             float dgps = (float)((87.92 / 360.0) * (int.Parse(wheel.Text) * Math.PI * Vel / 60));
 
             return (float)(dgps * .02199);
@@ -1541,13 +1532,6 @@
                 return;
             }
 
-            //Check to make sure that the user has given us a valid ip for the robot.
-            if (!ValidateIPv4(ipadd.Text))
-            {
-                MessageBox.Show("This ip address is invalid!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
             //Make sure that we have at least two points that we can actually make a path between.
             if (!(controlPoints.RowCount - 2 > 0))
             {
@@ -1560,42 +1544,43 @@
             //Create a temp file where we can write this information then upload it to the robot.
             String DirPath = Path.GetTempPath();    // Used for storing the directory path of the saved file.
             String JSONPath = Path.Combine(DirPath, profilename.Text + ".json");     // Used for storing the json saved file directory path.
+            String MPPath = Path.Combine(DirPath, profilename.Text + ".mp");         // Used for storing the mp saved file directory path.
             //This is almost the same as saving the file however this one will be a temp file which will be deleted after deploying.
             Apply_Click(null, null);
-                using (var writer = new System.IO.StreamWriter(JSONPath))
-                {
-                    writer.WriteLine("{");
-                    writer.WriteLine("  \"Data\":[ ");
+            using (var writer = new System.IO.StreamWriter(JSONPath))
+            {
+                writer.WriteLine("{");
+                writer.WriteLine("  \"Data\":[ ");
 
-                    List<string> left = new List<string>();
-                    List<string> right = new List<string>();
-                    List<string> center = new List<string>();
+                List<string> left = new List<string>();
+                List<string> right = new List<string>();
+                List<string> center = new List<string>();
 
-                    List<string> line = new List<string>();
+                List<string> line = new List<string>();
 
-                    int trackwidth = (int)((int.Parse(trackWidth.Text)) / 2);
+                int trackwidth = (int)((int.Parse(trackWidth.Text)) / 2);
 
-                    float[] l = paths.getOffsetVelocityProfile(trackwidth).ToArray();
-                    List<float> ld = paths.getOffsetDistanceProfile(trackwidth);
+                float[] l = paths.getOffsetVelocityProfile(trackwidth).ToArray();
+                List<float> ld = paths.getOffsetDistanceProfile(trackwidth);
 
-                    float[] r;
-                    List<float> rd = new List<float>(); ;
+                float[] r;
+                List<float> rd = new List<float>(); ;
 
-                    float[] c = paths.getOffsetVelocityProfile(0).ToArray();
-                    List<float> cd = paths.getOffsetDistanceProfile(0);
+                float[] c = paths.getOffsetVelocityProfile(0).ToArray();
+                List<float> cd = paths.getOffsetDistanceProfile(0);
 
-                    float[] angles = paths.getHeadingProfile();
+                float[] angles = paths.getHeadingProfile();
 
-                    r = paths.getOffsetVelocityProfile(-trackwidth).ToArray();
-                    rd = paths.getOffsetDistanceProfile(-trackwidth);
+                r = paths.getOffsetVelocityProfile(-trackwidth).ToArray();
+                rd = paths.getOffsetDistanceProfile(-trackwidth);
 
 
                 r.NoiseReduction(int.Parse(smoothness.Text));
-                    rd.NoiseReduction(int.Parse(smoothness.Text));
-                    l.NoiseReduction(int.Parse(smoothness.Text));
-                    ld.NoiseReduction(int.Parse(smoothness.Text));
-                    c.NoiseReduction(int.Parse(smoothness.Text));
-                    cd.NoiseReduction(int.Parse(smoothness.Text));
+                rd.NoiseReduction(int.Parse(smoothness.Text));
+                l.NoiseReduction(int.Parse(smoothness.Text));
+                ld.NoiseReduction(int.Parse(smoothness.Text));
+                c.NoiseReduction(int.Parse(smoothness.Text));
+                cd.NoiseReduction(int.Parse(smoothness.Text));
 
 
 
@@ -1604,16 +1589,15 @@
                 Dictionary<int, String> commandPoints = new Dictionary<int, String>();
                 foreach (DataGridViewRow row in commandPointsList.Rows)
                 {
-                    if (row.Cells[0].Value != null)
+                    if (RowContainData(row, true))
                     {
-                        if (row.Cells[0].Value.ToString() != "")
+
+                        if (mainField.Series["path"].Points.Count >= int.Parse(row.Cells[0].Value.ToString()))
                         {
-                            if (mainField.Series["path"].Points.Count >= int.Parse(row.Cells[0].Value.ToString()))
-                            {
-                                if (row.Cells[1].Value != null)
-                                    commandPoints[int.Parse(row.Cells[0].Value.ToString())] = row.Cells[1].Value.ToString();
-                            }
+
+                            commandPoints[int.Parse(row.Cells[0].Value.ToString())] = row.Cells[1].Value.ToString();
                         }
+
                     }
                 }
                 for (int i = 0; i < l.Length; i++)
@@ -1637,16 +1621,17 @@
                 }
                 right.Add(string.Join(",\n", line));
 
-                    foreach (string ret in right)
-                    {
-                        writer.WriteLine(ret);
-                    }
-                    writer.WriteLine("  ] ");
-                    writer.WriteLine("} ");
+                foreach (string ret in right)
+                {
+                    writer.WriteLine(ret);
                 }
+                writer.WriteLine("  ] ");
+                writer.WriteLine("} ");
+            }
 
             //Create a sftp client that we will use to upload the file to the robot.
-            SftpClient sftp = new SftpClient(ipadd.Text, user.Text, pass.Text);
+            SftpClient sftp = new SftpClient(Properties.Settings.Default.IpAddress, Properties.Settings.Default.Username, Properties.Settings.Default.Password);
+            
 
             try
             {
@@ -1676,7 +1661,7 @@
                 try
                 {
                     //try to create a new directory it will fail if it already exists which is ok.
-                    sftp.CreateDirectory("/home/lvuser/Motion_Profiles");
+                    sftp.CreateDirectory(Properties.Settings.Default.RioMPPath);
 
                 }
                 catch (Renci.SshNet.Common.SftpPermissionDeniedException e1)
@@ -1697,10 +1682,12 @@
                 }
                 catch (System.Net.Sockets.SocketException)
                 {
+                    MessageBox.Show("An Error Has Occured", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                 }
                 catch (Exception e1)
                 {
+                    MessageBox.Show("An Error Has Occured", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                 }
                 //Open that file that we just saved to a temp file.
@@ -1710,7 +1697,17 @@
                     MemoryStream memStream = new MemoryStream();
                     memStream.SetLength(fileStream.Length);
                     fileStream.Read(memStream.GetBuffer(), 0, (int)fileStream.Length);
-                    sftp.UploadFile(memStream, Path.Combine("/home/lvuser/Motion_Profiles/", profilename.Text + ".json"));
+                    sftp.UploadFile(memStream, Path.Combine(Properties.Settings.Default.RioMPPath, profilename.Text + ".json"));
+                }
+
+                //Open that file that we just saved to a temp file.
+                using (FileStream fileStream = File.OpenRead(MPPath))
+                {
+                    //Load and upload the file.
+                    MemoryStream memStream = new MemoryStream();
+                    memStream.SetLength(fileStream.Length);
+                    fileStream.Read(memStream.GetBuffer(), 0, (int)fileStream.Length);
+                    sftp.UploadFile(memStream, Path.Combine(Properties.Settings.Default.RioMPPath, profilename.Text + ".mp"));
                 }
             }
             catch (Renci.SshNet.Common.SftpPermissionDeniedException e1)
@@ -1740,65 +1737,42 @@
             //The process is done so change the cursor back.
             this.Cursor = Cursors.Default;
             //Good the program did not fail and tell the user.
-            MessageBox.Show("Success", "Error", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+            MessageBox.Show("Success", "Success", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
             //We are done with the upload so lets disconnect the sftp client.
             sftp.Disconnect();
             //Sleep a second before deleting the temp json file.
             System.Threading.Thread.Sleep(100);
+
             File.Delete(JSONPath);
+            File.Delete(MPPath);
         }
 
-        /// <summary>
-        /// Used to validate the ip address of the robot to make sure that it is in an ipv4 format.
-        /// </summary>
-        /// <param name="ipString">The ip string value.</param>
-        /// <returns>a boolean that tells you if the ip is in ipv4 format.</returns>
-        public bool ValidateIPv4(string ipString)
-        {
-            // if the text contains a whitespace/space or a null value then it is clearly not a ip address.
-            if (String.IsNullOrWhiteSpace(ipString))
-            {
-                return false;
-            }
-            //Split the ip address into different parts
-            string[] splitValues = ipString.Split('.');
-            if (splitValues.Length != 4)
-            {
-                return false;
-            }
 
-            byte tempForParsing;
-            //check to see if all of the values are bytes.
-            return splitValues.All(r => byte.TryParse(r, out tempForParsing));
-        }
 
         private void refresh_button_Click(object sender, EventArgs e)
         {
-            RioFiles.Items.Clear();
-            //Check to make sure that the user has given us a valid ip for the robot.
-            if (!ValidateIPv4(ipadd.Text))
-            {
-                MessageBox.Show("This ip address is invalid!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
+            this.Cursor = Cursors.WaitCursor;
+            RioFiles.Rows.Clear();
+            RioFiles.Rows.Add("TESTTTT", DateTime.Now.ToString("HH:mm:ss dd/MM/yy"));
+
             //Create a sftp client that we will use to get the file list from the robot.
-            SftpClient sftp = new SftpClient(ipadd.Text, user.Text, pass.Text);
+            SftpClient sftp = new SftpClient(Properties.Settings.Default.IpAddress, Properties.Settings.Default.Username, Properties.Settings.Default.Password);
             try
             {
                 sftp.Connect();
-                if(!sftp.Exists("/home/lvuser/Motion_Profiles/"))
+                if (!sftp.Exists(Properties.Settings.Default.RioMPPath))
                 {
-                    MessageBox.Show("Motion_Profiles Folder Not Found!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Motion Profiles Folder Not Found!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
-                List<Renci.SshNet.Sftp.SftpFile> files = sftp.ListDirectory("/home/lvuser/Motion_Profiles/").ToList();
-                
+                List<Renci.SshNet.Sftp.SftpFile> files = sftp.ListDirectory("Properties.Settings.Default.RioMPPath").ToList();
 
-                foreach(Renci.SshNet.Sftp.SftpFile file in files)
+
+                foreach (Renci.SshNet.Sftp.SftpFile file in files)
                 {
-                    if(!file.Name.Equals("..") && !file.Name.Equals("."))
+                    if (!file.Name.Equals("..") && !file.Name.Equals("."))
                     {
-                        RioFiles.Items.Add(file.Name);
+                        RioFiles.Rows.Add(file.Name, file.LastWriteTime.ToString("HH:mm:ss dd/MM/yy"));
                     }
                 }
 
@@ -1837,7 +1811,7 @@
                 MessageBox.Show("Unable to connect to host!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            
+            this.Cursor = Cursors.Default;
 
 
         }
@@ -1859,6 +1833,200 @@
                     mainField.ChartAreas[0].AxisY.MajorGrid.Enabled = true;
                     break;
             }
+        }
+
+        private void fileToolStripMenuItem_DropDownOpened(object sender, EventArgs e)
+        {
+            ToolStripMenuItem TSMI = sender as ToolStripMenuItem;
+            TSMI.ForeColor = Color.Black;
+        }
+
+        private void fileToolStripMenuItem_DropDownClosed(object sender, EventArgs e)
+        {
+            ToolStripMenuItem TSMI = sender as ToolStripMenuItem;
+            TSMI.ForeColor = Color.White;
+        }
+
+        private void fileToolStripMenuItem_MouseEnter(object sender, EventArgs e)
+        {
+            ToolStripMenuItem TSMI = sender as ToolStripMenuItem;
+            TSMI.ForeColor = Color.Black;
+        }
+
+        private void fileToolStripMenuItem_MouseLeave(object sender, EventArgs e)
+        {
+
+            ToolStripMenuItem TSMI = sender as ToolStripMenuItem;
+            if (TSMI.IsOnDropDown)
+                TSMI.ForeColor = Color.White;
+        }
+
+        private void RioFiles_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            //make sure that the button that was released was the right mouse button.
+            if (e.Button == MouseButtons.Right)
+            {
+                //Make sure that the cell that was selected was a cell that is real
+                if (e.RowIndex >= 0)
+                {
+                    //on mouse up select that row.
+                    this.RioFiles.Rows[e.RowIndex].Selected = true;
+                    //When the row is selected set the rowindex to the index of the row that was just selected. (aka update the rowIndex value)
+                    this.rowIndex = e.RowIndex;
+                    //set the tables currentcell to the cell we just clicked.
+                    this.RioFiles.CurrentCell = this.RioFiles.Rows[e.RowIndex].Cells[1];
+                    //since we right clicked we open a context strip with things that allow us to delete and move the current row.
+                    var relativeMousePosition = this.controlPoints.PointToClient(System.Windows.Forms.Cursor.Position);
+                    this.rioFilesContextMenuStrip.Show(this.controlPoints, relativeMousePosition);
+                }
+
+
+            }
+        }
+
+        private void RioFilesLoad(object sender, EventArgs e)
+        {
+
+            if (RioFiles.Rows[RioFilesRowIndex].Cells[0].Value == null)
+            {
+                return;
+            }
+            if (RioFiles.Rows[RioFilesRowIndex].Cells[0].Value.ToString().Equals(""))
+            {
+                return;
+            }
+            if (!MessageBox.Show("Your current profile will be over written are you sure you would like to contine?", "Warning!", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning).Equals(DialogResult.Yes))
+                return;
+            SftpClient sftp = new SftpClient(Properties.Settings.Default.IpAddress, Properties.Settings.Default.Username, Properties.Settings.Default.Password);
+            
+            try
+            {
+                sftp.Connect();
+            }
+            catch (Exception e1)
+            {
+                //Make sure that we are connected to the robot.
+                Console.WriteLine("IOException source: {0}", e1.StackTrace);
+                MessageBox.Show("Unable to connect to host!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            String RioProfilePath = Path.Combine(Properties.Settings.Default.RioMPPath, RioFiles.Rows[RioFilesRowIndex].Cells[0].Value.ToString());
+            String tempFileName = Path.Combine(Path.GetTempPath(), RioFiles.Rows[RioFilesRowIndex].Cells[0].Value.ToString());
+            if (!sftp.Exists(Properties.Settings.Default.RioMPPath))
+            {
+                MessageBox.Show("Could not find motion profile path on rio!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            if (!sftp.Exists(RioProfilePath))
+            {
+                MessageBox.Show("Could not find specified motion profile on rio!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            try
+            {
+                using (var file = File.OpenWrite(tempFileName))
+                {
+                    sftp.DownloadFile(RioProfilePath, file);
+
+                }
+                using (var reader1 = new System.IO.StreamReader(tempFileName))
+                {
+                    //First clear out our points.
+                    controlPoints.Rows.Clear();
+                    commandPointsList.Rows.Clear();
+                    //Read the file and load our points and other variables.
+                    string json = reader1.ReadToEnd();
+
+                    JObject o = JObject.Parse(json);
+
+                    maxVelocity.Text = (string)o["Max Velocity"];
+                    trackWidth.Text = (string)o["Track Width"];
+                    AccelRate.Text = (string)o["Accel Rate"];
+                    timeSample.Text = (string)o["Time Sample"];
+                    SpeedLimit.Text = (string)o["Speed Limit"];
+                    wheel.Text = (string)o["Wheel Diameter"];
+                    smoothness.Text = (string)o["Smoothness"];
+                    CTRE.Checked = Boolean.Parse((string)o["CTRE"]);
+                    isntaVel.Checked = Boolean.Parse((string)o["isntaVel"]);
+
+                    profilename.Text = (string)o["Profile Name"];
+
+                    JArray a = (JArray)o["Points"];
+
+                    for (int x = 0; x <= a.Count - 1; x++)
+                    {
+                        controlPoints.Rows.Add(float.Parse((string)a[x][0]), float.Parse((string)a[x][1]), (string)a[x][2]);
+                    }
+
+                    JArray CommandPointsArray = (JArray)o["CommandPoints"];
+
+                    for (int x = 0; x <= CommandPointsArray.Count - 1; x++)
+                    {
+                        commandPointsList.Rows.Add(int.Parse((string)CommandPointsArray[x][0]), (string)CommandPointsArray[x][1]);
+                    }
+                }
+                //Run the apply so that it looks like where we left off.
+                Apply_Click(null, null);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Could not download specified motion profile on rio!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            }
+
+        }
+
+        private void RioFiles_RowStateChange(object sender, DataGridViewRowStateChangedEventArgs e)
+        {
+            if (e.StateChanged != DataGridViewElementStates.Selected)
+            {
+                return;
+            }
+            if (e.Row.Selected == true)
+            {
+                RioFilesRowIndex = e.Row.Index;
+            }
+        }
+
+        private void About_Click(object sender, EventArgs e)
+        {
+            AboutBox about = new AboutBox();
+            about.Show();
+        }
+
+        private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Settings settings = new Settings();
+            settings.Show();
+        }
+
+        private Boolean RowContainData(DataGridViewRow row, Boolean scanWholeRow)
+        {
+            if(!scanWholeRow)
+            {
+                foreach (DataGridViewCell cell in row.Cells)
+                {
+                    if (cell.Value != null)
+                        if(!cell.Value.ToString().Equals(""))
+                            return true;
+                }
+            }
+            else
+            {
+                foreach (DataGridViewCell cell in row.Cells)
+                {
+                    if (cell.Value == null)
+                    {
+                        return false;
+                    }
+                    if (cell.Value.ToString().Equals(""))
+                    {
+                        return false;
+                    }
+                }
+                return true;
+            }
+            return false;
         }
     }
 }
