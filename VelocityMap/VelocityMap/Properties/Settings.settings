@@ -12,7 +12,7 @@
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="RioMPPath" Type="System.String" Scope="User">
-      <Value Profile="(Default)">/home/lvuser/Motion_Profiles</Value>
+      <Value Profile="(Default)">/home/lvuser/Motion_Profiles/</Value>
     </Setting>
   </Settings>
 </SettingsFile>

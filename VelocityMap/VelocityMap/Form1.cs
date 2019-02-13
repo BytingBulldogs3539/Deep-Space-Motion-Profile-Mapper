@@ -1639,6 +1639,7 @@
                 writer.WriteLine("  ] ");
                 writer.WriteLine("} ");
             }
+            WriteSetupFile(MPPath);
 
             //Create a sftp client that we will use to upload the file to the robot.
             SftpClient sftp = new SftpClient(Properties.Settings.Default.IpAddress, Properties.Settings.Default.Username, Properties.Settings.Default.Password);
@@ -1696,9 +1697,8 @@
                     MessageBox.Show("An Error Has Occured", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                 }
-                catch (Exception e1)
+                catch(Exception)
                 {
-                    MessageBox.Show("An Error Has Occured", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                 }
                 //Open that file that we just saved to a temp file.
@@ -1764,7 +1764,7 @@
         {
             this.Cursor = Cursors.WaitCursor;
             RioFiles.Rows.Clear();
-            RioFiles.Rows.Add("TESTTTT", DateTime.Now.ToString("HH:mm:ss dd/MM/yy"));
+            //RioFiles.Rows.Add("TESTTTT", DateTime.Now.ToString("HH:mm:ss dd/MM/yy"));
 
             //Create a sftp client that we will use to get the file list from the robot.
             SftpClient sftp = new SftpClient(Properties.Settings.Default.IpAddress, Properties.Settings.Default.Username, Properties.Settings.Default.Password);
@@ -1776,12 +1776,12 @@
                     MessageBox.Show("Motion Profiles Folder Not Found!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
-                List<Renci.SshNet.Sftp.SftpFile> files = sftp.ListDirectory("Properties.Settings.Default.RioMPPath").ToList();
+                List<Renci.SshNet.Sftp.SftpFile> files = sftp.ListDirectory(Properties.Settings.Default.RioMPPath).ToList();
 
 
                 foreach (Renci.SshNet.Sftp.SftpFile file in files)
                 {
-                    if (!file.Name.Equals("..") && !file.Name.Equals("."))
+                    if (!file.Name.Equals("..") && !file.Name.Equals(".") &&!file.Name.Contains(".mp"))
                     {
                         RioFiles.Rows.Add(file.Name, file.LastWriteTime.ToString("HH:mm:ss dd/MM/yy"));
                     }
@@ -1924,7 +1924,7 @@
                 MessageBox.Show("Unable to connect to host!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            String RioProfilePath = Path.Combine(Properties.Settings.Default.RioMPPath, RioFiles.Rows[RioFilesRowIndex].Cells[0].Value.ToString());
+            String RioProfilePath = Path.Combine(Properties.Settings.Default.RioMPPath, RioFiles.Rows[RioFilesRowIndex].Cells[0].Value.ToString().Replace(".json", ".mp"));
             String tempFileName = Path.Combine(Path.GetTempPath(), RioFiles.Rows[RioFilesRowIndex].Cells[0].Value.ToString());
             if (!sftp.Exists(Properties.Settings.Default.RioMPPath))
             {
