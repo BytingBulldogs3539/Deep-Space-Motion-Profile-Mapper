@@ -466,11 +466,11 @@
             }
             if (e.Row.Cells[0].Value == null || e.Row.Cells[0].Value.ToString() == "")
             {
-                e.Row.Cells[0].Value = 0;
+                e.Row.Cells[0].Value = 100;
             }
             if (e.Row.Cells[1].Value == null || e.Row.Cells[1].Value.ToString() == "")
             {
-                e.Row.Cells[1].Value = 0;
+                e.Row.Cells[1].Value = 100;
             }
             if (e.Row.Cells[2].Value == null || e.Row.Cells[2].Value.ToString() == "")
             {
@@ -575,11 +575,11 @@
             }
             if (controlPoints.CurrentRow.Cells[0].Value == null || controlPoints.CurrentRow.Cells[0].Value.ToString() == "")
             {
-                controlPoints.CurrentRow.Cells[0].Value = 0;
+                controlPoints.CurrentRow.Cells[0].Value = 100;
             }
             if (controlPoints.CurrentRow.Cells[1].Value == null || controlPoints.CurrentRow.Cells[1].Value.ToString() == "")
             {
-                controlPoints.CurrentRow.Cells[1].Value = 0;
+                controlPoints.CurrentRow.Cells[1].Value = 100;
             }
             if (controlPoints.CurrentRow.Cells[2].Value == null || controlPoints.CurrentRow.Cells[2].Value.ToString() == "")
             {
@@ -592,7 +592,7 @@
             }
             catch (Exception)
             {
-                controlPoints.CurrentRow.Cells[0].Value = 0;
+                controlPoints.CurrentRow.Cells[0].Value = 100;
             }
             try
             {
@@ -600,7 +600,7 @@
             }
             catch (Exception)
             {
-                controlPoints.CurrentRow.Cells[1].Value = 0;
+                controlPoints.CurrentRow.Cells[1].Value = 100;
             }
 
             if (e.ColumnIndex == 2)
@@ -737,7 +737,10 @@
         private void insertAbove_Click(object sender, EventArgs e)
         {
             //insert a new row at the selected index. (this will push the current index down one.)
-            controlPoints.Rows.Insert(rowIndex);
+            mainField.Series["cp"].Points.AddXY(100, 100);
+            controlPoints.Rows.Insert(rowIndex, 100, 100, "+");
+            ReloadControlPoints();
+
         }
 
         /// <summary>
@@ -747,6 +750,7 @@
         {
             //insert a new row at the selected index. (this will push the current index down one.)
             commandPointsList.Rows.Insert(commandRowIndex);
+
         }
 
         /// <summary>
@@ -756,7 +760,10 @@
         private void insertBelow_Click(object sender, EventArgs e)
         {
             //insert a new row at the selected index plus one.
-            controlPoints.Rows.Insert(rowIndex + 1);
+            controlPoints.Rows.Insert(rowIndex + 1, 100, 100, "+");
+            mainField.Series["cp"].Points.AddXY(0, 0);
+
+            ReloadControlPoints();
         }
 
         /// <summary>
@@ -834,8 +841,9 @@
                 int totalRows = dgv.Rows.Count;
                 // get index of the row for the selected cell
                 int rowIndex = dgv.SelectedCells[0].OwningRow.Index;
-                if (rowIndex == totalRows - 1)
+                if (rowIndex == totalRows - 2)
                     return;
+                
                 // get index of the column for the selected cell
                 int colIndex = dgv.SelectedCells[0].OwningColumn.Index;
                 DataGridViewRow selectedRow = dgv.Rows[rowIndex];
@@ -860,7 +868,7 @@
                 int totalRows = dgv.Rows.Count;
                 // get index of the row for the selected cell
                 int commandRowIndex = dgv.SelectedCells[0].OwningRow.Index;
-                if (commandRowIndex == totalRows - 1)
+                if (commandRowIndex == totalRows - 2)
                     return;
                 // get index of the column for the selected cell
                 int colIndex = dgv.SelectedCells[0].OwningColumn.Index;
@@ -899,11 +907,11 @@
 
             return rec;
         }
-
+        
         /// <summary>
         /// A method that reloads the control points and redraws them on the main field plot.
         /// </summary>
-        /*private void ReloadControlPoints()
+        private void ReloadControlPoints()
         {
             //Clear all of the points from the main field controlpoint series.
             mainField.Series["cp"].Points.Clear();
@@ -942,7 +950,8 @@
 
                 }
             }
-        }*/
+            //Apply_Click(null,null);
+        }
 
         /// <summary>
         /// The method that is called when we want create a new path containing all of the information that we can input.
@@ -1062,10 +1071,11 @@
                     path.addControlPoint(float.Parse(row.Cells[1].Value.ToString()), float.Parse(row.Cells[0].Value.ToString()));
 
                 }
-
-                if (row.Selected)
+                if (RowContainData(row, true))
                 {
-                    if (RowContainData(row,true))
+                    if (row.Selected)
+                    {
+
                         if (controlPoints.Rows.Count - 2 != 0)
                         {
                             if (row.Index >= 0 && row.Index <= controlPoints.Rows.Count - 2)
@@ -1074,6 +1084,7 @@
                                 mainField.Series["cp"].Points[row.Index].Color = Color.Yellow;
                             }
                         }
+                    }
 
                 }
                 last = row.Cells[2].Value.ToString();
@@ -1834,17 +1845,19 @@
                     break;
             }
         }
-
+        Boolean isFileMenuItemOpen = false;
         private void fileToolStripMenuItem_DropDownOpened(object sender, EventArgs e)
         {
             ToolStripMenuItem TSMI = sender as ToolStripMenuItem;
             TSMI.ForeColor = Color.Black;
+            isFileMenuItemOpen = true;
         }
 
         private void fileToolStripMenuItem_DropDownClosed(object sender, EventArgs e)
         {
             ToolStripMenuItem TSMI = sender as ToolStripMenuItem;
             TSMI.ForeColor = Color.White;
+            isFileMenuItemOpen = false;
         }
 
         private void fileToolStripMenuItem_MouseEnter(object sender, EventArgs e)
@@ -1855,9 +1868,10 @@
 
         private void fileToolStripMenuItem_MouseLeave(object sender, EventArgs e)
         {
-
             ToolStripMenuItem TSMI = sender as ToolStripMenuItem;
-            if (TSMI.IsOnDropDown)
+            if (isFileMenuItemOpen)
+                TSMI.ForeColor = Color.Black;
+            else
                 TSMI.ForeColor = Color.White;
         }
 

@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 // associated with an assembly.
 [assembly: AssemblyTitle("Motion Profile Mapper")]
 [assembly: AssemblyDescription("Creates points which a talon srx can follow to drive around on the field. " +
-    "\r\n\r\n\r\nCreated originally by Todd (2018) later edited by Devin (2018) and Cameron (2018-2019) ")]
+    "\r\n\r\n\r\nCreated originally by Mr. VanCamp (2018) later edited by Devon (2018) and Cameron (2018-2019) ")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Byting Bulldogs")]
 [assembly: AssemblyProduct("Motion Profile Mapper")]

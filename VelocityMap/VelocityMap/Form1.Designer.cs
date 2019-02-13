@@ -601,7 +601,6 @@
             this.profilename.Name = "profilename";
             this.profilename.Size = new System.Drawing.Size(100, 20);
             this.profilename.TabIndex = 22;
-            this.profilename.Text = "AUSA";
             // 
             // label15
             // 
@@ -797,7 +796,7 @@
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
             this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.Save_Click);
             // 
@@ -805,26 +804,26 @@
             // 
             this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
             this.loadToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.loadToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.loadToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
             this.loadToolStripMenuItem.Text = "Load";
             this.loadToolStripMenuItem.Click += new System.EventHandler(this.Load_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(150, 6);
             // 
             // optionsToolStripMenuItem
             // 
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
             this.optionsToolStripMenuItem.Text = "Settings";
             this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
             // 
             // abouToolStripMenuItem
             // 
             this.abouToolStripMenuItem.Name = "abouToolStripMenuItem";
-            this.abouToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.abouToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
             this.abouToolStripMenuItem.Text = "About";
             this.abouToolStripMenuItem.Click += new System.EventHandler(this.About_Click);
             // 
@@ -950,6 +949,8 @@
             // 
             // RioFiles
             // 
+            this.RioFiles.AllowUserToAddRows = false;
+            this.RioFiles.AllowUserToDeleteRows = false;
             this.RioFiles.AllowUserToResizeColumns = false;
             this.RioFiles.AllowUserToResizeRows = false;
             this.RioFiles.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
@@ -968,7 +969,7 @@
             dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.RioFiles.DefaultCellStyle = dataGridViewCellStyle8;
-            this.RioFiles.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnKeystroke;
+            this.RioFiles.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.RioFiles.GridColor = System.Drawing.Color.Black;
             this.RioFiles.Location = new System.Drawing.Point(241, 121);
             this.RioFiles.Margin = new System.Windows.Forms.Padding(1);
