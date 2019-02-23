@@ -32,15 +32,15 @@ namespace MotionProfile
             dy = b.Y - a.Y;
             length = Math.Sqrt(dx * dx + dy * dy);
         }
-        public PointF perp(float offset)
+
+        public PointF Perp(float offset)
         {
             PointF pt = new PointF(0,0);
 
             if (length > 0)
             {
-
-                pt.X = (float)(B.X + offset * (B.Y - A.Y) / length);
-                pt.Y = (float)(B.Y - offset * (B.X - A.X) / length);
+                pt.X = (float)(B.X + offset * dy / length);
+                pt.Y = (float)(B.Y - offset * dx / length);
             }
             return pt;
         }

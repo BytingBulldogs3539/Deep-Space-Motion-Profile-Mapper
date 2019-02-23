@@ -154,7 +154,7 @@ namespace MotionProfile
 
                 if (p1.X != 0 && p1.Y != 0)
                 {
-                    ret.Add(new Segment(p1, p2).perp(offset));
+                    ret.Add(new Segment(p1, p2).Perp(offset));
                 }
                 p1 = p2;
                 
@@ -200,8 +200,8 @@ namespace MotionProfile
                 if (p1.X == 0 && p1.Y == 0) { p1 = p2; }
                 Segment seg = new Segment(p1, p2);
 
-                Segment segOff = new Segment(seg.perp(offset), prevSeg.perp(offset));
-                double v1 = Math.Max(new Segment(seg.perp(-offset), prevSeg.perp(-offset)).length , new Segment(seg.perp(offset), prevSeg.perp(offset)).length) / velocityMap.time ;
+                Segment segOff = new Segment(seg.Perp(offset), prevSeg.Perp(offset));
+                double v1 = Math.Max(new Segment(seg.Perp(-offset), prevSeg.Perp(-offset)).length , new Segment(seg.Perp(offset), prevSeg.Perp(offset)).length) / velocityMap.time ;
                 if (velocity > velocityMap.vMax/10 && v1 > velocityMap.vMax)
                 {
                     velocity = (float)(velocityMap.vMax * velocityMap.vMax / v1);
