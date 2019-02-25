@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 
 namespace VelocityMap
 {
-    class ControlPoint
-    {
-        public Boolean direction = false;
-        public int velocity;
-        public System.Drawing.PointF[] point;
-        public int[] pointnumbers;
+	class ControlPoint
+	{
+		public Boolean direction = false;
+		public int velocity;
+		public System.Drawing.PointF[] point;
+		public int[] pointnumbers;
 
-        public ControlPoint()
-        {
-        }
-    }
+		public ControlPoint()
+		{
+		}
+	}
 }

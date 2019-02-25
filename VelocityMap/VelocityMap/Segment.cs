@@ -7,42 +7,42 @@ using System.Drawing;
 
 namespace MotionProfile
 {
-    /// <summary>
-    /// Part of the path.
-    /// </summary>
-    public class Segment
-    {
-        public enum Point
-        {
-            A,
-            B,
-        };
+	/// <summary>
+	/// Part of the path.
+	/// </summary>
+	public class Segment
+	{
+		public enum Point
+		{
+			A,
+			B,
+		};
 
-        public PointF A;
-        public PointF B;
-        public double length = 0;
-        public double dx, dy;
+		public PointF A;
+		public PointF B;
+		public double length = 0;
+		public double dx, dy;
 
-        public Segment(PointF a, PointF b)
-        {
-            A = a;
-            B = b;
+		public Segment(PointF a, PointF b)
+		{
+			A = a;
+			B = b;
 
-            dx = b.X - a.X;
-            dy = b.Y - a.Y;
-            length = Math.Sqrt(dx * dx + dy * dy);
-        }
+			dx = b.X - a.X;
+			dy = b.Y - a.Y;
+			length = Math.Sqrt(dx * dx + dy * dy);
+		}
 
-        public PointF Perp(float offset)
-        {
-            PointF pt = new PointF(0,0);
+		public PointF Perp(float offset)
+		{
+			PointF pt = new PointF(0,0);
 
-            if (length > 0)
-            {
-                pt.X = (float)(B.X + offset * dy / length);
-                pt.Y = (float)(B.Y - offset * dx / length);
-            }
-            return pt;
-        }
-    }
+			if (length > 0)
+			{
+				pt.X = (float)(B.X + offset * dy / length);
+				pt.Y = (float)(B.Y - offset * dx / length);
+			}
+			return pt;
+		}
+	}
 }
