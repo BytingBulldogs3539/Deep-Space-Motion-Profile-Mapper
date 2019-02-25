@@ -8,10 +8,11 @@ namespace MotionProfile
 	class Trajectory : List<Path>
 	{
 		private double CONVERT = 180.0 / Math.PI;
+
 		/// <summary>
 		/// Returns the absolute fastest that the robot will be going.
 		/// </summary>
-		public double getMaxVelocity()
+		public double GetMaxVelocity()
 		{
 			double max = 0;
 			foreach (Path p in this)
@@ -21,10 +22,11 @@ namespace MotionProfile
 			}
 			return max;
 		}
+
 		/// <summary>
 		/// returns a time profile that is ment to match the other profile so you know how long each point should take.
 		/// </summary>
-		public float[] getTimeProfile()
+		public float[] GetTimeProfile()
 		{
 			float offset = 0;
 			List<float> values = new List<float>();
@@ -38,11 +40,11 @@ namespace MotionProfile
 			}
 			return values.ToArray<float>();
 		}
+
 		/// <summary>
 		/// Returns the distance profile which is the points that the talon should be hitting.
 		/// </summary>
-
-		public float[] getDistanceProfile()
+		public float[] GetDistanceProfile()
 		{
 			float offset = 0;
 			List<float> values = new List<float>();
@@ -56,10 +58,11 @@ namespace MotionProfile
 			}
 			return values.ToArray<float>();
 		}
+
 		/// <summary>
 		/// Returns the velocity points that the robot should be hitting.
 		/// </summary>
-		public float[] getVelocityProfile()
+		public float[] GetVelocityProfile()
 		{
 			List<float> values = new List<float>();
 			foreach (Path p in this)
@@ -77,10 +80,11 @@ namespace MotionProfile
 
 			return values.ToArray<float>();
 		}
+
 		/// <summary>
 		/// Returns the headings that the robot should be hitting.
 		/// </summary>
-		public float[] getHeadingProfile()
+		public float[] GetHeadingProfile()
 		{
 			List<float> headings = new List<float>();
 
@@ -97,19 +101,19 @@ namespace MotionProfile
 			}
 
 			List<ControlPoint> cp = BuildPath(0);
-			float startAngle = findStartAngle(pointList[1].x, pointList[0].x, pointList[1].y, pointList[0].y);
+			float startAngle = FindStartAngle(pointList[1].x, pointList[0].x, pointList[1].y, pointList[0].y);
 
 			for (int i = 0; i < (pointList.Count - 2); i++) //for not zeroing the angle after each path.
 			{
 
 				if (i == 0)
 				{
-					headings.Add(findStartAngle(pointList[i + 1].x, pointList[i].x, pointList[i + 1].y, pointList[i].y));
+					headings.Add(FindStartAngle(pointList[i + 1].x, pointList[i].x, pointList[i + 1].y, pointList[i].y));
 				}
 				else
 				{
 
-					headings.Add(findAngleChange(pointList[i + 1].x, pointList[i].x, pointList[i + 1].y, pointList[i].y, headings[headings.Count - 1], pointList,i));
+					headings.Add(FindAngleChange(pointList[i + 1].x, pointList[i].x, pointList[i + 1].y, pointList[i].y, headings[headings.Count - 1], pointList,i));
 				}
 			}
 
@@ -121,7 +125,6 @@ namespace MotionProfile
 				angle = -angle;
 
 				headings[i] = angle;
-
 			}
 
 			for (int i = 0; i < (pointList.Count - 2); i++) //converts the values from raw graph angles to angles the robot can use.
@@ -138,13 +141,11 @@ namespace MotionProfile
 
 					headings[i] = angle;
 				}
-
 			}
-
 			return headings.ToArray<float>();
 		}
 
-		public List<int> getControlPointNumberProfile()
+		public List<int> GetControlPointNumberProfile()
 		{
 			List<int> controlPoints = new List<int>();
 			foreach (ControlPoint p in BuildPath(0))
@@ -157,10 +158,11 @@ namespace MotionProfile
 			}
 			return controlPoints;
 		}
+
 		/// <summary>
 		/// Returns the velocity profile of the right or left wheel while using the offset from the middle of the robot.
 		/// </summary>
-		public List<float> getOffsetVelocityProfile(int offset)
+		public List<float> GetOffsetVelocityProfile(int offset)
 		{
 			List<float> values = new List<float>();
 			foreach (Path p in this)
@@ -176,11 +178,11 @@ namespace MotionProfile
 
 			return values;
 		}
+
 		/// <summary>
 		/// Returns the distance profile of the right or left wheel while using the offset from the middle of the robot.
 		/// </summary>
-
-		public List<float> getOffsetDistanceProfile(int offset)
+		public List<float> GetOffsetDistanceProfile(int offset)
 		{
 			List<float> values = new List<float>();
 			foreach (Path p in this)
@@ -196,8 +198,9 @@ namespace MotionProfile
 
 			return values;
 		}
+
 		//HARDLY USED
-		public void test()
+		public void Test()
 		{
 			float dx = 0;
 			float dy = 0;
@@ -241,11 +244,6 @@ namespace MotionProfile
 					p2.direction = p.direction;
 					p2.pointnumbers = p.findPointControlPoints().ToArray();
 
-
-
-
-
-
 					values.Add(p2);
 				}
 				else
@@ -256,18 +254,16 @@ namespace MotionProfile
 
 					p3.direction = p.direction;
 					
-
 					values.Add(p3);
 				}
-			   
 			}
 			return values;
 		}
+
 		/// <summary>
 		/// Find the angle of the first point that is used to calculate the rest of the angles.
 		/// </summary>
-
-		private float findStartAngle(double x2, double x1, double y2, double y1)
+		private float FindStartAngle(double x2, double x1, double y2, double y1)
 		{
 			float ang = 0;
 			float chx = (float)(x2 - x1);
@@ -313,11 +309,11 @@ namespace MotionProfile
 			}
 			return ang;
 		}
+
 		/// <summary>
 		/// Returns the angle of this point by adding the angle change to the prevAngle.
 		/// </summary>
-
-		private float findAngleChange(double x2, double x1, double y2, double y1, float prevAngle, List<Point> pointList, int i)
+		private float FindAngleChange(double x2, double x1, double y2, double y1, float prevAngle, List<Point> pointList, int i)
 		{
 			float ang = 0;
 			float chx = (float)(x2 - x1);

@@ -1113,21 +1113,21 @@
             float[] timeProfile, distanceProfile, velocityProfile, leftVelocityProfile, rightVelocityProfile, leftDistanceProfile, rightDistanceProfile, c, cd, headingProfile;
 
             //load the path information into the float arrays that we just created.
-            timeProfile = paths.getTimeProfile();
-            distanceProfile = paths.getDistanceProfile();
-            velocityProfile = paths.getVelocityProfile();
-            leftVelocityProfile = paths.getOffsetVelocityProfile(trackwidth).ToArray();
-            leftDistanceProfile = paths.getOffsetDistanceProfile(trackwidth).ToArray();
-            c = paths.getOffsetVelocityProfile(0).ToArray();
-            cd = paths.getOffsetDistanceProfile(0).ToArray();
-            headingProfile = paths.getHeadingProfile();
+            timeProfile = paths.GetTimeProfile();
+            distanceProfile = paths.GetDistanceProfile();
+            velocityProfile = paths.GetVelocityProfile();
+            leftVelocityProfile = paths.GetOffsetVelocityProfile(trackwidth).ToArray();
+            leftDistanceProfile = paths.GetOffsetDistanceProfile(trackwidth).ToArray();
+            c = paths.GetOffsetVelocityProfile(0).ToArray();
+            cd = paths.GetOffsetDistanceProfile(0).ToArray();
+            headingProfile = paths.GetHeadingProfile();
             //Smooth our our offset velocity array.
             leftVelocityProfile.NoiseReduction(int.Parse(smoothness.Text));
 
             //TODO: modify smoothing
 
-            rightVelocityProfile = paths.getOffsetVelocityProfile(-trackwidth).ToArray();
-            rightDistanceProfile = paths.getOffsetDistanceProfile(-trackwidth).ToArray();
+            rightVelocityProfile = paths.GetOffsetVelocityProfile(-trackwidth).ToArray();
+            rightDistanceProfile = paths.GetOffsetDistanceProfile(-trackwidth).ToArray();
             
             //Smooth out the rest of our arrays.
             //h.NoiseReduction(int.Parse(smoothness.Text));
@@ -1273,22 +1273,22 @@
 
                         int trackwidth = (int)((int.Parse(trackWidth.Text)) / 2);
 
-                        float[] l = paths.getOffsetVelocityProfile(trackwidth).ToArray();
-                        List<float> ld = paths.getOffsetDistanceProfile(trackwidth);
+                        float[] l = paths.GetOffsetVelocityProfile(trackwidth).ToArray();
+                        List<float> ld = paths.GetOffsetDistanceProfile(trackwidth);
 
                         float[] r;
                         List<float> rd = new List<float>(); ;
 
-                        float[] c = paths.getOffsetVelocityProfile(0).ToArray();
-                        List<float> cd = paths.getOffsetDistanceProfile(0);
+                        float[] c = paths.GetOffsetVelocityProfile(0).ToArray();
+                        List<float> cd = paths.GetOffsetDistanceProfile(0);
 
-                        float[] angles = paths.getHeadingProfile();
-
-
+                        float[] angles = paths.GetHeadingProfile();
 
 
-                        r = paths.getOffsetVelocityProfile(-trackwidth).ToArray();
-                        rd = paths.getOffsetDistanceProfile(-trackwidth);
+
+
+                        r = paths.GetOffsetVelocityProfile(-trackwidth).ToArray();
+                        rd = paths.GetOffsetDistanceProfile(-trackwidth);
 
 
                         //angles.NoiseReduction(int.Parse(smoothness.Text));
@@ -1568,19 +1568,19 @@
 
                 int trackwidth = (int)((int.Parse(trackWidth.Text)) / 2);
 
-                float[] l = paths.getOffsetVelocityProfile(trackwidth).ToArray();
-                List<float> ld = paths.getOffsetDistanceProfile(trackwidth);
+                float[] l = paths.GetOffsetVelocityProfile(trackwidth).ToArray();
+                List<float> ld = paths.GetOffsetDistanceProfile(trackwidth);
 
                 float[] r;
                 List<float> rd = new List<float>(); ;
 
-                float[] c = paths.getOffsetVelocityProfile(0).ToArray();
-                List<float> cd = paths.getOffsetDistanceProfile(0);
+                float[] c = paths.GetOffsetVelocityProfile(0).ToArray();
+                List<float> cd = paths.GetOffsetDistanceProfile(0);
 
-                float[] angles = paths.getHeadingProfile();
+                float[] angles = paths.GetHeadingProfile();
 
-                r = paths.getOffsetVelocityProfile(-trackwidth).ToArray();
-                rd = paths.getOffsetDistanceProfile(-trackwidth);
+                r = paths.GetOffsetVelocityProfile(-trackwidth).ToArray();
+                rd = paths.GetOffsetDistanceProfile(-trackwidth);
 
 
                 r.NoiseReduction(int.Parse(smoothness.Text));
