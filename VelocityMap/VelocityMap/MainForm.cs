@@ -1048,7 +1048,7 @@
                 }
 
                 //Add our controlpoint to our path.
-                path.addControlPoint(float.Parse(row.Cells[1].Value.ToString()), float.Parse(row.Cells[0].Value.ToString()));
+                path.AddControlPoint(float.Parse(row.Cells[1].Value.ToString()), float.Parse(row.Cells[0].Value.ToString()));
                 Console.WriteLine(row.Cells[2].Value.ToString());
 
                 //used to split our main path into seperate paths when we have a split in our negative and positive points.
@@ -1065,7 +1065,7 @@
                         paths.Add(path);
 
                     path = CreateNewPath();
-                    path.addControlPoint(float.Parse(row.Cells[1].Value.ToString()), float.Parse(row.Cells[0].Value.ToString()));
+                    path.AddControlPoint(float.Parse(row.Cells[1].Value.ToString()), float.Parse(row.Cells[0].Value.ToString()));
                 }
 
                 if (RowContainData(row, true))

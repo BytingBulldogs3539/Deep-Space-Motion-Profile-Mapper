@@ -32,7 +32,7 @@ namespace MotionProfile
 			List<float> values = new List<float>();
 			foreach (Path p in this)
 			{
-				foreach (float f in p.getTimeProfile())
+				foreach (float f in p.GetTimeProfile())
 				{
 					values.Add(f + offset);
 				}
@@ -50,7 +50,7 @@ namespace MotionProfile
 			List<float> values = new List<float>();
 			foreach (Path p in this)
 			{
-				foreach (float f in p.getDistanceProfile())
+				foreach (float f in p.GetDistanceProfile())
 				{
 					values.Add(f + offset);
 				}
@@ -69,11 +69,11 @@ namespace MotionProfile
 			{
 				if (p.direction)
 				{
-					values.AddRange(p.getVelocityProfile());
+					values.AddRange(p.GetVelocityProfile());
 				}
 				else
 				{
-					foreach (float f in p.getVelocityProfile())
+					foreach (float f in p.GetVelocityProfile())
 						values.Add(-f);
 				}
 			}
@@ -168,11 +168,11 @@ namespace MotionProfile
 			foreach (Path p in this)
 				if (p.direction)
 				{
-					values.AddRange(p.getOffsetVelocityProfile(offset));
+					values.AddRange(p.GetOffsetVelocityProfile(offset));
 				}
 				else
 				{
-					foreach (float f in p.getOffsetVelocityProfile(offset))
+					foreach (float f in p.GetOffsetVelocityProfile(offset))
 						values.Add(-f);
 				}
 
@@ -188,11 +188,11 @@ namespace MotionProfile
 			foreach (Path p in this)
 				if (p.direction)
 				{
-					values.AddRange(p.getOffsetDistanceProfile(offset));
+					values.AddRange(p.GetOffsetDistanceProfile(offset));
 				}
 				else
 				{
-					foreach (float f in p.getOffsetDistanceProfile(offset))
+					foreach (float f in p.GetOffsetDistanceProfile(offset))
 						values.Add(-f);
 				}
 
@@ -206,7 +206,7 @@ namespace MotionProfile
 			float dy = 0;
 			foreach (Path p in this)
 			{
-				p.testCreate(dx,dy);
+				p.TestCreate(dx,dy);
 				dx = p.dx;
 				dy = p.dy;
 			}
@@ -240,17 +240,17 @@ namespace MotionProfile
 					if (!p.direction)
 						offset = -offset;
 					ControlPoint p2 = new ControlPoint();
-					p2.point = p.buildOffsetPoints(offset).ToArray<System.Drawing.PointF>();
+					p2.point = p.BuildOffsetPoints(offset).ToArray<System.Drawing.PointF>();
 					p2.direction = p.direction;
-					p2.pointnumbers = p.findPointControlPoints().ToArray();
+					p2.pointnumbers = p.FindPointControlPoints().ToArray();
 
 					values.Add(p2);
 				}
 				else
 				{
 					ControlPoint p3 = new ControlPoint();
-					p3.point = p.buildPath().ToArray<System.Drawing.PointF>();
-					p3.pointnumbers = p.findPointControlPoints().ToArray();
+					p3.point = p.BuildPath().ToArray<System.Drawing.PointF>();
+					p3.pointnumbers = p.FindPointControlPoints().ToArray();
 
 					p3.direction = p.direction;
 					

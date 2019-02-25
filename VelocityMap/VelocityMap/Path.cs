@@ -35,6 +35,7 @@ namespace MotionProfile
 		public float[] xs, ys;
 
 		public Spline.ParametricSpline path;
+
 		//Create a spline that runs though all of our control points.
 		private void CreateSpline()
 		{
@@ -51,8 +52,9 @@ namespace MotionProfile
 			velocityMap.setLength(path.distance.Last());
 
 		}
+
 		//HARDLY USED!
-		public void testCreate(float dx, float dy)
+		public void TestCreate(float dx, float dy)
 		{
 			controlPointsX.Clear();
 			controlPointsY.Clear();
@@ -69,7 +71,7 @@ namespace MotionProfile
 
 
 			velocityMap.setLength(path.distance.Last());
-			buildMaps();
+			BuildMaps();
 
 			PointF p1 = path.Eval(distance[distance.Length - 1]);
 			PointF p2 = path.Eval(distance[distance.Length - 2]);
@@ -77,40 +79,44 @@ namespace MotionProfile
 			this.dx = (p2.X - p1.X) / (float)velocityMap.time;
 			this.dy = (p2.Y - p1.Y) / (float)velocityMap.time;
 		}
+
 		//Create the spline and build maps.
 		public void Create()
 		{
 			CreateSpline();
-			buildMaps();
-
+			BuildMaps();
 		}
+
 		//Create the throttle maps by using an offset from the center of the robot.
 		public void CreateThrottled(float offset)
 		{
 			CreateSpline();
-			buildMapsThrottled(offset);
+			BuildMapsThrottled(offset);
 
 		}
+
 		//Add a control point to this path.
-		public void addControlPoint(float x, float y)
+		public void AddControlPoint(float x, float y)
 		{
 			controlPoints.Add(new PointF(x, y));
 		}
+
 		//Add multiple control points to this path.
-		public void addControlPoints(float[] x, float[] y)
+		public void AddControlPoints(float[] x, float[] y)
 		{
 			for (int i = 0; i < x.Length; i++)
 			{
-				addControlPoint(x[i], y[i]);
+				AddControlPoint(x[i], y[i]);
 			}
 		}
+
 		//get the velocity profile for each wheel by using the offset distance of the wheel from the middle of the robot.
-		public List<float> getOffsetVelocityProfile(float offset)
+		public List<float> GetOffsetVelocityProfile(float offset)
 		{
 			if (!direction)
 				offset = -offset;
 
-			PointF[] array = buildOffsetPoints(offset).ToArray();
+			PointF[] array = BuildOffsetPoints(offset).ToArray();
 			List<float> ret = new List<float>();
 			
 			for (int i = 1; i < array.Length; i++)
@@ -122,12 +128,13 @@ namespace MotionProfile
 			}
 			return ret;
 		}
+
 		//get the distance profile for each wheel by using the offset distance of the wheel from the middle of the robot.
-		public List<float> getOffsetDistanceProfile(float offset)
+		public List<float> GetOffsetDistanceProfile(float offset)
 		{
 			if (!direction)
 				offset = -offset;
-			PointF[] array = buildOffsetPoints(offset).ToArray();
+			PointF[] array = BuildOffsetPoints(offset).ToArray();
 			List<float> ret = new List<float>();
 
 			for (int i = 1; i < array.Length; i++)
@@ -139,8 +146,9 @@ namespace MotionProfile
 			}
 			return ret;
 		}
+
 		//Build the points for the two wheels using their offsets from the center of the robot. 
-		public List<PointF> buildOffsetPoints(float offset)
+		public List<PointF> BuildOffsetPoints(float offset)
 		{
 			List<PointF> ret = new List<PointF>();
 			PointF p1 = new PointF(0, 0);
@@ -161,7 +169,8 @@ namespace MotionProfile
 			return ret;
 
 		}
-		public List<int> findPointControlPoints()
+
+		public List<int> FindPointControlPoints()
 		{
 			List<int> pts = new List<int>();
 			foreach (float p in distance)
@@ -170,8 +179,9 @@ namespace MotionProfile
 			}
 			return pts;
 		}
+
 		//Build the throttled maps.
-		public void buildMapsThrottled(float offset)
+		public void BuildMapsThrottled(float offset)
 		{
 			List<float> vel = new List<float>();
 			List<float> dist = new List<float>();
@@ -217,8 +227,9 @@ namespace MotionProfile
 			this.time = t.ToArray();
 
 		}
+
 		//build the paths.
-		public List<PointF> buildPath()
+		public List<PointF> BuildPath()
 		{
 			List<PointF> pts = new List<PointF>();
 			foreach (float p in distance)
@@ -227,7 +238,8 @@ namespace MotionProfile
 			}
 			return pts;
 		}
-		public void buildMaps()
+
+		public void BuildMaps()
 		{
 			List<float> vel = new List<float>();
 			List<float> dist = new List<float>();
@@ -254,16 +266,19 @@ namespace MotionProfile
 
 
 		}
+
 		//Return the according profiles.
-		public float[] getTimeProfile()
+		public float[] GetTimeProfile()
 		{
 			return this.time;
 		}
-		public float[] getDistanceProfile()
+
+		public float[] GetDistanceProfile()
 		{
 			return this.distance;
 		}
-		public float[] getVelocityProfile()
+
+		public float[] GetVelocityProfile()
 		{
 			return this.velocity;
 		}

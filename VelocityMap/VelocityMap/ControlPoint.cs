@@ -10,7 +10,9 @@ namespace VelocityMap
 	{
 		public Boolean direction = false;
 		public int velocity;
+
 		public System.Drawing.PointF[] point;
+
 		public int[] pointnumbers;
 
 		public ControlPoint()
