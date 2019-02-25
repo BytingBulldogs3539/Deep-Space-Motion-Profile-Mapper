@@ -8,15 +8,14 @@
     using System.Drawing;
     using System.IO;
     using System.Linq;
-    using System.Reflection;
     using System.Text;
     using System.Windows.Forms;
     using System.Windows.Forms.DataVisualization.Charting;
 
     /// <summary>
-    /// Defines the <see cref="Form1" />
+    /// Defines the <see cref="MainForm" />
     /// </summary>
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
         /// <summary>
         /// Defines the fieldHeight
@@ -43,17 +42,13 @@
         /// </summary>
         private MotionProfile.Trajectory paths;
 
-
-       
-
         /// <summary>
-        /// Initializes a new instance of the <see cref="Form1"/> class.
+        /// Initializes a new instance of the <see cref="MainForm"/> class.
         /// </summary>
-        public Form1()
+        public MainForm()
         {
             //Create the window with all the fancy buttons.
             InitializeComponent();
-            
         }
 
         /// <summary>
@@ -63,6 +58,8 @@
         /// <param name="e">The e<see cref="EventArgs"/></param>
         private void Form1_Load(object sender, EventArgs e)
         {
+            //TODO: Remove fieldpoints.txt comment and review methods it describes
+
             //Put all of the points from the fieldpoints.txt and put them on the field
             SetupMainField();
             SetupPlots();
@@ -78,8 +75,7 @@
         /// </summary>
         private void SetupMainField()
         {
-
-            baseFieldImage = buildField();
+            baseFieldImage = BuildField();
             //convert the bitmap to an image that we can put on the field.
             Image b = new Bitmap(baseFieldImage, 1000, 1000);
             //Flip the image because someone created the field upside down....
@@ -227,8 +223,9 @@
         /// Used to draw the points from the fieldpoints.txt on the field
         /// </summary>
         /// <returns> The bitmap of the background for the field. </returns>
-        private Bitmap buildField()
+        private Bitmap BuildField()
         {
+            //TODO: what the hell
             Pen bluePen = new Pen(Color.Red, 10);
 
             //create the drawing bitmap
@@ -245,7 +242,7 @@
         /// </summary>
         /// <param name="sender">The sender<see cref="object"/></param>
         /// <param name="e">The e<see cref="MouseEventArgs"/></param>
-        private void mainField_MouseClick(object sender, MouseEventArgs e)
+        private void MainField_MouseClick(object sender, MouseEventArgs e)
         {
             //if the button click is a left mouse click then add a positive point to the field chart.
             if (e.Button == MouseButtons.Left)
@@ -331,7 +328,7 @@
         /// <summary>
         /// The event that is called when the user clicks and holds on the main field chart.
         /// </summary>
-        private void mainField_MouseDown(object sender, MouseEventArgs e)
+        private void MainField_MouseDown(object sender, MouseEventArgs e)
         {
             //if the user is holding their left mouse button
             if (e.Button.HasFlag(MouseButtons.Left))
@@ -393,7 +390,7 @@
         /// <summary>
         /// The event that is called when the user mouse while above the main field.
         /// </summary>
-        private void mainField_MouseMove(object sender, MouseEventArgs e)
+        private void MainField_MouseMove(object sender, MouseEventArgs e)
         {
             //if the user is holding the left button while moving the mouse allow them to move the point.
             if (e.Button.HasFlag(MouseButtons.Left))
@@ -457,7 +454,7 @@
         /// <summary>
         /// The event that is called when a rows state is changed ex: the row is selected.
         /// </summary>
-        private void controlPoints_RowStateChange(object sender, DataGridViewRowStateChangedEventArgs e)
+        private void ControlPoints_RowStateChange(object sender, DataGridViewRowStateChangedEventArgs e)
         {
 
             if (e.Row.Cells[0].Value == null && e.Row.Cells[1].Value == null && e.Row.Cells[1].Value == null)
@@ -527,7 +524,7 @@
         /// <summary>
         /// The event that is called when a rows state is changed ex: the row is selected.
         /// </summary>
-        private void commandPoints_RowStateChange(object sender, DataGridViewRowStateChangedEventArgs e)
+        private void CommandPoints_RowStateChange(object sender, DataGridViewRowStateChangedEventArgs e)
         {
             if (e.StateChanged != DataGridViewElementStates.Selected)
             {
@@ -565,7 +562,7 @@
         /// <summary>
         /// The event that is called when the user stopes editing a cell.
         /// </summary>
-        private void controlPoints_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        private void ControlPoints_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
             //Check to see if the user is editing a cell that is in the third column.
 
@@ -615,7 +612,7 @@
                 }
             }
         }
-        private void commandPoints_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        private void CommandPoints_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
             try
             {
@@ -632,7 +629,7 @@
         /// <summary>
         /// The event that is called when the user releases the mouse button while above the controlpoints cell.
         /// </summary>
-        private void controlPoints_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
+        private void ControlPoints_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
         {
             //make sure that the button that was released was the right mouse button.
             if (e.Button == MouseButtons.Right)
@@ -654,7 +651,7 @@
 
             }
         }
-        private void commandPoints_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
+        private void CommandPoints_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
         {
             //make sure that the button that was released was the right mouse button.
             if (e.Button == MouseButtons.Right)
@@ -734,7 +731,7 @@
         /// <summary>
         /// The event that is called when the user clicks the insert above button in the context stip.
         /// </summary>
-        private void insertAbove_Click(object sender, EventArgs e)
+        private void InsertAbove_Click(object sender, EventArgs e)
         {
             //insert a new row at the selected index. (this will push the current index down one.)
             mainField.Series["cp"].Points.AddXY(100, 100);
@@ -746,7 +743,7 @@
         /// <summary>
         /// The event that is called when the user clicks the insert above button in the context stip.
         /// </summary>
-        private void insertAbove_Click_commandPoints(object sender, EventArgs e)
+        private void InsertAbove_Click_commandPoints(object sender, EventArgs e)
         {
             //insert a new row at the selected index. (this will push the current index down one.)
             commandPointsList.Rows.Insert(commandRowIndex);
@@ -757,7 +754,7 @@
         /// The event that is called when the user clicks the insert below button in the context stip.
         /// </summary>
 
-        private void insertBelow_Click(object sender, EventArgs e)
+        private void InsertBelow_Click(object sender, EventArgs e)
         {
             //insert a new row at the selected index plus one.
             controlPoints.Rows.Insert(rowIndex + 1, 100, 100, "+");
@@ -770,7 +767,7 @@
         /// The event that is called when the user clicks the insert below button in the context stip.
         /// </summary>
 
-        private void insertBelow_Click_commandPoints(object sender, EventArgs e)
+        private void InsertBelow_Click_commandPoints(object sender, EventArgs e)
         {
             //insert a new row at the selected index plus one.
             if (!(commandPointsList.Rows.Count >= commandRowIndex))
@@ -781,7 +778,7 @@
         /// <summary>
         /// The event that is called when the user clicks the move up button in the context stip.
         /// </summary>
-        private void btnUp_Click(object sender, EventArgs e)
+        private void BtnUp_Click(object sender, EventArgs e)
         {
             //lets convert our object name because I copied this from the internet and am to lazy to change it.
             DataGridView dgv = controlPoints;
@@ -806,7 +803,7 @@
         /// <summary>
         /// The event that is called when the user clicks the move up button in the context stip.
         /// </summary>
-        private void btnUp_Click_commandPoints(object sender, EventArgs e)
+        private void BtnUp_Click_commandPoints(object sender, EventArgs e)
         {
             //lets convert our object name because I copied this from the internet and am to lazy to change it.
             DataGridView dgv = commandPointsList;
@@ -831,7 +828,7 @@
         /// <summary>
         /// The event that is called when the user clicks the move down button in the context stip.
         /// </summary>
-        private void btnDown_Click(object sender, EventArgs e)
+        private void BtnDown_Click(object sender, EventArgs e)
         {
             DataGridView dgv = controlPoints;
             try
@@ -858,7 +855,7 @@
         /// <summary>
         /// The event that is called when the user clicks the move down button in the context stip.
         /// </summary>
-        private void btnDown_Click_commandPoints(object sender, EventArgs e)
+        private void BtnDown_Click_commandPoints(object sender, EventArgs e)
         {
             DataGridView dgv = commandPointsList;
             try
@@ -887,7 +884,7 @@
         /// <param name="array">The array that contains the x and y values of the rectangle.</param>
         /// <param name="adjustToScreen">If true will adjust the box to the screen.<see cref="bool"/></param>
         /// <returns>A rectangle that can be drawn on a bitmap.</returns>
-        private Rectangle makeRectangle(int[] array, bool adjustToScreen = false)
+        private Rectangle MakeRectangle(int[] array, bool adjustToScreen = false)
         {
             Rectangle rec = new Rectangle();
             rec.X = array[0] + padding - 1;
@@ -1069,8 +1066,8 @@
 
                     path = CreateNewPath();
                     path.addControlPoint(float.Parse(row.Cells[1].Value.ToString()), float.Parse(row.Cells[0].Value.ToString()));
-
                 }
+
                 if (RowContainData(row, true))
                 {
                     if (row.Selected)
@@ -1113,30 +1110,31 @@
             ClearChart(AnglePlot);
 
             //create a bunch of float arrays that will hold our data.
-            float[] t, d, v, l, r, ld, rd, c, cd, h;
-
-
+            float[] timeProfile, distanceProfile, velocityProfile, leftVelocityProfile, rightVelocityProfile, leftDistanceProfile, rightDistanceProfile, c, cd, headingProfile;
 
             //load the path information into the float arrays that we just created.
-            t = paths.getTimeProfile();
-            d = paths.getDistanceProfile();
-            v = paths.getVelocityProfile();
-            l = paths.getOffsetVelocityProfile(trackwidth).ToArray();
-            ld = paths.getOffsetDistanceProfile(trackwidth).ToArray();
+            timeProfile = paths.getTimeProfile();
+            distanceProfile = paths.getDistanceProfile();
+            velocityProfile = paths.getVelocityProfile();
+            leftVelocityProfile = paths.getOffsetVelocityProfile(trackwidth).ToArray();
+            leftDistanceProfile = paths.getOffsetDistanceProfile(trackwidth).ToArray();
             c = paths.getOffsetVelocityProfile(0).ToArray();
             cd = paths.getOffsetDistanceProfile(0).ToArray();
-            h = paths.getHeadingProfile();
+            headingProfile = paths.getHeadingProfile();
             //Smooth our our offset velocity array.
-            l.NoiseReduction(int.Parse(smoothness.Text));
+            leftVelocityProfile.NoiseReduction(int.Parse(smoothness.Text));
 
-            r = paths.getOffsetVelocityProfile(-trackwidth).ToArray();
-            rd = paths.getOffsetDistanceProfile(-trackwidth).ToArray();
+            //TODO: modify smoothing
+
+            rightVelocityProfile = paths.getOffsetVelocityProfile(-trackwidth).ToArray();
+            rightDistanceProfile = paths.getOffsetDistanceProfile(-trackwidth).ToArray();
+            
             //Smooth out the rest of our arrays.
             //h.NoiseReduction(int.Parse(smoothness.Text));
-            r.NoiseReduction(int.Parse(smoothness.Text));
-            rd.NoiseReduction(int.Parse(smoothness.Text));
-            l.NoiseReduction(int.Parse(smoothness.Text));
-            rd.NoiseReduction(int.Parse(smoothness.Text));
+            rightVelocityProfile.NoiseReduction(int.Parse(smoothness.Text));
+            rightDistanceProfile.NoiseReduction(int.Parse(smoothness.Text));
+            leftVelocityProfile.NoiseReduction(int.Parse(smoothness.Text));
+            rightDistanceProfile.NoiseReduction(int.Parse(smoothness.Text));
             c.NoiseReduction(int.Parse(smoothness.Text));
             cd.NoiseReduction(int.Parse(smoothness.Text));
 
@@ -1146,26 +1144,26 @@
             double heading = 0; //Heading.
 
             //run though all of the values in the array and put them on the plot.
-            for (int i = 0; i < ld.Length; i++)
+            for (int i = 0; i < leftDistanceProfile.Length; i++)
             {
-                ldv += ld[i];
-                rdv += rd[i];
+                ldv += leftDistanceProfile[i];
+                rdv += rightDistanceProfile[i];
 
-                DistancePlot.Series["left"].Points.AddXY(t[i], ldv);
-                DistancePlot.Series["right"].Points.AddXY(t[i], rdv);
+                DistancePlot.Series["left"].Points.AddXY(timeProfile[i], ldv);
+                DistancePlot.Series["right"].Points.AddXY(timeProfile[i], rdv);
 
 
             }
             //run though all of the values in the array and put them on the plot.
-            for (int i = 0; i < Math.Min(d.Length, r.Length); i++)
+            for (int i = 0; i < Math.Min(distanceProfile.Length, rightVelocityProfile.Length); i++)
             {
-                heading = h[i];
+                heading = headingProfile[i];
 
-                VelocityPlot.Series["path"].Points.AddXY(d[i], v[i + 2]);
-                VelocityPlot.Series["left"].Points.AddXY(d[i], l[i]);
-                VelocityPlot.Series["right"].Points.AddXY(d[i], r[i]);
+                VelocityPlot.Series["path"].Points.AddXY(distanceProfile[i], velocityProfile[i + 2]);
+                VelocityPlot.Series["left"].Points.AddXY(distanceProfile[i], leftVelocityProfile[i]);
+                VelocityPlot.Series["right"].Points.AddXY(distanceProfile[i], rightVelocityProfile[i]);
 
-                AnglePlot.Series["angle"].Points.AddXY(d[i], heading);
+                AnglePlot.Series["angle"].Points.AddXY(distanceProfile[i], heading);
             }
 
             //clear off the main field minus the controlpoints.
@@ -1221,7 +1219,6 @@
                 }
 
             }
-
         }
 
         /// <summary>
@@ -1521,7 +1518,7 @@
         /// <param name="Vel">The Vel<see cref="float"/></param>
         /// <returns>The <see cref="float"/></returns>
         /// HARDLY USED
-        public float fpstodps(float Vel)
+        public float Fpstodps(float Vel)
         {
 
             float dgps = (float)((87.92 / 360.0) * (int.Parse(wheel.Text) * Math.PI * Vel / 60));
@@ -1534,7 +1531,7 @@
         /// </summary>
         /// <param name="sender">The sender<see cref="object"/></param>
         /// <param name="e">The e<see cref="EventArgs"/></param>
-        private void deploy_Click(object sender, EventArgs e)
+        private void Deploy_Click(object sender, EventArgs e)
         {
             //Check to make sure that the user have given this profile a name.
             if (profilename.Text == "")
@@ -1760,7 +1757,7 @@
 
 
 
-        private void refresh_button_Click(object sender, EventArgs e)
+        private void Refresh_button_Click(object sender, EventArgs e)
         {
             this.Cursor = Cursors.WaitCursor;
             RioFiles.Rows.Clear();
@@ -1846,27 +1843,28 @@
             }
         }
         Boolean isFileMenuItemOpen = false;
-        private void fileToolStripMenuItem_DropDownOpened(object sender, EventArgs e)
+
+        private void FileToolStripMenuItem_DropDownOpened(object sender, EventArgs e)
         {
             ToolStripMenuItem TSMI = sender as ToolStripMenuItem;
             TSMI.ForeColor = Color.Black;
             isFileMenuItemOpen = true;
         }
 
-        private void fileToolStripMenuItem_DropDownClosed(object sender, EventArgs e)
+        private void FileToolStripMenuItem_DropDownClosed(object sender, EventArgs e)
         {
             ToolStripMenuItem TSMI = sender as ToolStripMenuItem;
             TSMI.ForeColor = Color.White;
             isFileMenuItemOpen = false;
         }
 
-        private void fileToolStripMenuItem_MouseEnter(object sender, EventArgs e)
+        private void FileToolStripMenuItem_MouseEnter(object sender, EventArgs e)
         {
             ToolStripMenuItem TSMI = sender as ToolStripMenuItem;
             TSMI.ForeColor = Color.Black;
         }
 
-        private void fileToolStripMenuItem_MouseLeave(object sender, EventArgs e)
+        private void FileToolStripMenuItem_MouseLeave(object sender, EventArgs e)
         {
             ToolStripMenuItem TSMI = sender as ToolStripMenuItem;
             if (isFileMenuItemOpen)
@@ -2008,7 +2006,7 @@
             about.Show();
         }
 
-        private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void OptionsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Settings settings = new Settings();
             settings.Show();

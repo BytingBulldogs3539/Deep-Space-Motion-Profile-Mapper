@@ -1,6 +1,6 @@
 ﻿namespace VelocityMap
 {
-    partial class Form1
+    partial class MainForm
     {
         /// <summary>
         /// Required designer variable.
@@ -45,7 +45,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.Field = new System.Windows.Forms.TabPage();
             this.mainField = new System.Windows.Forms.DataVisualization.Charting.Chart();
@@ -182,9 +182,9 @@
             this.mainField.Size = new System.Drawing.Size(737, 787);
             this.mainField.TabIndex = 4;
             this.mainField.Text = "chart2";
-            this.mainField.MouseClick += new System.Windows.Forms.MouseEventHandler(this.mainField_MouseClick);
-            this.mainField.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mainField_MouseDown);
-            this.mainField.MouseMove += new System.Windows.Forms.MouseEventHandler(this.mainField_MouseMove);
+            this.mainField.MouseClick += new System.Windows.Forms.MouseEventHandler(this.MainField_MouseClick);
+            this.mainField.MouseDown += new System.Windows.Forms.MouseEventHandler(this.MainField_MouseDown);
+            this.mainField.MouseMove += new System.Windows.Forms.MouseEventHandler(this.MainField_MouseMove);
             // 
             // Data
             // 
@@ -590,7 +590,7 @@
             this.deploy.TabIndex = 11;
             this.deploy.Text = "Deploy";
             this.deploy.UseVisualStyleBackColor = false;
-            this.deploy.Click += new System.EventHandler(this.deploy_Click);
+            this.deploy.Click += new System.EventHandler(this.Deploy_Click);
             // 
             // profilename
             // 
@@ -636,28 +636,28 @@
             this.moveUpToolStripMenuItem.Name = "moveUpToolStripMenuItem";
             this.moveUpToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
             this.moveUpToolStripMenuItem.Text = "Move Up";
-            this.moveUpToolStripMenuItem.Click += new System.EventHandler(this.btnUp_Click);
+            this.moveUpToolStripMenuItem.Click += new System.EventHandler(this.BtnUp_Click);
             // 
             // moveDownToolStripMenuItem
             // 
             this.moveDownToolStripMenuItem.Name = "moveDownToolStripMenuItem";
             this.moveDownToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
             this.moveDownToolStripMenuItem.Text = "Move Down";
-            this.moveDownToolStripMenuItem.Click += new System.EventHandler(this.btnDown_Click);
+            this.moveDownToolStripMenuItem.Click += new System.EventHandler(this.BtnDown_Click);
             // 
             // insertAboveToolStripMenuItem
             // 
             this.insertAboveToolStripMenuItem.Name = "insertAboveToolStripMenuItem";
             this.insertAboveToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
             this.insertAboveToolStripMenuItem.Text = "Insert Above";
-            this.insertAboveToolStripMenuItem.Click += new System.EventHandler(this.insertAbove_Click);
+            this.insertAboveToolStripMenuItem.Click += new System.EventHandler(this.InsertAbove_Click);
             // 
             // insertBelowToolStripMenuItem
             // 
             this.insertBelowToolStripMenuItem.Name = "insertBelowToolStripMenuItem";
             this.insertBelowToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
             this.insertBelowToolStripMenuItem.Text = "Insert Below";
-            this.insertBelowToolStripMenuItem.Click += new System.EventHandler(this.insertBelow_Click);
+            this.insertBelowToolStripMenuItem.Click += new System.EventHandler(this.InsertBelow_Click);
             // 
             // controlPoints
             // 
@@ -698,9 +698,9 @@
             this.controlPoints.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.controlPoints.Size = new System.Drawing.Size(229, 642);
             this.controlPoints.TabIndex = 2;
-            this.controlPoints.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.controlPoints_CellEndEdit);
-            this.controlPoints.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.controlPoints_CellMouseUp);
-            this.controlPoints.RowStateChanged += new System.Windows.Forms.DataGridViewRowStateChangedEventHandler(this.controlPoints_RowStateChange);
+            this.controlPoints.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.ControlPoints_CellEndEdit);
+            this.controlPoints.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.ControlPoints_CellMouseUp);
+            this.controlPoints.RowStateChanged += new System.Windows.Forms.DataGridViewRowStateChangedEventHandler(this.ControlPoints_RowStateChange);
             // 
             // x
             // 
@@ -756,7 +756,7 @@
             this.refresh_button.TabIndex = 25;
             this.refresh_button.Text = "Refresh";
             this.refresh_button.UseVisualStyleBackColor = false;
-            this.refresh_button.Click += new System.EventHandler(this.refresh_button_Click);
+            this.refresh_button.Click += new System.EventHandler(this.Refresh_button_Click);
             // 
             // MainMenuStrip
             // 
@@ -787,10 +787,10 @@
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(43, 24);
             this.fileToolStripMenuItem.Text = "File";
-            this.fileToolStripMenuItem.DropDownClosed += new System.EventHandler(this.fileToolStripMenuItem_DropDownClosed);
-            this.fileToolStripMenuItem.DropDownOpened += new System.EventHandler(this.fileToolStripMenuItem_DropDownOpened);
-            this.fileToolStripMenuItem.MouseEnter += new System.EventHandler(this.fileToolStripMenuItem_MouseEnter);
-            this.fileToolStripMenuItem.MouseLeave += new System.EventHandler(this.fileToolStripMenuItem_MouseLeave);
+            this.fileToolStripMenuItem.DropDownClosed += new System.EventHandler(this.FileToolStripMenuItem_DropDownClosed);
+            this.fileToolStripMenuItem.DropDownOpened += new System.EventHandler(this.FileToolStripMenuItem_DropDownOpened);
+            this.fileToolStripMenuItem.MouseEnter += new System.EventHandler(this.FileToolStripMenuItem_MouseEnter);
+            this.fileToolStripMenuItem.MouseLeave += new System.EventHandler(this.FileToolStripMenuItem_MouseLeave);
             // 
             // saveToolStripMenuItem
             // 
@@ -818,7 +818,7 @@
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
             this.optionsToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
             this.optionsToolStripMenuItem.Text = "Settings";
-            this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
+            this.optionsToolStripMenuItem.Click += new System.EventHandler(this.OptionsToolStripMenuItem_Click);
             // 
             // abouToolStripMenuItem
             // 
@@ -877,9 +877,9 @@
             this.commandPointsList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.commandPointsList.Size = new System.Drawing.Size(217, 309);
             this.commandPointsList.TabIndex = 28;
-            this.commandPointsList.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.commandPoints_CellEndEdit);
-            this.commandPointsList.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.commandPoints_CellMouseUp);
-            this.commandPointsList.RowStateChanged += new System.Windows.Forms.DataGridViewRowStateChangedEventHandler(this.commandPoints_RowStateChange);
+            this.commandPointsList.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.CommandPoints_CellEndEdit);
+            this.commandPointsList.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.CommandPoints_CellMouseUp);
+            this.commandPointsList.RowStateChanged += new System.Windows.Forms.DataGridViewRowStateChangedEventHandler(this.CommandPoints_RowStateChange);
             // 
             // dataGridViewTextBoxColumn1
             // 
@@ -924,28 +924,28 @@
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
             this.toolStripMenuItem2.Size = new System.Drawing.Size(140, 22);
             this.toolStripMenuItem2.Text = "Move Up";
-            this.toolStripMenuItem2.Click += new System.EventHandler(this.btnUp_Click_commandPoints);
+            this.toolStripMenuItem2.Click += new System.EventHandler(this.BtnUp_Click_commandPoints);
             // 
             // toolStripMenuItem3
             // 
             this.toolStripMenuItem3.Name = "toolStripMenuItem3";
             this.toolStripMenuItem3.Size = new System.Drawing.Size(140, 22);
             this.toolStripMenuItem3.Text = "Move Down";
-            this.toolStripMenuItem3.Click += new System.EventHandler(this.btnDown_Click_commandPoints);
+            this.toolStripMenuItem3.Click += new System.EventHandler(this.BtnDown_Click_commandPoints);
             // 
             // toolStripMenuItem4
             // 
             this.toolStripMenuItem4.Name = "toolStripMenuItem4";
             this.toolStripMenuItem4.Size = new System.Drawing.Size(140, 22);
             this.toolStripMenuItem4.Text = "Insert Above";
-            this.toolStripMenuItem4.Click += new System.EventHandler(this.insertAbove_Click_commandPoints);
+            this.toolStripMenuItem4.Click += new System.EventHandler(this.InsertAbove_Click_commandPoints);
             // 
             // toolStripMenuItem5
             // 
             this.toolStripMenuItem5.Name = "toolStripMenuItem5";
             this.toolStripMenuItem5.Size = new System.Drawing.Size(140, 22);
             this.toolStripMenuItem5.Text = "Insert Below";
-            this.toolStripMenuItem5.Click += new System.EventHandler(this.insertBelow_Click_commandPoints);
+            this.toolStripMenuItem5.Click += new System.EventHandler(this.InsertBelow_Click_commandPoints);
             // 
             // RioFiles
             // 
