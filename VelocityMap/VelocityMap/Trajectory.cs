@@ -387,5 +387,4 @@ namespace MotionProfile
 			return (prevAngle + angleChange);
 		}
 	}
-   
 }

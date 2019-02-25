@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace VelocityMap
 {
@@ -22,6 +18,5 @@ namespace VelocityMap
 			this.direction = direction;
 			this.pointNumber = pointNumber;
 		}
-
 	}
 }
