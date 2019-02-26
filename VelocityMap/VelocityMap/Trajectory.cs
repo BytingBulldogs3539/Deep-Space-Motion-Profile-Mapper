@@ -67,7 +67,7 @@ namespace MotionProfile
 			List<float> values = new List<float>();
 			foreach (Path p in this)
 			{
-				if (p.direction)
+				if (p.direction == Direction.FORWARD)
 				{
 					values.AddRange(p.GetVelocityProfile());
 				}
@@ -88,7 +88,7 @@ namespace MotionProfile
 		{
 			List<float> headings = new List<float>();
 
-			List<Point> pointList = new List<Point>();
+			List<SplinePoint> pointList = new List<SplinePoint>();
 
 
 			foreach (ControlPoint p in BuildPath(0))
@@ -96,7 +96,7 @@ namespace MotionProfile
 				for(int i =0; i<p.point.Length; i++)
 				{
 					System.Drawing.PointF p1 = p.point[i];
-					pointList.Add(new Point(p1.X, p1.Y, p.direction, p.pointnumbers[i]));
+					pointList.Add(new SplinePoint(p1.X, p1.Y, p.direction, p.pointnumbers[i]));
 				}
 			}
 
@@ -166,7 +166,7 @@ namespace MotionProfile
 		{
 			List<float> values = new List<float>();
 			foreach (Path p in this)
-				if (p.direction)
+				if (p.direction == Direction.FORWARD)
 				{
 					values.AddRange(p.GetOffsetVelocityProfile(offset));
 				}
@@ -186,7 +186,7 @@ namespace MotionProfile
 		{
 			List<float> values = new List<float>();
 			foreach (Path p in this)
-				if (p.direction)
+				if (p.direction == Direction.FORWARD)
 				{
 					values.AddRange(p.GetOffsetDistanceProfile(offset));
 				}
@@ -237,7 +237,7 @@ namespace MotionProfile
 			{
 				if (offset != 0)
 				{
-					if (!p.direction)
+					if (p.direction == Direction.REVERSE)
 						offset = -offset;
 					ControlPoint p2 = new ControlPoint();
 					p2.point = p.BuildOffsetPoints(offset).ToArray<System.Drawing.PointF>();
@@ -313,7 +313,7 @@ namespace MotionProfile
 		/// <summary>
 		/// Returns the angle of this point by adding the angle change to the prevAngle.
 		/// </summary>
-		private float FindAngleChange(double x2, double x1, double y2, double y1, float prevAngle, List<Point> pointList, int i)
+		private float FindAngleChange(double x2, double x1, double y2, double y1, float prevAngle, List<SplinePoint> pointList, int i)
 		{
 			float ang = 0;
 			float chx = (float)(x2 - x1);
@@ -357,17 +357,18 @@ namespace MotionProfile
 					//ang = 3;
 				}
 			}
-			Boolean forward;
+
+			Direction direction;
 			if (i == pointList.Count - 1)
 			{
-				forward = pointList[i].direction;
+				direction = pointList[i].direction;
 			}
 			else
 			{
-				forward = pointList[i + 1].direction;
+				direction = pointList[i + 1].direction;
 			}
 
-			if (!forward)
+			if (direction == Direction.REVERSE)
 			{
 				int add = 0;
 				if (ang > 0)

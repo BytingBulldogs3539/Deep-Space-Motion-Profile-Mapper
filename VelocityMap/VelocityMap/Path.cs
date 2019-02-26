@@ -13,7 +13,7 @@ namespace MotionProfile
 		public List<PointF> controlPoints = new List<PointF>();
 		public VelocityMap velocityMap = new VelocityMap();
 
-		public bool direction = true;
+		public Direction direction = Direction.FORWARD;
 
 		public int pointVelocity = 0;
 
@@ -111,7 +111,8 @@ namespace MotionProfile
 		//get the velocity profile for each wheel by using the offset distance of the wheel from the middle of the robot.
 		public List<float> GetOffsetVelocityProfile(float offset)
 		{
-			if (!direction)
+			//TODO: Fix this
+			if (direction == Direction.REVERSE)
 				offset = -offset;
 
 			PointF[] array = BuildOffsetPoints(offset).ToArray();
@@ -130,7 +131,7 @@ namespace MotionProfile
 		//get the distance profile for each wheel by using the offset distance of the wheel from the middle of the robot.
 		public List<float> GetOffsetDistanceProfile(float offset)
 		{
-			if (!direction)
+			if (direction == Direction.REVERSE)
 				offset = -offset;
 			PointF[] array = BuildOffsetPoints(offset).ToArray();
 			List<float> ret = new List<float>();

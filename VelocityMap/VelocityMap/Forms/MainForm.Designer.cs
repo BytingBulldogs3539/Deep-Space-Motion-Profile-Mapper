@@ -96,7 +96,7 @@
             this.Direction = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label10 = new System.Windows.Forms.Label();
             this.refresh_button = new System.Windows.Forms.Button();
-            this.MainMenuStrip = new System.Windows.Forms.MenuStrip();
+            this.MainStrip = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -132,7 +132,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.AnglePlot)).BeginInit();
             this.contextMenuStrip2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.controlPoints)).BeginInit();
-            this.MainMenuStrip.SuspendLayout();
+            this.MainStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.commandPointsList)).BeginInit();
             this.commandPointListMenuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.RioFiles)).BeginInit();
@@ -760,17 +760,17 @@
             // 
             // MainMenuStrip
             // 
-            this.MainMenuStrip.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.MainMenuStrip.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.MainMenuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.MainMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MainStrip.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.MainStrip.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.MainStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.MainStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem});
-            this.MainMenuStrip.Location = new System.Drawing.Point(0, 0);
-            this.MainMenuStrip.Name = "MainMenuStrip";
-            this.MainMenuStrip.Padding = new System.Windows.Forms.Padding(0);
-            this.MainMenuStrip.Size = new System.Drawing.Size(1203, 24);
-            this.MainMenuStrip.TabIndex = 26;
-            this.MainMenuStrip.Text = "menuStrip1";
+            this.MainStrip.Location = new System.Drawing.Point(0, 0);
+            this.MainStrip.Name = "MainMenuStrip";
+            this.MainStrip.Padding = new System.Windows.Forms.Padding(0);
+            this.MainStrip.Size = new System.Drawing.Size(1203, 24);
+            this.MainStrip.TabIndex = 26;
+            this.MainStrip.Text = "menuStrip1";
             // 
             // fileToolStripMenuItem
             // 
@@ -1064,7 +1064,7 @@
             this.Controls.Add(this.ClearCP);
             this.Controls.Add(this.controlPoints);
             this.Controls.Add(this.tabControl1);
-            this.Controls.Add(this.MainMenuStrip);
+            this.Controls.Add(this.MainStrip);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ForeColor = System.Drawing.Color.White;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -1088,8 +1088,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.AnglePlot)).EndInit();
             this.contextMenuStrip2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.controlPoints)).EndInit();
-            this.MainMenuStrip.ResumeLayout(false);
-            this.MainMenuStrip.PerformLayout();
+            this.MainStrip.ResumeLayout(false);
+            this.MainStrip.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.commandPointsList)).EndInit();
             this.commandPointListMenuStrip.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.RioFiles)).EndInit();
@@ -1148,7 +1148,7 @@
         private System.Windows.Forms.DataGridView controlPoints;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Button refresh_button;
-        private System.Windows.Forms.MenuStrip MainMenuStrip;
+        private System.Windows.Forms.MenuStrip MainStrip;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
         private System.Windows.Forms.CheckBox GridCheckBox;
