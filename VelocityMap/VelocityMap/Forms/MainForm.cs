@@ -1039,12 +1039,12 @@
                 if (row.Cells[2].Value.ToString() == "-")
                 {
                     mainField.Series["cp"].Points.Last().Color = Color.Red;
-                    path.direction = true;
+                    path.direction = VelocityMap.Direction.FORWARD;
                 }
                 //If the direction cell contains a positive then set that path direction to false.
                 if (row.Cells[2].Value.ToString() == "+")
                 {
-                    path.direction = false;
+                    path.direction = VelocityMap.Direction.FORWARD;
                 }
 
                 //Add our controlpoint to our path.
@@ -1056,10 +1056,10 @@
                 {
                     Console.WriteLine("WTF");
                     if (row.Cells[2].Value.ToString() == "+")
-                        path.direction = false;
+                        path.direction = VelocityMap.Direction.FORWARD;
 
                     if (row.Cells[2].Value.ToString() == "-")
-                        path.direction = true;
+                        path.direction = VelocityMap.Direction.FORWARD;
 
                     if (path.controlPoints.Count >= 2)
                         paths.Add(path);
@@ -1093,10 +1093,10 @@
 
 
             if (lastrow != null && lastrow.Cells[2].Value.ToString() != "+")
-                path.direction = false;
+                path.direction = VelocityMap.Direction.REVERSE;
 
             if (lastrow != null && lastrow.Cells[2].Value.ToString() != "-")
-                path.direction = true;
+                path.direction = VelocityMap.Direction.REVERSE;
 
             //if our path contains more than or equal to 2 add the path to paths.
             if (path.controlPoints.Count >= 2)

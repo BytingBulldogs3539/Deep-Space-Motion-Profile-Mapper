@@ -7,7 +7,7 @@ namespace MotionProfile
 {
 	class Trajectory : List<Path>
 	{
-		private double CONVERT = 180.0 / Math.PI;
+		private readonly double CONVERT = 180.0 / Math.PI;
 
 		/// <summary>
 		/// Returns the absolute fastest that the robot will be going.
@@ -101,19 +101,18 @@ namespace MotionProfile
 			}
 
 			List<ControlPoint> cp = BuildPath(0);
-			float startAngle = FindStartAngle(pointList[1].x, pointList[0].x, pointList[1].y, pointList[0].y);
+			float startAngle = FindStartAngle(pointList[1].GetX(), pointList[0].GetX(), pointList[1].GetY(), pointList[0].GetY());
 
 			for (int i = 0; i < (pointList.Count - 2); i++) //for not zeroing the angle after each path.
 			{
 
 				if (i == 0)
 				{
-					headings.Add(FindStartAngle(pointList[i + 1].x, pointList[i].x, pointList[i + 1].y, pointList[i].y));
+					headings.Add(FindStartAngle(pointList[i + 1].GetX(), pointList[i].GetX(), pointList[i + 1].GetY(), pointList[i].GetY()));
 				}
 				else
 				{
-
-					headings.Add(FindAngleChange(pointList[i + 1].x, pointList[i].x, pointList[i + 1].y, pointList[i].y, headings[headings.Count - 1], pointList,i));
+					headings.Add(FindAngleChange(pointList[i + 1].GetX(), pointList[i].GetX(), pointList[i + 1].GetY(), pointList[i].GetY(), headings[headings.Count - 1], pointList,i));
 				}
 			}
 
@@ -175,7 +174,6 @@ namespace MotionProfile
 					foreach (float f in p.GetOffsetVelocityProfile(offset))
 						values.Add(-f);
 				}
-
 			return values;
 		}
 
@@ -361,11 +359,11 @@ namespace MotionProfile
 			Direction direction;
 			if (i == pointList.Count - 1)
 			{
-				direction = pointList[i].direction;
+				direction = pointList[i].GetDirection();
 			}
 			else
 			{
-				direction = pointList[i + 1].direction;
+				direction = pointList[i + 1].GetDirection();
 			}
 
 			if (direction == Direction.REVERSE)

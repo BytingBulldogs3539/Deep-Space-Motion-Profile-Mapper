@@ -13,12 +13,12 @@ namespace VelocityMap
 	}
 
 	public class SplinePoint
-	{    
-		public float x, y;
+	{
+		private float x, y;
 
-		public Direction direction;
+		private Direction direction;
 
-		public int pointNumber;
+		private int pointNumber;
 
 		public SplinePoint(float x, float y, Direction direction, int pointNumber)
 		{
@@ -27,13 +27,31 @@ namespace VelocityMap
 			this.direction = direction;
 			this.pointNumber = pointNumber;
 		}
+
+		public float GetX()
+		{
+			return x;
+		}
+
+		public float GetY()
+		{
+			return y;
+		}
+
+		public Direction GetDirection()
+		{
+			return direction;
+		}
+
+		public int GetPointNumber()
+		{
+			return pointNumber;
+		}
 	}
 
 	class ControlPoint
 	{
-		public Direction direction = Direction.FORWARD;
-
-		public int velocity;
+		public Direction direction;
 		
 		public System.Drawing.PointF[] point;
 
@@ -41,6 +59,12 @@ namespace VelocityMap
 
 		public ControlPoint()
 		{
+			direction = Direction.FORWARD;
+		}
+
+		public void SetDirection(Direction direction)
+		{
+			this.direction = direction;
 		}
 	}
 }

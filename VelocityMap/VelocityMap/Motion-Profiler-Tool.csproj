@@ -74,9 +74,8 @@
     <Compile Include="Forms\AboutBox.Designer.cs">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="ControlPoint.cs" />
     <Compile Include="Extensions.cs" />
-    <Compile Include="Point.cs" />
+    <Compile Include="Points.cs" />
     <Compile Include="Forms\Settings.cs">
       <SubType>Form</SubType>
     </Compile>
