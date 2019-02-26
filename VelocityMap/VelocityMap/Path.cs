@@ -49,7 +49,7 @@ namespace MotionProfile
 			path = new Spline.ParametricSpline(controlPointsX.ToArray(), controlPointsY.ToArray(), resolution, out xs, out ys);
 
 
-			velocityMap.setLength(path.distance.Last());
+			velocityMap.SetLength(path.distance.Last());
 
 		}
 
@@ -70,7 +70,7 @@ namespace MotionProfile
 				path = new Spline.ParametricSpline(controlPointsX.ToArray(), controlPointsY.ToArray(), resolution, out xs, out ys, dx, dy);
 
 
-			velocityMap.setLength(path.distance.Last());
+			velocityMap.SetLength(path.distance.Last());
 			BuildMaps();
 
 			PointF p1 = path.Eval(distance[distance.Length - 1]);
@@ -175,7 +175,7 @@ namespace MotionProfile
 			List<int> pts = new List<int>();
 			foreach (float p in distance)
 			{
-				pts.Add(path.findControlPoint(p));
+				pts.Add(path.FindControlPoint(p));
 			}
 			return pts;
 		}
@@ -195,11 +195,11 @@ namespace MotionProfile
 
 			while (dist.Last() < path.distance.Last())
 			{
-				float velocity = velocityMap.getVelocity(dist.Last());
+				float velocity = velocityMap.GetVelocity(dist.Last());
 
 
 
-				if (velocity == 0) { velocity = velocityMap.getMinVelocity(); }
+				if (velocity == 0) { velocity = velocityMap.GetMinVelocity(); }
 
 				float distance = (float)(dist.Last() + (velocity + vel.Last()) / 2 * velocityMap.time);
 
@@ -248,13 +248,11 @@ namespace MotionProfile
 			t.Add(0);
 			dist.Add(0);
 
-
 			while (dist.Last()  < path.distance.Last())
 			{
-				float velocity = velocityMap.getVelocity(dist.Last());
+				float velocity = velocityMap.GetVelocity(dist.Last());
 
-
-				if (velocity == 0) { velocity = velocityMap.getMinVelocity(); }
+				if (velocity == 0) { velocity = velocityMap.GetMinVelocity(); }
 
 				dist.Add((float)(dist.Last() + (velocity + vel.Last()) / 2 * velocityMap.time));
 				vel.Add(velocity);
@@ -263,8 +261,6 @@ namespace MotionProfile
 			this.velocity = vel.ToArray();
 			this.distance = dist.ToArray();
 			this.time = t.ToArray();
-
-
 		}
 
 		//Return the according profiles.

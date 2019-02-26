@@ -11,6 +11,7 @@ namespace VelocityMap
 		public float y;
 		public Boolean direction;
 		public int pointNumber;
+
 		public Point(float x, float y, Boolean direction, int pointNumber)
 		{
 			this.x = x;

@@ -145,19 +145,19 @@ namespace MotionProfile
 			return headings.ToArray<float>();
 		}
 
-		public List<int> GetControlPointNumberProfile()
-		{
-			List<int> controlPoints = new List<int>();
-			foreach (ControlPoint p in BuildPath(0))
-			{
-				for (int i = 0; i < p.point.Length; i++)
-				{
-					System.Drawing.PointF p1 = p.point[i];
-					controlPoints.Add(p.pointnumbers[i]);
-				}
-			}
-			return controlPoints;
-		}
+		//public List<int> GetControlPointNumberProfile()
+		//{
+		//	List<int> controlPoints = new List<int>();
+		//	foreach (ControlPoint p in BuildPath(0))
+		//	{
+		//		for (int i = 0; i < p.point.Length; i++)
+		//		{
+		//			System.Drawing.PointF p1 = p.point[i];
+		//			controlPoints.Add(p.pointnumbers[i]);
+		//		}
+		//	}
+		//	return controlPoints;
+		//}
 
 		/// <summary>
 		/// Returns the velocity profile of the right or left wheel while using the offset from the middle of the robot.

@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace VelocityMap
 {
 	class ControlPoint
 	{
+		//TODO: change to Enum
 		public Boolean direction = false;
+
 		public int velocity;
 
 		public System.Drawing.PointF[] point;

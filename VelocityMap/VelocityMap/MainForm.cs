@@ -965,7 +965,7 @@
             //Set the new VelocityMap's max acceleration.
             path.velocityMap.FL1 = int.Parse(AccelRate.Text);
             //Set the new VelocityMap's time sampling rate.
-            path.velocityMap.time = float.Parse(timeSample.Text) / 1000;
+            //path.velocityMap.time = float.Parse(timeSample.Text) / 1000;
             //Set the new VelocityMap's boolean if the velocity should be instant.
             path.velocityMap.instVelocity = isntaVel.Checked;
             //Set the paths tolerance.

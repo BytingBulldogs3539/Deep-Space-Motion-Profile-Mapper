@@ -289,7 +289,8 @@ namespace MotionProfile.Spline
 
 			return y;
 		}
-		public List<int> findControlPoint(float[] x, bool debug = false)
+
+		public List<int> FindControlPoint(float[] x, bool debug = false)
 		{
 			List<int> test = new List<int>();
 			CheckAlreadyFitted();
@@ -531,15 +532,16 @@ namespace MotionProfile.Spline
 			return new System.Drawing.PointF(xs[0], ys[0]);
 		}
 
-		public int findControlPoint(float x, bool debug = false)
+		public int FindControlPoint(float x, bool debug = false)
 		{
 			float[] xx = { x };
 
-			int[] xs = xSpline.findControlPoint(xx, debug).ToArray();
-			int[] ys = ySpline.findControlPoint(xx, debug).ToArray();
+			int[] xs = xSpline.FindControlPoint(xx, debug).ToArray();
+			int[] ys = ySpline.FindControlPoint(xx, debug).ToArray();
 
 			return xs[0];
 		}
+
 		public List<System.Drawing.PointF> Eval(float[] x, bool debug = false)
 		{
 			List<System.Drawing.PointF> pts = new List<System.Drawing.PointF>();
