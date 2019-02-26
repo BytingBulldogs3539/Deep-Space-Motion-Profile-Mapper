@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2026
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VelocityMap", "VelocityMap\VelocityMap.csproj", "{64B241C3-C7BD-4B60-9B13-0A603A637F87}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Motion-Profiler-Tool", "VelocityMap\Motion-Profiler-Tool.csproj", "{64B241C3-C7BD-4B60-9B13-0A603A637F87}"
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Motion-Profiler-Installer", "Motion-Profiler-Installer\Motion-Profiler-Installer.vdproj", "{9C218100-280E-43C5-A810-DC89AD37A4C5}"
 EndProject
