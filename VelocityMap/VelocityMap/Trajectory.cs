@@ -243,11 +243,7 @@ namespace MotionProfile
 				}
 				else
 				{
-					ControlPoint p3 = new ControlPoint();
-					p3.drawingPoints = p.BuildPath().ToArray<System.Drawing.PointF>();
-					p3.pointNumbers = p.FindPointControlPoints().ToArray();
-
-					p3.direction = p.direction;
+					ControlPoint p3 = new ControlPoint(p.direction, p.BuildPath().ToArray<System.Drawing.PointF>(), p.FindPointControlPoints().ToArray());
 					
 					values.Add(p3);
 				}
