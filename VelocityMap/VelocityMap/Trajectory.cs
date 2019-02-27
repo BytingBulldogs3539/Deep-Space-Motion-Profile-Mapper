@@ -93,10 +93,10 @@ namespace MotionProfile
 
 			foreach (ControlPoint p in BuildPath(0))
 			{
-				for(int i =0; i<p.point.Length; i++)
+				for(int i =0; i<p.GetDrawingPoints().Length; i++)
 				{
-					System.Drawing.PointF p1 = p.point[i];
-					pointList.Add(new SplinePoint(p1.X, p1.Y, p.direction, p.pointnumbers[i]));
+					System.Drawing.PointF p1 = p.GetDrawingPoint(i);
+					pointList.Add(new SplinePoint(p1.X, p1.Y, p.GetDirection(), p.GetPointNumber(i)));
 				}
 			}
 
@@ -237,18 +237,15 @@ namespace MotionProfile
 				{
 					if (p.direction == Direction.REVERSE)
 						offset = -offset;
-					ControlPoint p2 = new ControlPoint();
-					p2.point = p.BuildOffsetPoints(offset).ToArray<System.Drawing.PointF>();
-					p2.direction = p.direction;
-					p2.pointnumbers = p.FindPointControlPoints().ToArray();
+					ControlPoint p2 = new ControlPoint(p.direction, p.BuildOffsetPoints(offset).ToArray<System.Drawing.PointF>(), p.FindPointControlPoints().ToArray());
 
 					values.Add(p2);
 				}
 				else
 				{
 					ControlPoint p3 = new ControlPoint();
-					p3.point = p.BuildPath().ToArray<System.Drawing.PointF>();
-					p3.pointnumbers = p.FindPointControlPoints().ToArray();
+					p3.drawingPoints = p.BuildPath().ToArray<System.Drawing.PointF>();
+					p3.pointNumbers = p.FindPointControlPoints().ToArray();
 
 					p3.direction = p.direction;
 					

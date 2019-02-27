@@ -1175,9 +1175,9 @@
             //Build the path and use the controlPoints that are returned to plot.
             foreach (ControlPoint p in paths.BuildPath())
             {
-                for (int i = 0; i < p.point.Length - 2; i++)
+                for (int i = 0; i < p.GetPointNumbers().Length - 2; i++)
                 {
-                    PointF p1 = p.point[i];
+                    PointF p1 = p.GetDrawingPoint(i);
                     mainField.Series["path"].Points.AddXY(p1.Y, p1.X);
 
                 }
@@ -1186,7 +1186,7 @@
 
             foreach (ControlPoint p in paths.BuildPath(trackwidth))
             {
-                foreach (PointF p1 in p.point)
+                foreach (PointF p1 in p.GetDrawingPoints())
                 {
                     mainField.Series["left"].Points.AddXY(p1.Y, p1.X);
                 }
@@ -1196,7 +1196,7 @@
 
             foreach (ControlPoint p in paths.BuildPath(-trackwidth))
             {
-                foreach (PointF p1 in p.point)
+                foreach (PointF p1 in p.GetDrawingPoints())
                 {
                     mainField.Series["right"].Points.AddXY(p1.Y, p1.X);
                 }

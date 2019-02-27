@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 
 namespace VelocityMap
 {
@@ -51,20 +52,52 @@ namespace VelocityMap
 
 	class ControlPoint
 	{
-		public Direction direction;
-		
-		public System.Drawing.PointF[] point;
+		private Direction direction;
 
-		public int[] pointnumbers;
+		private PointF[] drawingPoints;
+
+		private int[] pointNumbers;
 
 		public ControlPoint()
 		{
 			direction = Direction.FORWARD;
 		}
 
+		public ControlPoint(Direction direction, PointF[] drawingPoints, int[] pointNumbers)
+		{
+			this.direction = direction;
+			this.drawingPoints = drawingPoints;
+			this.pointNumbers = pointNumbers;
+		}
+
 		public void SetDirection(Direction direction)
 		{
 			this.direction = direction;
+		}
+
+		public Direction GetDirection()
+		{
+			return direction;
+		}
+
+		public int[] GetPointNumbers()
+		{
+			return pointNumbers;
+		}
+
+		public int GetPointNumber(int i)
+		{
+			return pointNumbers[i];
+		}
+
+		public PointF[] GetDrawingPoints()
+		{
+			return drawingPoints;
+		}
+
+		public PointF GetDrawingPoint(int i)
+		{
+			return drawingPoints[i];
 		}
 	}
 }
