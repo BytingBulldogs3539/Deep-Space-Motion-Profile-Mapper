@@ -11,6 +11,8 @@
     using System.Text;
     using System.Windows.Forms;
     using System.Windows.Forms.DataVisualization.Charting;
+    using MotionProfile;
+    using static MotionProfile.ControlPoint;
 
     /// <summary>
     /// Defines the <see cref="MainForm" />
@@ -32,15 +34,7 @@
         /// </summary>
         internal int padding = 1;
 
-        /// <summary>
-        /// Defines the baseFieldImage
-        /// </summary>
-        private Bitmap baseFieldImage;
-
-        /// <summary>
-        /// Defines the paths
-        /// </summary>
-        private MotionProfile.Trajectory paths;
+        public List<ControlPoint> controlPointArray = new List<ControlPoint>();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MainForm"/> class.
@@ -56,7 +50,7 @@
         /// </summary>
         /// <param name="sender">The sender<see cref="object"/></param>
         /// <param name="e">The e<see cref="EventArgs"/></param>
-        private void Form1_Load(object sender, EventArgs e)
+        private void MainForm_Load(object sender, EventArgs e)
         {
             //TODO: Remove fieldpoints.txt comment and review methods it describes
 
@@ -75,56 +69,21 @@
         /// </summary>
         private void SetupMainField()
         {
-            baseFieldImage = BuildField();
-            //convert the bitmap to an image that we can put on the field.
-            Image b = new Bitmap(baseFieldImage, 1000, 1000);
-            //Flip the image because someone created the field upside down....
-            b.RotateFlip(RotateFlipType.Rotate180FlipNone);
-            //Give the background image a name...
-            NamedImage backImage = new NamedImage("Background", b);
-            //the test series is really the background series.
-            mainField.Series.Add("test");
-            mainField.Series["test"].ChartType = SeriesChartType.Point;
-            //mainField.Series["test"].Points.AddXY(0, 0);
-            mainField.Series["test"].Points.AddXY(fieldWidth, fieldHeight);
-            //add different lines to the main field chart.
-            mainField.Series.Add("path");
-            mainField.Series.Add("left");
-            mainField.Series.Add("right");
-            mainField.Series.Add("cp");
-            //setup the point size(the dot size on the graph)
-            mainField.Series["cp"].MarkerSize = 10;
-            mainField.Series["path"].MarkerSize = 4;
-            mainField.Series["left"].MarkerSize = 2;
-            mainField.Series["right"].MarkerSize = 2;
-
-            //set what the points/dots look like
-            mainField.Series["cp"].MarkerStyle = MarkerStyle.Diamond;
-            //set what the different lines on the graph look like.
-            mainField.Series["cp"].ChartType = SeriesChartType.Point;
-            mainField.Series["path"].ChartType = SeriesChartType.Point;
-            mainField.Series["left"].ChartType = SeriesChartType.Point;
-            mainField.Series["right"].ChartType = SeriesChartType.Point;
-            //set what the seperate lines color.
-            mainField.Series["cp"].Color = Color.ForestGreen;
-            mainField.Series["path"].Color = Color.Lime;
-            mainField.Series["left"].Color = Color.Blue;
-            mainField.Series["right"].Color = Color.Red;
 
             //this sets up what the graph domain and range is and what our increments are.
-            mainField.ChartAreas[0].Axes[0].Maximum = fieldWidth;
-            mainField.ChartAreas[0].Axes[0].Interval = 1000;
-            mainField.ChartAreas[0].Axes[0].Minimum = 0;
+            mainField.ChartAreas["field"].Axes[0].Maximum = fieldWidth;
+            mainField.ChartAreas["field"].Axes[0].Interval = 1000;
+            mainField.ChartAreas["field"].Axes[0].Minimum = 0;
 
-            mainField.ChartAreas[0].Axes[1].Maximum = fieldHeight;
-            mainField.ChartAreas[0].Axes[1].Interval = 1000;
-            mainField.ChartAreas[0].Axes[1].Minimum = 0;
+            mainField.ChartAreas["field"].Axes[1].Maximum = fieldHeight;
+            mainField.ChartAreas["field"].Axes[1].Interval = 1000;
+            mainField.ChartAreas["field"].Axes[1].Minimum = 0;
 
 
-            //set the background to the background.
-            mainField.Images.Add(backImage);
-            mainField.ChartAreas[0].BackImageWrapMode = ChartImageWrapMode.Scaled;
-            mainField.ChartAreas[0].BackImage = "Background";
+            mainField.Series["background"].Points.AddXY(0, 0);
+            mainField.Series["background"].Points.AddXY(fieldWidth, fieldHeight);
+
+
         }
 
         /// <summary>
@@ -214,28 +173,9 @@
                 s.Points.Clear();
             }
 
-            mainField.Series["test"].Points.AddXY(0, 0);
-            mainField.Series["test"].Points.AddXY(fieldWidth, fieldHeight);
+            SetupMainField();
         }
 
-
-        /// <summary>
-        /// Used to draw the points from the fieldpoints.txt on the field
-        /// </summary>
-        /// <returns> The bitmap of the background for the field. </returns>
-        private Bitmap BuildField()
-        {
-            //TODO: what the hell
-            Pen bluePen = new Pen(Color.Red, 10);
-
-            //create the drawing bitmap
-            Bitmap b = new Bitmap(VelocityMap.Properties.Resources._2019_field);
-            b.RotateFlip(RotateFlipType.Rotate90FlipNone);
-
-            //draw the field size on the bitmap
-
-            return b;
-        }
 
         /// <summary>
         /// The event that is called when the user clicks on the main field chart.
@@ -247,17 +187,6 @@
             //if the button click is a left mouse click then add a positive point to the field chart.
             if (e.Button == MouseButtons.Left)
             {
-                if (dp != null)
-                {
-                    dp.Color = Color.Yellow;
-                    dp = null;
-                    if ((controlPoints.RowCount - 2 > 0))
-                    {
-                        Apply_Click(null, null);
-                    }
-
-                    return;
-                }
                 Chart c = (Chart)sender;
 
                 double x = c.ChartAreas[0].AxisX.PixelPositionToValue(e.X);
@@ -265,10 +194,9 @@
 
                 if (x > 0 && y > 0 && x <= fieldWidth && y <= fieldHeight)
                 {
-                    c.Series["cp"].Points.AddXY(x, y);
-
-                    controlPoints.Rows[controlPoints.Rows.Add((int)x, (int)y, "+", "")].Selected = true;
+                    ControlPointTable.Rows[ControlPointTable.Rows.Add((int)x, (int)y, "+", "")].Selected = true;
                 }
+                DrawControlPoints();
             }
             //if the button click is a right mouse click then add a negative point to the field chart.
 
@@ -277,7 +205,7 @@
                 if (dp != null)
                 {
                     dp = null;
-                    if ((controlPoints.RowCount - 2 > 0))
+                    if ((ControlPointTable.RowCount - 2 > 0))
                     {
                         Apply_Click(null, null);
                     }
@@ -295,7 +223,7 @@
                     c.Series["cp"].Points.AddXY(x, y);
                     mainField.Series["cp"].Points.Last().Color = Color.Red;
 
-                    controlPoints.Rows[controlPoints.Rows.Add((int)x, (int)y, "-", Int32.Parse(maxVelocity.Text))].Selected = true;
+                    ControlPointTable.Rows[ControlPointTable.Rows.Add((int)x, (int)y, "-", Int32.Parse(maxVelocity.Text))].Selected = true;
                 }
 
             }
@@ -335,7 +263,7 @@
             {
                 Chart c = (Chart)sender;
 
-                ChartArea ca = c.ChartAreas[0];
+                ChartArea ca = c.ChartAreas["field"];
                 Axis ax = ca.AxisX;
                 Axis ay = ca.AxisY;
                 if (dp != null)
@@ -351,6 +279,7 @@
                         //check to see if the point is part of the controlpoints because we have more than just controlpoints on the field chart
                         if (hit.Series == null)
                             return;
+
                         if (hit.Series.ToString() != "Series-cp")
                             return;
 
@@ -358,9 +287,9 @@
                             return;
                         //if the point is real and exists then set dp to the point.
                         dp = hit.Series.Points[hit.PointIndex];
-                        foreach (DataGridViewRow row in controlPoints.Rows)
+                        foreach (DataGridViewRow row in ControlPointTable.Rows)
                         {
-                            if (RowContainData(row,true))
+                            if (RowContainData(row, true))
                             {
                                 // Debug.Print(row.Cells[0].Value.ToString() + ":" + ((int)dp.XValue).ToString() + ":" + row.Cells[1].Value.ToString() + ":" + ((int)dp.YValues[0]).ToString());
                                 if (row.Cells[0].Value.ToString() == ((int)dp.XValue).ToString() && row.Cells[1].Value.ToString() == ((int)dp.YValues[0]).ToString())
@@ -407,8 +336,8 @@
 
                     dp.XValue = dx;
                     dp.YValues[0] = dy;
-                    controlPoints.Rows[rowIndex].Cells[0].Value = dx;
-                    controlPoints.Rows[rowIndex].Cells[1].Value = dy;
+                    ControlPointTable.Rows[rowIndex].Cells[0].Value = dx;
+                    ControlPointTable.Rows[rowIndex].Cells[1].Value = dy;
 
                     c.Invalidate();
                 }
@@ -443,18 +372,18 @@
         private void Invert_Click(object sender, EventArgs e)
         {
             //goes though ever row and changes the x value from the left side to the right side by taking the field width and subracting the current x value.
-            foreach (DataGridViewRow row in controlPoints.Rows)
+            foreach (DataGridViewRow row in ControlPointTable.Rows)
             {
-                if (RowContainData(row,true))
+                if (RowContainData(row, true))
                     row.Cells[0].Value = this.fieldWidth - float.Parse(row.Cells[0].Value.ToString());
             }
             Apply_Click(sender, e);
         }
 
-        /// <summary>
+       /// <summary>
         /// The event that is called when a rows state is changed ex: the row is selected.
         /// </summary>
-        private void ControlPoints_RowStateChange(object sender, DataGridViewRowStateChangedEventArgs e)
+        private void ControlPointsTable_RowStateChange(object sender, DataGridViewRowStateChangedEventArgs e)
         {
 
             if (e.Row.Cells[0].Value == null && e.Row.Cells[1].Value == null && e.Row.Cells[1].Value == null)
@@ -482,10 +411,10 @@
             if (e.Row.Selected == true)
             {
                 //Make sure that we at least have 1 point otherwise don't run this.
-                if (controlPoints.Rows.Count - 2 != 0)
+                if (ControlPointTable.Rows.Count - 2 != 0)
                 {
                     //Go though each row.
-                    foreach (DataGridViewRow row in controlPoints.Rows)
+                    foreach (DataGridViewRow row in ControlPointTable.Rows)
                     {
                         //Make sure that the row that is being selected is one of the ones that might have data.
                         if (RowContainData(row, true))
@@ -509,10 +438,10 @@
                 }
 
                 //Make sure that we at least have 1 point otherwise don't run this.
-                if (controlPoints.Rows.Count - 2 != 0)
+                if (ControlPointTable.Rows.Count - 2 != 0)
                 {
                     //Make sure that the row that is being selected is one of the ones that might have data.
-                    if (e.Row.Index >= 0 && e.Row.Index <= controlPoints.Rows.Count - 2)
+                    if (e.Row.Index >= 0 && e.Row.Index <= ControlPointTable.Rows.Count - 2)
                     {
                         //Change the selected point to the color yellow.
                         mainField.Series["cp"].Points[e.Row.Index].Color = Color.Yellow;
@@ -545,7 +474,7 @@
                 }
             }
 
-            if (RowContainData(e.Row,true))
+            if (RowContainData(e.Row, true))
             {
 
                 if (mainField.Series["path"].Points.Count >= int.Parse(e.Row.Cells[0].Value.ToString()))
@@ -566,51 +495,52 @@
         {
             //Check to see if the user is editing a cell that is in the third column.
 
-            if (controlPoints.CurrentRow.Cells[0].Value == null && controlPoints.CurrentRow.Cells[1].Value == null && controlPoints.CurrentRow.Cells[1].Value == null)
+            if (ControlPointTable.CurrentRow.Cells[0].Value == null && ControlPointTable.CurrentRow.Cells[1].Value == null && ControlPointTable.CurrentRow.Cells[1].Value == null)
             {
                 return;
             }
-            if (controlPoints.CurrentRow.Cells[0].Value == null || controlPoints.CurrentRow.Cells[0].Value.ToString() == "")
+            if (ControlPointTable.CurrentRow.Cells[0].Value == null || ControlPointTable.CurrentRow.Cells[0].Value.ToString() == "")
             {
-                controlPoints.CurrentRow.Cells[0].Value = 100;
+                ControlPointTable.CurrentRow.Cells[0].Value = 100;
             }
-            if (controlPoints.CurrentRow.Cells[1].Value == null || controlPoints.CurrentRow.Cells[1].Value.ToString() == "")
+            if (ControlPointTable.CurrentRow.Cells[1].Value == null || ControlPointTable.CurrentRow.Cells[1].Value.ToString() == "")
             {
-                controlPoints.CurrentRow.Cells[1].Value = 100;
+                ControlPointTable.CurrentRow.Cells[1].Value = 100;
             }
-            if (controlPoints.CurrentRow.Cells[2].Value == null || controlPoints.CurrentRow.Cells[2].Value.ToString() == "")
+            if (ControlPointTable.CurrentRow.Cells[2].Value == null || ControlPointTable.CurrentRow.Cells[2].Value.ToString() == "")
             {
-                controlPoints.CurrentRow.Cells[2].Value = "+";
+                ControlPointTable.CurrentRow.Cells[2].Value = "+";
             }
 
             try
             {
-                float.Parse(controlPoints.CurrentRow.Cells[0].Value.ToString());
+                float.Parse(ControlPointTable.CurrentRow.Cells[0].Value.ToString());
             }
             catch (Exception)
             {
-                controlPoints.CurrentRow.Cells[0].Value = 100;
+                ControlPointTable.CurrentRow.Cells[0].Value = 100;
             }
             try
             {
-                float.Parse(controlPoints.CurrentRow.Cells[1].Value.ToString());
+                float.Parse(ControlPointTable.CurrentRow.Cells[1].Value.ToString());
             }
             catch (Exception)
             {
-                controlPoints.CurrentRow.Cells[1].Value = 100;
+                ControlPointTable.CurrentRow.Cells[1].Value = 100;
             }
 
             if (e.ColumnIndex == 2)
             {
                 //If the cell contains a + or a - the ignore it. Else change the cell text to be a + signs.
-                if (controlPoints.CurrentCell.Value.ToString() == "+" || controlPoints.CurrentCell.Value.ToString() == "-")
+                if (ControlPointTable.CurrentCell.Value.ToString() == "+" || ControlPointTable.CurrentCell.Value.ToString() == "-")
                 {
                 }
                 else
                 {
-                    controlPoints.CurrentCell.Value = "+";
+                    ControlPointTable.CurrentCell.Value = "+";
                 }
             }
+            DrawControlPoints();
         }
         private void CommandPoints_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
@@ -638,18 +568,19 @@
                 if (e.RowIndex >= 0)
                 {
                     //on mouse up select that row.
-                    this.controlPoints.Rows[e.RowIndex].Selected = true;
+                    this.ControlPointTable.Rows[e.RowIndex].Selected = true;
                     //When the row is selected set the rowindex to the index of the row that was just selected. (aka update the rowIndex value)
                     this.rowIndex = e.RowIndex;
                     //set the tables currentcell to the cell we just clicked.
-                    this.controlPoints.CurrentCell = this.controlPoints.Rows[e.RowIndex].Cells[1];
+                    this.ControlPointTable.CurrentCell = this.ControlPointTable.Rows[e.RowIndex].Cells[1];
                     //since we right clicked we open a context strip with things that allow us to delete and move the current row.
-                    var relativeMousePosition = this.controlPoints.PointToClient(System.Windows.Forms.Cursor.Position);
-                    this.contextMenuStrip2.Show(this.controlPoints, relativeMousePosition);
+                    var relativeMousePosition = this.ControlPointTable.PointToClient(System.Windows.Forms.Cursor.Position);
+                    this.contextMenuStrip2.Show(this.ControlPointTable, relativeMousePosition);
                 }
 
 
             }
+
         }
         private void CommandPoints_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
         {
@@ -680,12 +611,13 @@
         private void Delete_Click(object sender, EventArgs e)
         {
             //Make sure we are not deleting the always blank last row.
-            if (rowIndex != controlPoints.RowCount - 1)
+            if (rowIndex != ControlPointTable.RowCount - 1)
             {
                 //Delete the row that is selected.
-                controlPoints.Rows.RemoveAt(rowIndex);
+                ControlPointTable.Rows.RemoveAt(rowIndex);
             }
             //Reload the points because we just deleted one and we need the rest of the program to know.
+            DrawControlPoints();
             Apply_Click(null, null);
         }
 
@@ -698,6 +630,7 @@
                 commandPointsList.Rows.RemoveAt(commandRowIndex);
             }
             //Reload the points because we just deleted one and we need the rest of the program to know.
+            DrawControlPoints();
             Apply_Click(null, null);
         }
 
@@ -707,7 +640,7 @@
         private void ClearCP_Click(object sender, EventArgs e)
         {
             //Clear all of the rows in the controlpoints table.
-            controlPoints.Rows.Clear();
+            ControlPointTable.Rows.Clear();
             commandPointsList.Rows.Clear();
             //Clear all of the plots.
             mainField.Series["cp"].Points.Clear();
@@ -735,8 +668,8 @@
         {
             //insert a new row at the selected index. (this will push the current index down one.)
             mainField.Series["cp"].Points.AddXY(100, 100);
-            controlPoints.Rows.Insert(rowIndex, 100, 100, "+");
-            ReloadControlPoints();
+            ControlPointTable.Rows.Insert(rowIndex, 100, 100, "+");
+            DrawControlPoints();
 
         }
 
@@ -757,10 +690,10 @@
         private void InsertBelow_Click(object sender, EventArgs e)
         {
             //insert a new row at the selected index plus one.
-            controlPoints.Rows.Insert(rowIndex + 1, 100, 100, "+");
-            mainField.Series["cp"].Points.AddXY(0, 0);
+            ControlPointTable.Rows.Insert(rowIndex + 1, 100, 100, "+");
+            mainField.Series["cp"].Points.AddXY(100, 100);
 
-            ReloadControlPoints();
+            DrawControlPoints();
         }
 
         /// <summary>
@@ -781,7 +714,7 @@
         private void BtnUp_Click(object sender, EventArgs e)
         {
             //lets convert our object name because I copied this from the internet and am to lazy to change it.
-            DataGridView dgv = controlPoints;
+            DataGridView dgv = ControlPointTable;
             try
             {
                 int totalRows = dgv.Rows.Count;
@@ -798,6 +731,7 @@
                 dgv.Rows[rowIndex - 1].Cells[colIndex].Selected = true;
             }
             catch { }
+            DrawControlPoints();
         }
 
         /// <summary>
@@ -830,7 +764,7 @@
         /// </summary>
         private void BtnDown_Click(object sender, EventArgs e)
         {
-            DataGridView dgv = controlPoints;
+            DataGridView dgv = ControlPointTable;
             try
             {
                 //lets convert our object name because I copied this from the internet and am to lazy to change it.
@@ -840,7 +774,7 @@
                 int rowIndex = dgv.SelectedCells[0].OwningRow.Index;
                 if (rowIndex == totalRows - 2)
                     return;
-                
+
                 // get index of the column for the selected cell
                 int colIndex = dgv.SelectedCells[0].OwningColumn.Index;
                 DataGridViewRow selectedRow = dgv.Rows[rowIndex];
@@ -850,6 +784,7 @@
                 dgv.Rows[rowIndex + 1].Cells[colIndex].Selected = true;
             }
             catch { }
+            DrawControlPoints();
         }
 
         /// <summary>
@@ -876,6 +811,7 @@
                 dgv.Rows[commandRowIndex + 1].Cells[colIndex].Selected = true;
             }
             catch { }
+
         }
 
         /// <summary>
@@ -904,77 +840,20 @@
 
             return rec;
         }
-        
+
         /// <summary>
         /// A method that reloads the control points and redraws them on the main field plot.
         /// </summary>
-        private void ReloadControlPoints()
+        private void DrawControlPoints()
         {
             //Clear all of the points from the main field controlpoint series.
             mainField.Series["cp"].Points.Clear();
-            //Go though each of the rows and if the x value is not blank then add the point to the main field plot.
-            foreach (DataGridViewRow row in controlPoints.Rows)
+
+            foreach(ControlPoint controlpoint in controlPointArray)
             {
-                //If the x cell is not empty.
-                if (row.Cells[0].Value == null && row.Cells[1].Value == null && row.Cells[1].Value == null)
-                {
-                    continue;
-                }
-                if (row.Cells[0].Value == null || row.Cells[0].Value.ToString() == "")
-                {
-                    row.Cells[0].Value = 0;
-                }
-                if (row.Cells[1].Value == null || row.Cells[1].Value.ToString() == "")
-                {
-                    row.Cells[1].Value = 0;
-                }
-                if (row.Cells[2].Value == null || row.Cells[2].Value.ToString() == "")
-                {
-                    row.Cells[2].Value = "+";
-                }
-                if (row.Cells[0].Value != null)
-                {
-                    mainField.Series["cp"].Points.AddXY(float.Parse(row.Cells[0].Value.ToString()), float.Parse(row.Cells[1].Value.ToString()));
-                }
-                if (row.Cells[2].Value.ToString() == "-")
-                {
-                    mainField.Series["cp"].Points[row.Index].Color = Color.Red;
-                }
-                //If the third row contains a + then change the corresponding point on the graph to green.
-                if (row.Cells[2].Value.ToString() == "+")
-                {
-                    mainField.Series["cp"].Points[row.Index].Color = Color.Green;
 
-                }
+                controlpoint.setGraphIndex(mainField.Series["cp"].Points.AddXY(controlpoint.getX(), controlpoint.getY()));
             }
-            //Apply_Click(null,null);
-        }
-
-        /// <summary>
-        /// The method that is called when we want create a new path containing all of the information that we can input.
-        /// </summary>
-        /// <returns>The <see cref="MotionProfile.Path"/></returns>
-        private MotionProfile.Path CreateNewPath()
-        {
-            //New path.
-            MotionProfile.Path path = new MotionProfile.Path();
-            //New VelocityMap for the path.
-            path.velocityMap = new MotionProfile.VelocityMap();
-            //Set the new VelocityMap's max velocity.
-            path.velocityMap.vMax = int.Parse(maxVelocity.Text);
-            //Set the new VelocityMap's max acceleration.
-            path.velocityMap.FL1 = int.Parse(AccelRate.Text);
-            //Set the new VelocityMap's time sampling rate.
-            //path.velocityMap.time = float.Parse(timeSample.Text) / 1000;
-            //Set the new VelocityMap's boolean if the velocity should be instant.
-            path.velocityMap.instVelocity = isntaVel.Checked;
-            //Set the paths tolerance.
-            path.tolerence = float.Parse(tolerence.Text);
-            //Set the paths speed limit/max speed.
-            path.speedLimit = float.Parse(SpeedLimit.Text);
-
-            //Return this new path.
-            return path;
         }
 
         /// <summary>
@@ -982,249 +861,15 @@
         /// </summary>
         private void Apply_Click(object sender, EventArgs e)
         {
-            //Make sure that we have at least two points that we can actually make a path between.
-            if (!(controlPoints.RowCount - 2 > 0))
+            if(controlPointArray.Count >0)
             {
-                //If not cancel this and show an error stating so.
-                MessageBox.Show("Not enought points!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-                return;
-            }
-            //User the CreateNewPath method to get a path that we can use.
-            MotionProfile.Path path = CreateNewPath();
-
-            //A value that contains our "radius" of our track width
-            int trackwidth = (int)((int.Parse(trackWidth.Text)) / 2);
-
-            //Clear the main field because we are about to add a bunch of points.
-            ClearChart(mainField);
-
-            //Make the paths object to a new trajectory class.
-            paths = new MotionProfile.Trajectory();
-
-            //A value that will contain what our last cell in the third row contained.
-            string last = "";
-            //A value that will contain our last row from our control points.
-            DataGridViewRow lastrow = controlPoints.Rows[0];
-            //Lets run though each row of the controlpoints table
-            foreach (DataGridViewRow row in controlPoints.Rows)
-            {
-                //If the x cell is not empty.
-                if (row.Cells[0].Value == null && row.Cells[1].Value == null && row.Cells[1].Value == null)
-                {
-                    continue;
-                }
-                if (row.Cells[0].Value == null || row.Cells[0].Value.ToString() == "")
-                {
-                    row.Cells[0].Value = 0;
-                }
-                if (row.Cells[1].Value == null || row.Cells[1].Value.ToString() == "")
-                {
-                    row.Cells[1].Value = 0;
-                }
-                if (row.Cells[2].Value == null || row.Cells[2].Value.ToString() == "")
-                {
-                    row.Cells[2].Value = "+";
-                }
-                //update the last row.
-                lastrow = row;
-                //since we believe that this row is not blank then we should put this point on the chart.
-                mainField.Series["cp"].Points.AddXY(float.Parse(row.Cells[0].Value.ToString()), float.Parse(row.Cells[1].Value.ToString()));
-                //Make sure that the direction cell is not empty so that we dont get an error.
-                if (row.Cells[2].Value == null)
-                {
-                    row.Cells[2].Value = "+";
-                }
-                //If the direction cell contains a negative then we should turn the corresponding point to red and set that path direction to true.
-                if (row.Cells[2].Value.ToString() == "-")
-                {
-                    mainField.Series["cp"].Points.Last().Color = Color.Red;
-                    path.direction = VelocityMap.Direction.FORWARD;
-                }
-                //If the direction cell contains a positive then set that path direction to false.
-                if (row.Cells[2].Value.ToString() == "+")
-                {
-                    path.direction = VelocityMap.Direction.FORWARD;
-                }
-
-                //Add our controlpoint to our path.
-                path.AddControlPoint(float.Parse(row.Cells[1].Value.ToString()), float.Parse(row.Cells[0].Value.ToString()));
-                Console.WriteLine(row.Cells[2].Value.ToString());
-
-                //used to split our main path into seperate paths when we have a split in our negative and positive points.
-                if (last != "" && last != row.Cells[2].Value.ToString())
-                {
-                    Console.WriteLine("WTF");
-                    if (row.Cells[2].Value.ToString() == "+")
-                        path.direction = VelocityMap.Direction.FORWARD;
-
-                    if (row.Cells[2].Value.ToString() == "-")
-                        path.direction = VelocityMap.Direction.FORWARD;
-
-                    if (path.controlPoints.Count >= 2)
-                        paths.Add(path);
-
-                    path = CreateNewPath();
-                    path.AddControlPoint(float.Parse(row.Cells[1].Value.ToString()), float.Parse(row.Cells[0].Value.ToString()));
-                }
-
-                if (RowContainData(row, true))
-                {
-                    if (row.Selected)
-                    {
-
-                        if (controlPoints.Rows.Count - 2 != 0)
-                        {
-                            if (row.Index >= 0 && row.Index <= controlPoints.Rows.Count - 2)
-                            {
-                                //Change the selected point to the color yellow.
-                                mainField.Series["cp"].Points[row.Index].Color = Color.Yellow;
-                            }
-                        }
-                    }
-
-                }
-                last = row.Cells[2].Value.ToString();
-
-            }
-            //if we have no controlpoints in our path then something is wrong and return.
-            if (path.controlPoints.Count() == 0)
-                return;
-
-
-            if (lastrow != null && lastrow.Cells[2].Value.ToString() != "+")
-                path.direction = VelocityMap.Direction.REVERSE;
-
-            if (lastrow != null && lastrow.Cells[2].Value.ToString() != "-")
-                path.direction = VelocityMap.Direction.REVERSE;
-
-            //if our path contains more than or equal to 2 add the path to paths.
-            if (path.controlPoints.Count >= 2)
-                paths.Add(path);
-            //Create the path.
-            paths.Create(0);
-
-            //Clear all of the data plots.
-            ClearChart(VelocityPlot);
-            ClearChart(DistancePlot);
-            ClearChart(AnglePlot);
-
-            //create a bunch of float arrays that will hold our data.
-            float[] timeProfile, distanceProfile, velocityProfile, leftVelocityProfile, rightVelocityProfile, leftDistanceProfile, rightDistanceProfile, c, cd, headingProfile;
-
-            //load the path information into the float arrays that we just created.
-            timeProfile = paths.GetTimeProfile();
-            distanceProfile = paths.GetDistanceProfile();
-            velocityProfile = paths.GetVelocityProfile();
-            leftVelocityProfile = paths.GetOffsetVelocityProfile(trackwidth).ToArray();
-            leftDistanceProfile = paths.GetOffsetDistanceProfile(trackwidth).ToArray();
-            c = paths.GetOffsetVelocityProfile(0).ToArray();
-            cd = paths.GetOffsetDistanceProfile(0).ToArray();
-            headingProfile = paths.GetHeadingProfile();
-            //Smooth our our offset velocity array.
-            leftVelocityProfile.NoiseReduction(int.Parse(smoothness.Text));
-
-            //TODO: modify smoothing
-
-            rightVelocityProfile = paths.GetOffsetVelocityProfile(-trackwidth).ToArray();
-            rightDistanceProfile = paths.GetOffsetDistanceProfile(-trackwidth).ToArray();
-            
-            //Smooth out the rest of our arrays.
-            //h.NoiseReduction(int.Parse(smoothness.Text));
-            rightVelocityProfile.NoiseReduction(int.Parse(smoothness.Text));
-            rightDistanceProfile.NoiseReduction(int.Parse(smoothness.Text));
-            leftVelocityProfile.NoiseReduction(int.Parse(smoothness.Text));
-            rightDistanceProfile.NoiseReduction(int.Parse(smoothness.Text));
-            c.NoiseReduction(int.Parse(smoothness.Text));
-            cd.NoiseReduction(int.Parse(smoothness.Text));
-
-            //temp values for holding values that will be put on our plots.
-            double ldv = 0;// Right Distance.
-            double rdv = 0;// Left Distance.
-            double heading = 0; //Heading.
-
-            //run though all of the values in the array and put them on the plot.
-            for (int i = 0; i < leftDistanceProfile.Length; i++)
-            {
-                ldv += leftDistanceProfile[i];
-                rdv += rightDistanceProfile[i];
-
-                DistancePlot.Series["left"].Points.AddXY(timeProfile[i], ldv);
-                DistancePlot.Series["right"].Points.AddXY(timeProfile[i], rdv);
-
-
-            }
-            //run though all of the values in the array and put them on the plot.
-            for (int i = 0; i < Math.Min(distanceProfile.Length, rightVelocityProfile.Length); i++)
-            {
-                heading = headingProfile[i];
-
-                VelocityPlot.Series["path"].Points.AddXY(distanceProfile[i], velocityProfile[i + 2]);
-                VelocityPlot.Series["left"].Points.AddXY(distanceProfile[i], leftVelocityProfile[i]);
-                VelocityPlot.Series["right"].Points.AddXY(distanceProfile[i], rightVelocityProfile[i]);
-
-                AnglePlot.Series["angle"].Points.AddXY(distanceProfile[i], heading);
-            }
-
-            //clear off the main field minus the controlpoints.
-            mainField.Series["path"].Points.Clear();
-            mainField.Series["left"].Points.Clear();
-            mainField.Series["right"].Points.Clear();
-
-
-            //Build the path and use the controlPoints that are returned to plot.
-            foreach (ControlPoint p in paths.BuildPath())
-            {
-                for (int i = 0; i < p.GetPointNumbers().Length - 2; i++)
-                {
-                    PointF p1 = p.GetDrawingPoint(i);
-                    mainField.Series["path"].Points.AddXY(p1.Y, p1.X);
-
-                }
-            }
-            //Build the path and use the controlPoints that are returned to plot the offset.
-
-            foreach (ControlPoint p in paths.BuildPath(trackwidth))
-            {
-                foreach (PointF p1 in p.GetDrawingPoints())
-                {
-                    mainField.Series["left"].Points.AddXY(p1.Y, p1.X);
-                }
-            }
-
-            //Build the path and use the controlPoints that are returned to plot the offset.
-
-            foreach (ControlPoint p in paths.BuildPath(-trackwidth))
-            {
-                foreach (PointF p1 in p.GetDrawingPoints())
-                {
-                    mainField.Series["right"].Points.AddXY(p1.Y, p1.X);
-                }
-            }
-            foreach (DataGridViewRow row in commandPointsList.Rows)
-            {
-                if (RowContainData(row, true))
-                {
-                    if (mainField.Series["path"].Points.Count >= int.Parse(row.Cells[0].Value.ToString()))
-                    {
-                        DataPoint p = mainField.Series["path"].Points[int.Parse(row.Cells[0].Value.ToString())];
-                        p.Color = Color.Red;
-                        p.MarkerStyle = MarkerStyle.Triangle;
-                        p.MarkerSize = 10;
-                        if (row.Selected)
-                        {
-                            p.Color = Color.Blue;
-                        }
-                    }
-                }
-
             }
         }
 
         /// <summary>
         /// The event that is called when the save button is clicked.
         /// </summary>
-        private void Save_Click(object sender, EventArgs e)
+        /*private void Save_Click(object sender, EventArgs e)
         {
             //Make sure that we have at least two points that we can actually make a path between.
             if (!(controlPoints.RowCount - 2 > 0))
@@ -1346,7 +991,7 @@
                 }
 
             }
-        }
+        }*/
 
         /// <summary>
         /// A Method that will allow us to write a file that we can later load.
@@ -1404,9 +1049,9 @@
                 writer.WritePropertyName("Points");
                 writer.WriteStartArray();
 
-                foreach (DataGridViewRow row in controlPoints.Rows)
+                foreach (DataGridViewRow row in ControlPointTable.Rows)
                 {
-                    if (RowContainData(row,false))
+                    if (RowContainData(row, false))
                     {
 
                         writer.WriteStartArray();
@@ -1423,7 +1068,7 @@
 
                 foreach (DataGridViewRow row in commandPointsList.Rows)
                 {
-                    if (RowContainData(row,false))
+                    if (RowContainData(row, false))
                     {
                         writer.WriteStartArray();
                         writer.WriteValue(string.Concat(row.Cells[0].Value.ToString()));
@@ -1458,7 +1103,7 @@
                 using (var reader1 = new System.IO.StreamReader(openFileDialog1.FileName))
                 {
                     //First clear out our points.
-                    controlPoints.Rows.Clear();
+                    ControlPointTable.Rows.Clear();
                     commandPointsList.Rows.Clear();
                     //Read the file and load our points and other variables.
                     string json = reader1.ReadToEnd();
@@ -1481,7 +1126,7 @@
 
                     for (int x = 0; x <= a.Count - 1; x++)
                     {
-                        controlPoints.Rows.Add(float.Parse((string)a[x][0]), float.Parse((string)a[x][1]), (string)a[x][2]);
+                        ControlPointTable.Rows.Add(float.Parse((string)a[x][0]), float.Parse((string)a[x][1]), (string)a[x][2]);
                     }
 
                     JArray CommandPointsArray = (JArray)o["CommandPoints"];
@@ -1531,7 +1176,7 @@
         /// </summary>
         /// <param name="sender">The sender<see cref="object"/></param>
         /// <param name="e">The e<see cref="EventArgs"/></param>
-        private void Deploy_Click(object sender, EventArgs e)
+        /*private void Deploy_Click(object sender, EventArgs e)
         {
             //Check to make sure that the user have given this profile a name.
             if (profilename.Text == "")
@@ -1753,7 +1398,7 @@
 
             File.Delete(JSONPath);
             File.Delete(MPPath);
-        }
+        }*/
 
 
 
@@ -1778,7 +1423,7 @@
 
                 foreach (Renci.SshNet.Sftp.SftpFile file in files)
                 {
-                    if (!file.Name.Equals("..") && !file.Name.Equals(".") &&!file.Name.Contains(".mp"))
+                    if (!file.Name.Equals("..") && !file.Name.Equals(".") && !file.Name.Contains(".mp"))
                     {
                         RioFiles.Rows.Add(file.Name, file.LastWriteTime.ToString("HH:mm:ss dd/MM/yy"));
                     }
@@ -1888,8 +1533,8 @@
                     //set the tables currentcell to the cell we just clicked.
                     this.RioFiles.CurrentCell = this.RioFiles.Rows[e.RowIndex].Cells[1];
                     //since we right clicked we open a context strip with things that allow us to delete and move the current row.
-                    var relativeMousePosition = this.controlPoints.PointToClient(System.Windows.Forms.Cursor.Position);
-                    this.rioFilesContextMenuStrip.Show(this.controlPoints, relativeMousePosition);
+                    var relativeMousePosition = this.ControlPointTable.PointToClient(System.Windows.Forms.Cursor.Position);
+                    this.rioFilesContextMenuStrip.Show(this.ControlPointTable, relativeMousePosition);
                 }
 
 
@@ -1910,7 +1555,7 @@
             if (!MessageBox.Show("Your current profile will be over written are you sure you would like to contine?", "Warning!", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning).Equals(DialogResult.Yes))
                 return;
             SftpClient sftp = new SftpClient(Properties.Settings.Default.IpAddress, Properties.Settings.Default.Username, Properties.Settings.Default.Password);
-            
+
             try
             {
                 sftp.Connect();
@@ -1944,7 +1589,7 @@
                 using (var reader1 = new System.IO.StreamReader(tempFileName))
                 {
                     //First clear out our points.
-                    controlPoints.Rows.Clear();
+                    ControlPointTable.Rows.Clear();
                     commandPointsList.Rows.Clear();
                     //Read the file and load our points and other variables.
                     string json = reader1.ReadToEnd();
@@ -1967,7 +1612,7 @@
 
                     for (int x = 0; x <= a.Count - 1; x++)
                     {
-                        controlPoints.Rows.Add(float.Parse((string)a[x][0]), float.Parse((string)a[x][1]), (string)a[x][2]);
+                        ControlPointTable.Rows.Add(float.Parse((string)a[x][0]), float.Parse((string)a[x][1]), (string)a[x][2]);
                     }
 
                     JArray CommandPointsArray = (JArray)o["CommandPoints"];
@@ -2014,12 +1659,12 @@
 
         private Boolean RowContainData(DataGridViewRow row, Boolean scanWholeRow)
         {
-            if(!scanWholeRow)
+            if (!scanWholeRow)
             {
                 foreach (DataGridViewCell cell in row.Cells)
                 {
                     if (cell.Value != null)
-                        if(!cell.Value.ToString().Equals(""))
+                        if (!cell.Value.ToString().Equals(""))
                             return true;
                 }
             }
@@ -2040,5 +1685,51 @@
             }
             return false;
         }
+
+        private void ControlPointTable_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            updateControlPointArray();
+        }
+
+        private void ControlPointTable_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
+        {
+            updateControlPointArray();
+        }
+        private void updateControlPointArray()
+        {
+            controlPointArray.Clear();
+            foreach (DataGridViewRow row in ControlPointTable.Rows)
+            {
+                //Make sure that the row contains something that we care about.
+                //If the x cell is not empty.
+                if (row.Cells[0].Value == null && row.Cells[1].Value == null && row.Cells[2].Value == null)
+                {
+                    continue;
+                }
+                if (row.Cells[0].Value == null || row.Cells[0].Value.ToString().Equals(""))
+                {
+                    row.Cells[0].Value = 0;
+                }
+                if (row.Cells[1].Value == null || row.Cells[1].Value.ToString().Equals(""))
+                {
+                    row.Cells[1].Value = 0;
+                }
+                if (row.Cells[2].Value == null || row.Cells[2].Value.ToString().Equals(""))
+                {
+                    row.Cells[2].Value = "+";
+                }
+
+                Direction direction = ControlPoint.Direction.FORWARD;
+
+                if (row.Cells[2].Value.ToString() == "-")
+                {
+                    direction = ControlPoint.Direction.REVERSE;
+                }
+                //Add the data to the control point array.
+                controlPointArray.Add(new ControlPoint(float.Parse(row.Cells[0].Value.ToString()), float.Parse(row.Cells[1].Value.ToString()), direction));
+            }
+            DrawControlPoints();
+        }
     }
 }
+

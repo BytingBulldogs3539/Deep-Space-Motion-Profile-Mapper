@@ -9,8 +9,8 @@ namespace MotionProfile
 	/// <summary>
 	/// Used to calculate the velocity of the robot.
 	/// </summary>
-	class VelocityMap
-	{
+	class VelocityGenerator
+    {
 		public float vMax = 4;
 
 		public double T1 = .4;

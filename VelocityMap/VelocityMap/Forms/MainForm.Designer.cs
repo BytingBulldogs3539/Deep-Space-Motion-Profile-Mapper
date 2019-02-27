@@ -31,12 +31,16 @@
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series6 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series7 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series8 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -90,7 +94,7 @@
             this.moveDownToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.insertAboveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.insertBelowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.controlPoints = new System.Windows.Forms.DataGridView();
+            this.ControlPointTable = new System.Windows.Forms.DataGridView();
             this.x = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.y = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Direction = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -131,7 +135,7 @@
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.AnglePlot)).BeginInit();
             this.contextMenuStrip2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.controlPoints)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ControlPointTable)).BeginInit();
             this.MainStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.commandPointsList)).BeginInit();
             this.commandPointListMenuStrip.SuspendLayout();
@@ -158,11 +162,11 @@
             // 
             this.Field.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.Field.Controls.Add(this.mainField);
-            this.Field.Location = new System.Drawing.Point(4, 22);
+            this.Field.Location = new System.Drawing.Point(4, 26);
             this.Field.Margin = new System.Windows.Forms.Padding(1);
             this.Field.Name = "Field";
             this.Field.Padding = new System.Windows.Forms.Padding(1);
-            this.Field.Size = new System.Drawing.Size(746, 795);
+            this.Field.Size = new System.Drawing.Size(746, 791);
             this.Field.TabIndex = 0;
             this.Field.Text = "Field";
             // 
@@ -172,14 +176,43 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.mainField.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            chartArea1.Name = "ChartArea1";
+            chartArea1.BackImage = "C:\\Users\\Cameron\\Documents\\GitHub\\Deep-Space-Motion-Profile-Mapper\\VelocityMap\\Ve" +
+    "locityMap\\Resources\\2019-field.jpg";
+            chartArea1.BackImageWrapMode = System.Windows.Forms.DataVisualization.Charting.ChartImageWrapMode.Scaled;
+            chartArea1.Name = "field";
             this.mainField.ChartAreas.Add(chartArea1);
             this.mainField.Location = new System.Drawing.Point(1, 1);
             this.mainField.Name = "mainField";
-            series1.ChartArea = "ChartArea1";
-            series1.Name = "Series1";
+            series1.ChartArea = "field";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
+            series1.Color = System.Drawing.Color.Green;
+            series1.MarkerSize = 10;
+            series1.MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Diamond;
+            series1.Name = "cp";
+            series2.ChartArea = "field";
+            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
+            series2.Color = System.Drawing.Color.Red;
+            series2.MarkerSize = 2;
+            series2.Name = "right";
+            series3.ChartArea = "field";
+            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
+            series3.Color = System.Drawing.Color.Aqua;
+            series3.MarkerSize = 2;
+            series3.Name = "left";
+            series4.ChartArea = "field";
+            series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
+            series4.Color = System.Drawing.Color.Lime;
+            series4.MarkerSize = 4;
+            series4.Name = "path";
+            series5.ChartArea = "field";
+            series5.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
+            series5.Name = "background";
             this.mainField.Series.Add(series1);
-            this.mainField.Size = new System.Drawing.Size(737, 787);
+            this.mainField.Series.Add(series2);
+            this.mainField.Series.Add(series3);
+            this.mainField.Series.Add(series4);
+            this.mainField.Series.Add(series5);
+            this.mainField.Size = new System.Drawing.Size(737, 780);
             this.mainField.TabIndex = 4;
             this.mainField.Text = "chart2";
             this.mainField.MouseClick += new System.Windows.Forms.MouseEventHandler(this.MainField_MouseClick);
@@ -189,11 +222,11 @@
             // Data
             // 
             this.Data.Controls.Add(this.splitContainer1);
-            this.Data.Location = new System.Drawing.Point(4, 22);
+            this.Data.Location = new System.Drawing.Point(4, 25);
             this.Data.Margin = new System.Windows.Forms.Padding(1);
             this.Data.Name = "Data";
             this.Data.Padding = new System.Windows.Forms.Padding(1);
-            this.Data.Size = new System.Drawing.Size(746, 795);
+            this.Data.Size = new System.Drawing.Size(746, 792);
             this.Data.TabIndex = 1;
             this.Data.Text = "Data";
             this.Data.UseVisualStyleBackColor = true;
@@ -217,8 +250,8 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.VelocityPlot);
             this.splitContainer1.Panel2.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.splitContainer1.Size = new System.Drawing.Size(744, 793);
-            this.splitContainer1.SplitterDistance = 378;
+            this.splitContainer1.Size = new System.Drawing.Size(744, 790);
+            this.splitContainer1.SplitterDistance = 376;
             this.splitContainer1.TabIndex = 3;
             // 
             // DistancePlot
@@ -230,9 +263,9 @@
             this.DistancePlot.Dock = System.Windows.Forms.DockStyle.Top;
             this.DistancePlot.Location = new System.Drawing.Point(0, 0);
             this.DistancePlot.Name = "DistancePlot";
-            series2.ChartArea = "ChartArea1";
-            series2.Name = "Series1";
-            this.DistancePlot.Series.Add(series2);
+            series6.ChartArea = "ChartArea1";
+            series6.Name = "Series1";
+            this.DistancePlot.Series.Add(series6);
             this.DistancePlot.Size = new System.Drawing.Size(744, 427);
             this.DistancePlot.TabIndex = 2;
             this.DistancePlot.Text = "chart2";
@@ -244,12 +277,12 @@
             chartArea3.Name = "ChartArea1";
             this.VelocityPlot.ChartAreas.Add(chartArea3);
             this.VelocityPlot.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.VelocityPlot.Location = new System.Drawing.Point(0, -39);
+            this.VelocityPlot.Location = new System.Drawing.Point(0, -40);
             this.VelocityPlot.Name = "VelocityPlot";
             this.VelocityPlot.Padding = new System.Windows.Forms.Padding(0, 0, 0, 10);
-            series3.ChartArea = "ChartArea1";
-            series3.Name = "Series1";
-            this.VelocityPlot.Series.Add(series3);
+            series7.ChartArea = "ChartArea1";
+            series7.Name = "Series1";
+            this.VelocityPlot.Series.Add(series7);
             this.VelocityPlot.Size = new System.Drawing.Size(744, 450);
             this.VelocityPlot.TabIndex = 1;
             this.VelocityPlot.Text = "chart2";
@@ -258,10 +291,10 @@
             // 
             this.tabPage1.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.tabPage1.Controls.Add(this.AnglePlot);
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Location = new System.Drawing.Point(4, 25);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(746, 795);
+            this.tabPage1.Size = new System.Drawing.Size(746, 792);
             this.tabPage1.TabIndex = 2;
             this.tabPage1.Text = "More Data";
             // 
@@ -275,9 +308,9 @@
             this.AnglePlot.Dock = System.Windows.Forms.DockStyle.Top;
             this.AnglePlot.Location = new System.Drawing.Point(3, 3);
             this.AnglePlot.Name = "AnglePlot";
-            series4.ChartArea = "ChartArea1";
-            series4.Name = "Series1";
-            this.AnglePlot.Series.Add(series4);
+            series8.ChartArea = "ChartArea1";
+            series8.Name = "Series1";
+            this.AnglePlot.Series.Add(series8);
             this.AnglePlot.Size = new System.Drawing.Size(740, 431);
             this.AnglePlot.TabIndex = 3;
             this.AnglePlot.Text = "chart2";
@@ -309,7 +342,7 @@
             this.maxVelocity.Location = new System.Drawing.Point(168, 39);
             this.maxVelocity.Margin = new System.Windows.Forms.Padding(1);
             this.maxVelocity.Name = "maxVelocity";
-            this.maxVelocity.Size = new System.Drawing.Size(71, 20);
+            this.maxVelocity.Size = new System.Drawing.Size(71, 23);
             this.maxVelocity.TabIndex = 4;
             this.maxVelocity.Text = "3500";
             this.maxVelocity.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -319,7 +352,7 @@
             this.timeSample.Location = new System.Drawing.Point(179, 424);
             this.timeSample.Margin = new System.Windows.Forms.Padding(1);
             this.timeSample.Name = "timeSample";
-            this.timeSample.Size = new System.Drawing.Size(71, 20);
+            this.timeSample.Size = new System.Drawing.Size(71, 23);
             this.timeSample.TabIndex = 4;
             this.timeSample.Text = "10";
             this.timeSample.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -330,7 +363,7 @@
             this.trackWidth.Location = new System.Drawing.Point(179, 443);
             this.trackWidth.Margin = new System.Windows.Forms.Padding(1);
             this.trackWidth.Name = "trackWidth";
-            this.trackWidth.Size = new System.Drawing.Size(71, 20);
+            this.trackWidth.Size = new System.Drawing.Size(71, 23);
             this.trackWidth.TabIndex = 4;
             this.trackWidth.Text = "673";
             this.trackWidth.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -341,7 +374,7 @@
             this.AccelRate.Location = new System.Drawing.Point(179, 462);
             this.AccelRate.Margin = new System.Windows.Forms.Padding(1);
             this.AccelRate.Name = "AccelRate";
-            this.AccelRate.Size = new System.Drawing.Size(71, 20);
+            this.AccelRate.Size = new System.Drawing.Size(71, 23);
             this.AccelRate.TabIndex = 4;
             this.AccelRate.Text = "80";
             this.AccelRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -354,7 +387,7 @@
             this.label1.Location = new System.Drawing.Point(6, 41);
             this.label1.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(79, 13);
+            this.label1.Size = new System.Drawing.Size(98, 17);
             this.label1.TabIndex = 5;
             this.label1.Text = "Max Velocity";
             // 
@@ -364,7 +397,7 @@
             this.label2.Location = new System.Drawing.Point(18, 424);
             this.label2.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(61, 13);
+            this.label2.Size = new System.Drawing.Size(80, 17);
             this.label2.TabIndex = 5;
             this.label2.Text = "Time (ms)";
             this.label2.Visible = false;
@@ -375,7 +408,7 @@
             this.label3.Location = new System.Drawing.Point(18, 443);
             this.label3.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(77, 13);
+            this.label3.Size = new System.Drawing.Size(95, 17);
             this.label3.TabIndex = 5;
             this.label3.Text = "Track Width";
             this.label3.Visible = false;
@@ -386,7 +419,7 @@
             this.label4.Location = new System.Drawing.Point(18, 462);
             this.label4.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(104, 13);
+            this.label4.Size = new System.Drawing.Size(133, 17);
             this.label4.TabIndex = 5;
             this.label4.Text = "Accel Filter (FL1)";
             this.label4.Visible = false;
@@ -399,7 +432,7 @@
             this.checkBox1.Location = new System.Drawing.Point(53, 312);
             this.checkBox1.Margin = new System.Windows.Forms.Padding(1);
             this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(119, 17);
+            this.checkBox1.Size = new System.Drawing.Size(148, 21);
             this.checkBox1.TabIndex = 6;
             this.checkBox1.Text = "Limit Max Speed";
             this.checkBox1.UseVisualStyleBackColor = true;
@@ -429,7 +462,7 @@
             this.CTRE.Location = new System.Drawing.Point(9, 87);
             this.CTRE.Margin = new System.Windows.Forms.Padding(1);
             this.CTRE.Name = "CTRE";
-            this.CTRE.Size = new System.Drawing.Size(99, 17);
+            this.CTRE.Size = new System.Drawing.Size(122, 21);
             this.CTRE.TabIndex = 6;
             this.CTRE.Text = "CTRE output";
             this.CTRE.UseVisualStyleBackColor = true;
@@ -442,7 +475,7 @@
             this.wheel.Location = new System.Drawing.Point(205, 85);
             this.wheel.Margin = new System.Windows.Forms.Padding(1);
             this.wheel.Name = "wheel";
-            this.wheel.Size = new System.Drawing.Size(34, 20);
+            this.wheel.Size = new System.Drawing.Size(34, 23);
             this.wheel.TabIndex = 4;
             this.wheel.Text = "8";
             this.wheel.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -453,7 +486,7 @@
             this.tolerence.Location = new System.Drawing.Point(138, 331);
             this.tolerence.Margin = new System.Windows.Forms.Padding(1);
             this.tolerence.Name = "tolerence";
-            this.tolerence.Size = new System.Drawing.Size(71, 20);
+            this.tolerence.Size = new System.Drawing.Size(71, 23);
             this.tolerence.TabIndex = 7;
             this.tolerence.Text = "660";
             this.tolerence.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -465,7 +498,7 @@
             this.offset.Location = new System.Drawing.Point(138, 350);
             this.offset.Margin = new System.Windows.Forms.Padding(1);
             this.offset.Name = "offset";
-            this.offset.Size = new System.Drawing.Size(71, 20);
+            this.offset.Size = new System.Drawing.Size(71, 23);
             this.offset.TabIndex = 8;
             this.offset.Text = "50";
             this.offset.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -478,7 +511,7 @@
             this.label5.Location = new System.Drawing.Point(18, 333);
             this.label5.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(90, 13);
+            this.label5.Size = new System.Drawing.Size(114, 17);
             this.label5.TabIndex = 5;
             this.label5.Text = "Velocity Offset";
             this.label5.Visible = false;
@@ -490,7 +523,7 @@
             this.label6.Location = new System.Drawing.Point(18, 352);
             this.label6.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(86, 13);
+            this.label6.Size = new System.Drawing.Size(109, 17);
             this.label6.TabIndex = 5;
             this.label6.Text = "Vel Tolerence";
             this.label6.Visible = false;
@@ -526,7 +559,7 @@
             this.SpeedLimit.Location = new System.Drawing.Point(179, 481);
             this.SpeedLimit.Margin = new System.Windows.Forms.Padding(1);
             this.SpeedLimit.Name = "SpeedLimit";
-            this.SpeedLimit.Size = new System.Drawing.Size(71, 20);
+            this.SpeedLimit.Size = new System.Drawing.Size(71, 23);
             this.SpeedLimit.TabIndex = 4;
             this.SpeedLimit.Text = "2.5";
             this.SpeedLimit.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -538,7 +571,7 @@
             this.label7.Location = new System.Drawing.Point(18, 481);
             this.label7.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(113, 13);
+            this.label7.Size = new System.Drawing.Size(144, 17);
             this.label7.TabIndex = 5;
             this.label7.Text = "Speed Limit Factor";
             this.label7.Visible = false;
@@ -551,7 +584,7 @@
             this.smoothness.Location = new System.Drawing.Point(194, 63);
             this.smoothness.Margin = new System.Windows.Forms.Padding(1);
             this.smoothness.Name = "smoothness";
-            this.smoothness.Size = new System.Drawing.Size(45, 20);
+            this.smoothness.Size = new System.Drawing.Size(45, 23);
             this.smoothness.TabIndex = 8;
             this.smoothness.Text = "10";
             this.smoothness.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -563,7 +596,7 @@
             this.label8.Location = new System.Drawing.Point(7, 54);
             this.label8.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(66, 13);
+            this.label8.Size = new System.Drawing.Size(84, 17);
             this.label8.TabIndex = 5;
             this.label8.Text = "Smoothing";
             // 
@@ -573,7 +606,7 @@
             this.Label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Label9.Location = new System.Drawing.Point(126, 87);
             this.Label9.Name = "Label9";
-            this.Label9.Size = new System.Drawing.Size(79, 13);
+            this.Label9.Size = new System.Drawing.Size(99, 17);
             this.Label9.TabIndex = 9;
             this.Label9.Text = "Wheel Size :";
             // 
@@ -590,7 +623,6 @@
             this.deploy.TabIndex = 11;
             this.deploy.Text = "Deploy";
             this.deploy.UseVisualStyleBackColor = false;
-            this.deploy.Click += new System.EventHandler(this.Deploy_Click);
             // 
             // profilename
             // 
@@ -599,7 +631,7 @@
             this.profilename.ForeColor = System.Drawing.Color.White;
             this.profilename.Location = new System.Drawing.Point(345, 80);
             this.profilename.Name = "profilename";
-            this.profilename.Size = new System.Drawing.Size(100, 20);
+            this.profilename.Size = new System.Drawing.Size(100, 23);
             this.profilename.TabIndex = 22;
             // 
             // label15
@@ -608,7 +640,7 @@
             this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label15.Location = new System.Drawing.Point(265, 83);
             this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(83, 13);
+            this.label15.Size = new System.Drawing.Size(106, 17);
             this.label15.TabIndex = 21;
             this.label15.Text = "Profile Name:";
             // 
@@ -622,56 +654,56 @@
             this.insertAboveToolStripMenuItem,
             this.insertBelowToolStripMenuItem});
             this.contextMenuStrip2.Name = "contextMenuStrip2";
-            this.contextMenuStrip2.Size = new System.Drawing.Size(141, 114);
+            this.contextMenuStrip2.Size = new System.Drawing.Size(162, 124);
             // 
             // deleteToolStripMenuItem
             // 
             this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
-            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(161, 24);
             this.deleteToolStripMenuItem.Text = "Delete";
             this.deleteToolStripMenuItem.Click += new System.EventHandler(this.Delete_Click);
             // 
             // moveUpToolStripMenuItem
             // 
             this.moveUpToolStripMenuItem.Name = "moveUpToolStripMenuItem";
-            this.moveUpToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
+            this.moveUpToolStripMenuItem.Size = new System.Drawing.Size(161, 24);
             this.moveUpToolStripMenuItem.Text = "Move Up";
             this.moveUpToolStripMenuItem.Click += new System.EventHandler(this.BtnUp_Click);
             // 
             // moveDownToolStripMenuItem
             // 
             this.moveDownToolStripMenuItem.Name = "moveDownToolStripMenuItem";
-            this.moveDownToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
+            this.moveDownToolStripMenuItem.Size = new System.Drawing.Size(161, 24);
             this.moveDownToolStripMenuItem.Text = "Move Down";
             this.moveDownToolStripMenuItem.Click += new System.EventHandler(this.BtnDown_Click);
             // 
             // insertAboveToolStripMenuItem
             // 
             this.insertAboveToolStripMenuItem.Name = "insertAboveToolStripMenuItem";
-            this.insertAboveToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
+            this.insertAboveToolStripMenuItem.Size = new System.Drawing.Size(161, 24);
             this.insertAboveToolStripMenuItem.Text = "Insert Above";
             this.insertAboveToolStripMenuItem.Click += new System.EventHandler(this.InsertAbove_Click);
             // 
             // insertBelowToolStripMenuItem
             // 
             this.insertBelowToolStripMenuItem.Name = "insertBelowToolStripMenuItem";
-            this.insertBelowToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
+            this.insertBelowToolStripMenuItem.Size = new System.Drawing.Size(161, 24);
             this.insertBelowToolStripMenuItem.Text = "Insert Below";
             this.insertBelowToolStripMenuItem.Click += new System.EventHandler(this.InsertBelow_Click);
             // 
-            // controlPoints
+            // ControlPointTable
             // 
-            this.controlPoints.AllowUserToResizeColumns = false;
-            this.controlPoints.AllowUserToResizeRows = false;
-            this.controlPoints.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.ControlPointTable.AllowUserToResizeColumns = false;
+            this.ControlPointTable.AllowUserToResizeRows = false;
+            this.ControlPointTable.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-            this.controlPoints.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
-            this.controlPoints.BackgroundColor = System.Drawing.Color.Gray;
-            this.controlPoints.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.controlPoints.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
-            this.controlPoints.ColumnHeadersHeight = 20;
-            this.controlPoints.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            this.controlPoints.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.ControlPointTable.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.ControlPointTable.BackgroundColor = System.Drawing.Color.Gray;
+            this.ControlPointTable.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.ControlPointTable.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
+            this.ControlPointTable.ColumnHeadersHeight = 20;
+            this.ControlPointTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            this.ControlPointTable.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.x,
             this.y,
             this.Direction});
@@ -682,25 +714,27 @@
             dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
             dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.controlPoints.DefaultCellStyle = dataGridViewCellStyle3;
-            this.controlPoints.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnKeystroke;
-            this.controlPoints.GridColor = System.Drawing.Color.Black;
-            this.controlPoints.Location = new System.Drawing.Point(10, 169);
-            this.controlPoints.Margin = new System.Windows.Forms.Padding(1);
-            this.controlPoints.MultiSelect = false;
-            this.controlPoints.Name = "controlPoints";
-            this.controlPoints.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.controlPoints.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            this.controlPoints.RowHeadersVisible = false;
-            this.controlPoints.RowHeadersWidth = 20;
-            this.controlPoints.RowTemplate.Height = 40;
-            this.controlPoints.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.controlPoints.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.controlPoints.Size = new System.Drawing.Size(229, 642);
-            this.controlPoints.TabIndex = 2;
-            this.controlPoints.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.ControlPoints_CellEndEdit);
-            this.controlPoints.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.ControlPoints_CellMouseUp);
-            this.controlPoints.RowStateChanged += new System.Windows.Forms.DataGridViewRowStateChangedEventHandler(this.ControlPoints_RowStateChange);
+            this.ControlPointTable.DefaultCellStyle = dataGridViewCellStyle3;
+            this.ControlPointTable.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnKeystroke;
+            this.ControlPointTable.GridColor = System.Drawing.Color.Black;
+            this.ControlPointTable.Location = new System.Drawing.Point(10, 169);
+            this.ControlPointTable.Margin = new System.Windows.Forms.Padding(1);
+            this.ControlPointTable.MultiSelect = false;
+            this.ControlPointTable.Name = "ControlPointTable";
+            this.ControlPointTable.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.ControlPointTable.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            this.ControlPointTable.RowHeadersVisible = false;
+            this.ControlPointTable.RowHeadersWidth = 20;
+            this.ControlPointTable.RowTemplate.Height = 40;
+            this.ControlPointTable.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.ControlPointTable.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.ControlPointTable.Size = new System.Drawing.Size(229, 642);
+            this.ControlPointTable.TabIndex = 2;
+            this.ControlPointTable.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.ControlPoints_CellEndEdit);
+            this.ControlPointTable.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.ControlPoints_CellMouseUp);
+            this.ControlPointTable.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.ControlPointTable_CellValueChanged);
+            this.ControlPointTable.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.ControlPointTable_RowsAdded);
+            this.ControlPointTable.RowStateChanged += new System.Windows.Forms.DataGridViewRowStateChangedEventHandler(this.ControlPointsTable_RowStateChange);
             // 
             // x
             // 
@@ -739,7 +773,7 @@
             this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label10.Location = new System.Drawing.Point(265, 103);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(171, 17);
+            this.label10.Size = new System.Drawing.Size(200, 20);
             this.label10.TabIndex = 23;
             this.label10.Text = "Motion Profiles On Rio";
             // 
@@ -758,7 +792,7 @@
             this.refresh_button.UseVisualStyleBackColor = false;
             this.refresh_button.Click += new System.EventHandler(this.Refresh_button_Click);
             // 
-            // MainMenuStrip
+            // MainStrip
             // 
             this.MainStrip.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.MainStrip.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -766,7 +800,7 @@
             this.MainStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem});
             this.MainStrip.Location = new System.Drawing.Point(0, 0);
-            this.MainStrip.Name = "MainMenuStrip";
+            this.MainStrip.Name = "MainStrip";
             this.MainStrip.Padding = new System.Windows.Forms.Padding(0);
             this.MainStrip.Size = new System.Drawing.Size(1203, 24);
             this.MainStrip.TabIndex = 26;
@@ -785,7 +819,7 @@
             this.fileToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.fileToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Transparent;
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(43, 24);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(47, 24);
             this.fileToolStripMenuItem.Text = "File";
             this.fileToolStripMenuItem.DropDownClosed += new System.EventHandler(this.FileToolStripMenuItem_DropDownClosed);
             this.fileToolStripMenuItem.DropDownOpened += new System.EventHandler(this.FileToolStripMenuItem_DropDownOpened);
@@ -796,34 +830,33 @@
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
             this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(177, 26);
             this.saveToolStripMenuItem.Text = "Save";
-            this.saveToolStripMenuItem.Click += new System.EventHandler(this.Save_Click);
             // 
             // loadToolStripMenuItem
             // 
             this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
             this.loadToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.loadToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
+            this.loadToolStripMenuItem.Size = new System.Drawing.Size(177, 26);
             this.loadToolStripMenuItem.Text = "Load";
             this.loadToolStripMenuItem.Click += new System.EventHandler(this.Load_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(150, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(174, 6);
             // 
             // optionsToolStripMenuItem
             // 
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(177, 26);
             this.optionsToolStripMenuItem.Text = "Settings";
             this.optionsToolStripMenuItem.Click += new System.EventHandler(this.OptionsToolStripMenuItem_Click);
             // 
             // abouToolStripMenuItem
             // 
             this.abouToolStripMenuItem.Name = "abouToolStripMenuItem";
-            this.abouToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
+            this.abouToolStripMenuItem.Size = new System.Drawing.Size(177, 26);
             this.abouToolStripMenuItem.Text = "About";
             this.abouToolStripMenuItem.Click += new System.EventHandler(this.About_Click);
             // 
@@ -910,40 +943,40 @@
             this.toolStripMenuItem4,
             this.toolStripMenuItem5});
             this.commandPointListMenuStrip.Name = "contextMenuStrip2";
-            this.commandPointListMenuStrip.Size = new System.Drawing.Size(141, 114);
+            this.commandPointListMenuStrip.Size = new System.Drawing.Size(162, 124);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(140, 22);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(161, 24);
             this.toolStripMenuItem1.Text = "Delete";
             this.toolStripMenuItem1.Click += new System.EventHandler(this.Delete_Click_commandPoints);
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(140, 22);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(161, 24);
             this.toolStripMenuItem2.Text = "Move Up";
             this.toolStripMenuItem2.Click += new System.EventHandler(this.BtnUp_Click_commandPoints);
             // 
             // toolStripMenuItem3
             // 
             this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(140, 22);
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(161, 24);
             this.toolStripMenuItem3.Text = "Move Down";
             this.toolStripMenuItem3.Click += new System.EventHandler(this.BtnDown_Click_commandPoints);
             // 
             // toolStripMenuItem4
             // 
             this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-            this.toolStripMenuItem4.Size = new System.Drawing.Size(140, 22);
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(161, 24);
             this.toolStripMenuItem4.Text = "Insert Above";
             this.toolStripMenuItem4.Click += new System.EventHandler(this.InsertAbove_Click_commandPoints);
             // 
             // toolStripMenuItem5
             // 
             this.toolStripMenuItem5.Name = "toolStripMenuItem5";
-            this.toolStripMenuItem5.Size = new System.Drawing.Size(140, 22);
+            this.toolStripMenuItem5.Size = new System.Drawing.Size(161, 24);
             this.toolStripMenuItem5.Text = "Insert Below";
             this.toolStripMenuItem5.Click += new System.EventHandler(this.InsertBelow_Click_commandPoints);
             // 
@@ -1016,16 +1049,16 @@
             this.rioFilesContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.loadToolStripMenuItem1});
             this.rioFilesContextMenuStrip.Name = "rioFilesContextMenuStrip";
-            this.rioFilesContextMenuStrip.Size = new System.Drawing.Size(101, 26);
+            this.rioFilesContextMenuStrip.Size = new System.Drawing.Size(112, 28);
             // 
             // loadToolStripMenuItem1
             // 
             this.loadToolStripMenuItem1.Name = "loadToolStripMenuItem1";
-            this.loadToolStripMenuItem1.Size = new System.Drawing.Size(100, 22);
+            this.loadToolStripMenuItem1.Size = new System.Drawing.Size(111, 24);
             this.loadToolStripMenuItem1.Text = "Load";
             this.loadToolStripMenuItem1.Click += new System.EventHandler(this.RioFilesLoad);
             // 
-            // Form1
+            // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.BackColor = System.Drawing.SystemColors.ControlDarkDark;
@@ -1062,18 +1095,18 @@
             this.Controls.Add(this.invert);
             this.Controls.Add(this.apply);
             this.Controls.Add(this.ClearCP);
-            this.Controls.Add(this.controlPoints);
+            this.Controls.Add(this.ControlPointTable);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.MainStrip);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ForeColor = System.Drawing.Color.White;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
-            this.Name = "Form1";
+            this.Name = "MainForm";
             this.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Byting Bulldogs (3539) - Motion Profiler Creator";
-            this.Load += new System.EventHandler(this.Form1_Load);
+            this.Load += new System.EventHandler(this.MainForm_Load);
             this.tabControl1.ResumeLayout(false);
             this.Field.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.mainField)).EndInit();
@@ -1087,7 +1120,7 @@
             this.tabPage1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.AnglePlot)).EndInit();
             this.contextMenuStrip2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.controlPoints)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ControlPointTable)).EndInit();
             this.MainStrip.ResumeLayout(false);
             this.MainStrip.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.commandPointsList)).EndInit();
@@ -1145,7 +1178,7 @@
         private System.Windows.Forms.ToolStripMenuItem insertBelowToolStripMenuItem;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.DataVisualization.Charting.Chart AnglePlot;
-        private System.Windows.Forms.DataGridView controlPoints;
+        private System.Windows.Forms.DataGridView ControlPointTable;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Button refresh_button;
         private System.Windows.Forms.MenuStrip MainStrip;
