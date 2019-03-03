@@ -44,6 +44,8 @@
         {
             //Create the window with all the fancy buttons.
             InitializeComponent();
+
+
         }
 
         /// <summary>
@@ -63,6 +65,7 @@
             VelocityPlot.Dock = DockStyle.Fill;
 
             splitContainer1.SplitterDistance = splitContainer1.Height / 2;
+
 
         }
 
@@ -162,7 +165,9 @@
 
             //set the color of the lines.
             AnglePlot.Series["angle"].Color = Color.White;
+
         }
+
 
         /// <summary>
         /// Remove all of the points from the specified chart.
@@ -429,6 +434,7 @@
                                 mainField.Series["cp"].Points[row.Index].Color = Color.Green;
 
                             }
+                            controlPointArray[row.Index].Selected = false;
                         }
 
 
@@ -443,6 +449,7 @@
                     {
                         //Change the selected point to the color yellow.
                         mainField.Series["cp"].Points[e.Row.Index].Color = Color.Yellow;
+                        controlPointArray[e.Row.Index].Selected = true;
                     }
                 }
             }
@@ -851,10 +858,16 @@
             {
 
                 controlpoint.setGraphIndex(mainField.Series["cp"].Points.AddXY(controlpoint.X, controlpoint.Y));
-                if(controlpoint.isReverse())
+                if (controlpoint.Selected == true)
+                {
+                    mainField.Series["cp"].Points[controlpoint.getGraphIndex()].Color = Color.Yellow;
+
+                }
+                else if (controlpoint.isReverse())
                 {
                     mainField.Series["cp"].Points.Last().Color = Color.Red;
                 }
+                
             }
         }
 
@@ -1733,7 +1746,7 @@
                     direction = ControlPoint.ControlPointDirection.REVERSE;
                 }
                 //Add the data to the control point array.
-                controlPointArray.Add(new ControlPoint(float.Parse(row.Cells[0].Value.ToString()), float.Parse(row.Cells[1].Value.ToString()), direction));
+                controlPointArray.Add(new ControlPoint(float.Parse(row.Cells[0].Value.ToString()), float.Parse(row.Cells[1].Value.ToString()), direction, row.Selected));
             }
             DrawControlPoints();
         }

@@ -13,17 +13,19 @@ namespace MotionProfile
         ControlPointDirection direction;
         int graphIndex;
         float velocity;
+        Boolean selected;
 
         public enum ControlPointDirection
         {
             FORWARD,
             REVERSE
         }
-        public ControlPoint(float x, float y, ControlPointDirection direction)
+        public ControlPoint(float x, float y, ControlPointDirection direction, Boolean selected = false)
         {
             this.x = x;
             this.y = y;
             this.direction = direction;
+            this.selected = selected;
         }
         public ControlPointDirection getDirection()
         {
@@ -67,6 +69,19 @@ namespace MotionProfile
             set
             {
                 velocity = value;
+            }
+        }
+
+        public Boolean Selected
+        {
+            get
+            {
+                return selected;
+            }
+
+            set
+            {
+                selected = value;
             }
         }
 
