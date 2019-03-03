@@ -44,5 +44,21 @@ namespace MotionProfile
         {
             this.graphIndex = graphIndex;
         }
+        public Boolean isReverse()
+        {
+            if (direction == Direction.FORWARD)
+            {
+                return false;
+            }
+            return true;
+        }
+        public Boolean isForward()
+        {
+            if (direction == Direction.FORWARD)
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }

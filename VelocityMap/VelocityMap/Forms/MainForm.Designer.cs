@@ -212,7 +212,7 @@
             this.mainField.Series.Add(series3);
             this.mainField.Series.Add(series4);
             this.mainField.Series.Add(series5);
-            this.mainField.Size = new System.Drawing.Size(737, 780);
+            this.mainField.Size = new System.Drawing.Size(737, 779);
             this.mainField.TabIndex = 4;
             this.mainField.Text = "chart2";
             this.mainField.MouseClick += new System.Windows.Forms.MouseEventHandler(this.MainField_MouseClick);

@@ -182,96 +182,54 @@
         /// </summary>
         /// <param name="sender">The sender<see cref="object"/></param>
         /// <param name="e">The e<see cref="MouseEventArgs"/></param>
+        /// 
+        /// <summary>
+        /// The currently selected point.
+        /// </summary>
+        private DataPoint clickedPoint;
+        private Boolean skipNextClick = false;
+
         private void MainField_MouseClick(object sender, MouseEventArgs e)
         {
-            //if the button click is a left mouse click then add a positive point to the field chart.
-            if (e.Button == MouseButtons.Left)
+            if (!skipNextClick)
             {
-                Chart c = (Chart)sender;
-
-                double x = c.ChartAreas[0].AxisX.PixelPositionToValue(e.X);
-                double y = c.ChartAreas[0].AxisY.PixelPositionToValue(e.Y);
-
-                if (x > 0 && y > 0 && x <= fieldWidth && y <= fieldHeight)
+                //if the button click is a left mouse click then add a positive point to the field chart.
+                if (e.Button == MouseButtons.Left)
                 {
-                    ControlPointTable.Rows[ControlPointTable.Rows.Add((int)x, (int)y, "+", "")].Selected = true;
-                }
-                DrawControlPoints();
-            }
-            //if the button click is a right mouse click then add a negative point to the field chart.
+                    Chart c = (Chart)sender;
 
-            if (e.Button == MouseButtons.Right)
-            {
-                if (dp != null)
-                {
-                    dp = null;
-                    if ((ControlPointTable.RowCount - 2 > 0))
+                    double x = c.ChartAreas[0].AxisX.PixelPositionToValue(e.X);
+                    double y = c.ChartAreas[0].AxisY.PixelPositionToValue(e.Y);
+
+                    if (x > 0 && y > 0 && x <= fieldWidth && y <= fieldHeight)
                     {
-                        Apply_Click(null, null);
+                        ControlPointTable.Rows[ControlPointTable.Rows.Add((int)x, (int)y, "+", "")].Selected = true;
                     }
-                    Apply_Click(null, null);
-                    return;
-                }
-                Chart c = (Chart)sender;
-
-                double x = c.ChartAreas[0].AxisX.PixelPositionToValue(e.X);
-                double y = c.ChartAreas[0].AxisY.PixelPositionToValue(e.Y);
-
-
-                if (x > 0 && y > 0 && x <= fieldWidth && y <= fieldHeight)
-                {
-                    c.Series["cp"].Points.AddXY(x, y);
-                    mainField.Series["cp"].Points.Last().Color = Color.Red;
-
-                    ControlPointTable.Rows[ControlPointTable.Rows.Add((int)x, (int)y, "-", Int32.Parse(maxVelocity.Text))].Selected = true;
+                    DrawControlPoints();
                 }
 
-            }
-            if (e.Button == MouseButtons.Middle)
-            {
-                DataPoint p;
-                HitTestResult hit = mainField.HitTest(e.X, e.Y);
-                //get the point the user is clicking on.
-                if (hit.PointIndex >= 0)
+                //if the button click is a right mouse click then add a negative point to the field chart.
+
+                if (e.Button == MouseButtons.Right)
                 {
-                    //check to see if the point is part of the controlpoints because we have more than just controlpoints on the field chart
-                    if (hit.Series == null)
-                        return;
-                    if (hit.Series.ToString() != "Series-path")
-                        return;
+                    Chart c = (Chart)sender;
 
-                    if (hit.Series.Points[hit.PointIndex] == null)
-                        return;
-                    //if the point is real and exists then set dp to the point.
-                    p = hit.Series.Points[hit.PointIndex];
-                    p.Color = Color.Red;
-                    p.MarkerStyle = MarkerStyle.Triangle;
-                    p.MarkerSize = 10;
+                    double x = c.ChartAreas[0].AxisX.PixelPositionToValue(e.X);
+                    double y = c.ChartAreas[0].AxisY.PixelPositionToValue(e.Y);
 
-                    commandPointsList.Rows[commandPointsList.Rows.Add(mainField.Series["path"].Points.IndexOf(p), "")].Selected = true;
+
+                    if (x > 0 && y > 0 && x <= fieldWidth && y <= fieldHeight)
+                    {
+                        c.Series["cp"].Points.AddXY(x, y);
+                        mainField.Series["cp"].Points.Last().Color = Color.Red;
+
+                        ControlPointTable.Rows[ControlPointTable.Rows.Add((int)x, (int)y, "-", Int32.Parse(maxVelocity.Text))].Selected = true;
+                    }
+
                 }
-            }
-        }
-
-        /// <summary>
-        /// The event that is called when the user clicks and holds on the main field chart.
-        /// </summary>
-        private void MainField_MouseDown(object sender, MouseEventArgs e)
-        {
-            //if the user is holding their left mouse button
-            if (e.Button.HasFlag(MouseButtons.Left))
-            {
-                Chart c = (Chart)sender;
-
-                ChartArea ca = c.ChartAreas["field"];
-                Axis ax = ca.AxisX;
-                Axis ay = ca.AxisY;
-                if (dp != null)
+                if (e.Button == MouseButtons.Middle)
                 {
-                    return;
-                }
-                else
-                {
+                    DataPoint p;
                     HitTestResult hit = mainField.HitTest(e.X, e.Y);
                     //get the point the user is clicking on.
                     if (hit.PointIndex >= 0)
@@ -279,40 +237,82 @@
                         //check to see if the point is part of the controlpoints because we have more than just controlpoints on the field chart
                         if (hit.Series == null)
                             return;
-
-                        if (hit.Series.ToString() != "Series-cp")
+                        if (hit.Series.ToString() != "Series-path")
                             return;
 
                         if (hit.Series.Points[hit.PointIndex] == null)
                             return;
                         //if the point is real and exists then set dp to the point.
-                        dp = hit.Series.Points[hit.PointIndex];
-                        foreach (DataGridViewRow row in ControlPointTable.Rows)
+                        p = hit.Series.Points[hit.PointIndex];
+                        p.Color = Color.Red;
+                        p.MarkerStyle = MarkerStyle.Triangle;
+                        p.MarkerSize = 10;
+
+                        commandPointsList.Rows[commandPointsList.Rows.Add(mainField.Series["path"].Points.IndexOf(p), "")].Selected = true;
+                    }
+                }
+            }
+            skipNextClick = false;
+            clickedPoint = null;
+        }
+
+        /// <summary>
+        /// The event that is called when the user clicks and holds on the main field chart.
+        /// </summary>
+        private void MainField_MouseDown(object sender, MouseEventArgs e)
+        {
+            //runs when the mouse is pressed down.
+            if (e.Button.HasFlag(MouseButtons.Left))
+            {
+                Chart c = (Chart)sender;
+
+                ChartArea ca = c.ChartAreas["field"];
+                Axis ax = ca.AxisX;
+                Axis ay = ca.AxisY;
+                HitTestResult hit = mainField.HitTest(e.X, e.Y);
+                //get the point the user is clicking on.
+                if (hit.PointIndex >= 0)
+                {
+                    //check to see if the point is part of the controlpoints because we have more than just controlpoints on the field chart
+                    if (hit.Series == null)
+                        return;
+
+                    if (hit.Series.ToString() != "Series-cp")
+                        return;
+
+                    if (hit.Series.Points[hit.PointIndex] == null)
+                        return;
+                    //if the point is real and exists then set dp to the point.
+                    clickedPoint = hit.Series.Points[hit.PointIndex];
+                    foreach (DataGridViewRow row in ControlPointTable.Rows)
+                    {
+                        if (RowContainData(row, true))
                         {
-                            if (RowContainData(row, true))
+                            skipNextClick = true;
+
+                            // Debug.Print(row.Cells[0].Value.ToString() + ":" + ((int)dp.XValue).ToString() + ":" + row.Cells[1].Value.ToString() + ":" + ((int)dp.YValues[0]).ToString());
+                            if (row.Cells[0].Value.ToString() == ((int)clickedPoint.XValue).ToString() && row.Cells[1].Value.ToString() == ((int)clickedPoint.YValues[0]).ToString())
                             {
-                                // Debug.Print(row.Cells[0].Value.ToString() + ":" + ((int)dp.XValue).ToString() + ":" + row.Cells[1].Value.ToString() + ":" + ((int)dp.YValues[0]).ToString());
-                                if (row.Cells[0].Value.ToString() == ((int)dp.XValue).ToString() && row.Cells[1].Value.ToString() == ((int)dp.YValues[0]).ToString())
-                                {
-                                    //move the point
-                                    double dx = (int)ax.PixelPositionToValue(e.X);
-                                    double dy = (int)ay.PixelPositionToValue(e.Y);
+                                //move the point
+                                double dx = (int)ax.PixelPositionToValue(e.X);
+                                double dy = (int)ay.PixelPositionToValue(e.Y);
 
-                                    dp.XValue = dx;
-                                    dp.YValues[0] = dy;
-                                    row.Cells[0].Value = dx;
-                                    row.Cells[1].Value = dy;
+                                clickedPoint.XValue = dx;
+                                clickedPoint.YValues[0] = dy;
+                                row.Cells[0].Value = dx;
+                                row.Cells[1].Value = dy;
 
 
-                                    rowIndex = row.Index;
-                                    row.Selected = true;
+                                rowIndex = row.Index;
+                                row.Selected = true;
 
 
-                                }
                             }
                         }
                     }
                 }
+
+
             }
         }
 
@@ -329,19 +329,19 @@
                 ChartArea ca = c.ChartAreas[0];
                 Axis ax = ca.AxisX;
                 Axis ay = ca.AxisY;
-                if (dp != null)
+                if (clickedPoint != null)
                 {
                     double dx = (int)ax.PixelPositionToValue(e.X);
                     double dy = (int)ay.PixelPositionToValue(e.Y);
 
-                    dp.XValue = dx;
-                    dp.YValues[0] = dy;
+                    clickedPoint.XValue = dx;
+                    clickedPoint.YValues[0] = dy;
                     ControlPointTable.Rows[rowIndex].Cells[0].Value = dx;
                     ControlPointTable.Rows[rowIndex].Cells[1].Value = dy;
 
                     c.Invalidate();
                 }
-
+                
             }
         }
 
@@ -359,10 +359,6 @@
         /// </summary>
         private int RioFilesRowIndex;
 
-        /// <summary>
-        /// The currently selected point.
-        /// </summary>
-        internal DataPoint dp;
 
         /// <summary>
         /// The event that is called when the user clicks the invert button.
@@ -853,6 +849,10 @@
             {
 
                 controlpoint.setGraphIndex(mainField.Series["cp"].Points.AddXY(controlpoint.getX(), controlpoint.getY()));
+                if(controlpoint.isReverse())
+                {
+                    mainField.Series["cp"].Points.Last().Color = Color.Red;
+                }
             }
         }
 
@@ -1140,22 +1140,6 @@
             //Run the apply so that it looks like where we left off.
             Apply_Click(null, null);
         }
-
-        /// <summary>
-        /// The CalCheck_CheckedChanged
-        /// </summary>
-        /// <param name="sender">The sender<see cref="object"/></param>
-        /// <param name="e">The e<see cref="EventArgs"/></param>
-        /// 
-
-        //HARDLY USED!
-        private void CalCheck_CheckedChanged(object sender, EventArgs e)
-        {
-            offset.Text = "0";
-            offset.Enabled = false;
-            ClearCP_Click(null, null);
-        }
-
 
         /// <summary>
         /// The fpstodps
