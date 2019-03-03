@@ -151,7 +151,7 @@ namespace MotionProfile.Spline
 		/// <param name="endSlope">Optional slope constraint for the final point. Single.NaN means no constraint.</param>
 		/// <param name="debug">Turn on console output. Default is false.</param>
 		/// <returns>The computed y values for each xs.</returns>
-		public float[] FitAndEval(float[] x, float[] y, float[] xs, float startSlope = float.NaN, float endSlope = float.NaN, bool debug = false)
+		public List<CubicSplinePoint> FitAndEval(float[] x, float[] y, float[] xs, float startSlope = float.NaN, float endSlope = float.NaN, bool debug = false)
 		{
 			Fit(x, y, startSlope, endSlope, debug);
 			return Eval(xs, debug);
@@ -270,24 +270,28 @@ namespace MotionProfile.Spline
 		/// <param name="x">Input. X coordinates to evaluate the fitted curve at.</param>
 		/// <param name="debug">Turn on console output. Default is false.</param>
 		/// <returns>The computed y values for each x.</returns>
-		public float[] Eval(float[] x, bool debug = false)
+		public List<CubicSplinePoint> Eval(float[] x, bool debug = false)
 		{
-			CheckAlreadyFitted();
+            List<CubicSplinePoint> output = new List<CubicSplinePoint>();
 
-			int n = x.Length;
-			float[] y = new float[n];
+            CheckAlreadyFitted();
+
 			_lastIndex = 0; // Reset simultaneous traversal in case there are multiple calls
-
-			for (int i = 0; i < n; i++)
+            
+			for (int i = 0; i < x.Length; i++)
 			{
 				// Find which spline can be used to compute this x (by simultaneous traverse)
 				int j = GetNextXIndex(x[i]);
+                
 
 				// Evaluate using j'th spline
-				y[i] = EvalSpline(x[i], j, debug);
+				float y = EvalSpline(x[i], j, debug);
+
+                output.Add(new CubicSplinePoint(y, j));
+
 			}
 
-			return y;
+			return output;
 		}
 
 		public List<int> FindControlPoint(float[] x, bool debug = false)
@@ -304,8 +308,6 @@ namespace MotionProfile.Spline
 				// Find which spline can be used to compute this x (by simultaneous traverse)
 				int j = GetNextXIndex(x[i]);
 
-				// Evaluate using j'th spline
-				y[i] = EvalSpline(x[i], j, debug);
 				test.Add(j);
 			}
 
@@ -364,7 +366,7 @@ namespace MotionProfile.Spline
 		/// <param name="endSlope">Optional slope constraint for the final point. Single.NaN means no constraint.</param>
 		/// <param name="debug">Turn on console output. Default is false.</param>
 		/// <returns>The computed y values for each xs.</returns>
-		public static float[] Compute(float[] x, float[] y, float[] xs, float startSlope = float.NaN, float endSlope = float.NaN, bool debug = false)
+		public static List<CubicSplinePoint> Compute(float[] x, float[] y, float[] xs, float startSlope = float.NaN, float endSlope = float.NaN, bool debug = false)
 		{
 			CubicSpline spline = new CubicSpline();
 			return spline.FitAndEval(x, y, xs, startSlope, endSlope, debug);
@@ -387,7 +389,7 @@ namespace MotionProfile.Spline
 		/// are a vector describing the direction of the parametric spline of the last point. The vector does
 		/// not need to be normalized. If either is NaN then neither is used.</param>
 		/// <param name="lastDy">See description of dxN.</param>
-		public static void FitParametric(float[] x, float[] y, int nOutputPoints, out float[] xs, out float[] ys,
+		public static void FitParametric(float[] x, float[] y, int nOutputPoints, out List<CubicSplinePoint> xs, out List<CubicSplinePoint> ys,
 			float firstDx = Single.NaN, float firstDy = Single.NaN, float lastDx = Single.NaN, float lastDy = Single.NaN)
 		{
 			// Compute distances
@@ -458,13 +460,14 @@ namespace MotionProfile.Spline
 		public CubicSpline xSpline;
 		public CubicSpline ySpline;
 
-		public float[] getxs, getys, getx, gety;
+        public List<CubicSplinePoint> getxs, getys;
+        public float[] getx, gety;
 
 		public float[] distance;
 
 		public float totaldist;
 
-		public ParametricSpline(float[] x, float[] y, int nOutputPoints, out float[] xs, out float[] ys,
+		public ParametricSpline(float[] x, float[] y, int nOutputPoints, out List<CubicSplinePoint> xs, out List<CubicSplinePoint> ys,
 			float firstDx = Single.NaN, float firstDy = Single.NaN, float lastDx = Single.NaN, float lastDy = Single.NaN)
 		{
 			// Compute distances
@@ -505,12 +508,12 @@ namespace MotionProfile.Spline
 			ySpline = new CubicSpline();
 			ys = ySpline.FitAndEval(dists, y, times, firstDy / dt, lastDy / dt);
 
-			distance = new float[xs.Length];
+			distance = new float[xs.Count];
 			totalDist = 0;
-			for (int i = 1; i < xs.Length; i++)
+			for (int i = 1; i < xs.Count; i++)
 			{
-				float dx = xs[i] - xs[i - 1];
-				float dy = ys[i] - ys[i - 1];
+				float dx = xs[i].Y - xs[i - 1].Y;
+				float dy = ys[i].Y - ys[i - 1].Y;
 				float dist = (float)Math.Sqrt(dx * dx + dy * dy);
 				totalDist += dist;
 				distance[i] = totalDist;
@@ -522,14 +525,14 @@ namespace MotionProfile.Spline
 			
 		}
 
-		public System.Drawing.PointF Eval(float x, bool debug = false)
+		public SplinePoint Eval(float x, bool debug = false)
 		{
 			float[] xx = { x };
 
-			float[] xs = xSpline.Eval(xx, debug);
-			float[] ys = ySpline.Eval(xx, debug);
+            List<CubicSplinePoint> xs = xSpline.Eval(xx, debug);
+            List<CubicSplinePoint> ys = ySpline.Eval(xx, debug);
 
-			return new System.Drawing.PointF(xs[0], ys[0]);
+			return new SplinePoint(xs[0].Y, ys[0].Y);
 		}
 
 		public int FindControlPoint(float x, bool debug = false)
@@ -542,15 +545,15 @@ namespace MotionProfile.Spline
 			return xs[0];
 		}
 
-		public List<System.Drawing.PointF> Eval(float[] x, bool debug = false)
+		public List<SplinePoint> Eval(float[] x, bool debug = false)
 		{
-			List<System.Drawing.PointF> pts = new List<System.Drawing.PointF>();
+			List<SplinePoint> pts = new List<SplinePoint>();
 
-			float[] xs = xSpline.Eval(x, debug);
-			float[] ys = ySpline.Eval(x, debug);
-			for (int i = 0; i < xs.Length ; i++)
+            List<CubicSplinePoint> xs = xSpline.Eval(x, debug);
+            List<CubicSplinePoint> ys = ySpline.Eval(x, debug);
+			for (int i = 0; i < xs.Count ; i++)
 			{
-				pts.Add(new System.Drawing.PointF(xs[i], ys[i]));
+				pts.Add(new SplinePoint(xs[i].Y, ys[i].Y));
 			}
 			return pts;
 		}

@@ -162,11 +162,11 @@
             // 
             this.Field.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.Field.Controls.Add(this.mainField);
-            this.Field.Location = new System.Drawing.Point(4, 26);
+            this.Field.Location = new System.Drawing.Point(4, 22);
             this.Field.Margin = new System.Windows.Forms.Padding(1);
             this.Field.Name = "Field";
             this.Field.Padding = new System.Windows.Forms.Padding(1);
-            this.Field.Size = new System.Drawing.Size(746, 791);
+            this.Field.Size = new System.Drawing.Size(746, 795);
             this.Field.TabIndex = 0;
             this.Field.Text = "Field";
             // 
@@ -176,8 +176,8 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.mainField.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            chartArea1.BackImage = "C:\\Users\\Cameron\\Documents\\GitHub\\Deep-Space-Motion-Profile-Mapper\\VelocityMap\\Ve" +
-    "locityMap\\Resources\\2019-field.jpg";
+            chartArea1.BackImage = "C:\\Users\\camco\\Documents\\GitHub\\Deep-Space-Motion-Profile-Mapper\\VelocityMap\\Velo" +
+    "cityMap\\Resources\\2019-field.jpg";
             chartArea1.BackImageWrapMode = System.Windows.Forms.DataVisualization.Charting.ChartImageWrapMode.Scaled;
             chartArea1.Name = "field";
             this.mainField.ChartAreas.Add(chartArea1);
@@ -185,28 +185,28 @@
             this.mainField.Name = "mainField";
             series1.ChartArea = "field";
             series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
-            series1.Color = System.Drawing.Color.Green;
-            series1.MarkerSize = 10;
-            series1.MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Diamond;
-            series1.Name = "cp";
+            series1.Color = System.Drawing.Color.Red;
+            series1.MarkerSize = 2;
+            series1.Name = "right";
             series2.ChartArea = "field";
             series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
-            series2.Color = System.Drawing.Color.Red;
+            series2.Color = System.Drawing.Color.Aqua;
             series2.MarkerSize = 2;
-            series2.Name = "right";
+            series2.Name = "left";
             series3.ChartArea = "field";
             series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
-            series3.Color = System.Drawing.Color.Aqua;
-            series3.MarkerSize = 2;
-            series3.Name = "left";
+            series3.Color = System.Drawing.Color.Lime;
+            series3.MarkerSize = 4;
+            series3.Name = "path";
             series4.ChartArea = "field";
             series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
-            series4.Color = System.Drawing.Color.Lime;
-            series4.MarkerSize = 4;
-            series4.Name = "path";
+            series4.Name = "background";
             series5.ChartArea = "field";
             series5.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
-            series5.Name = "background";
+            series5.Color = System.Drawing.Color.Green;
+            series5.MarkerSize = 10;
+            series5.MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Diamond;
+            series5.Name = "cp";
             this.mainField.Series.Add(series1);
             this.mainField.Series.Add(series2);
             this.mainField.Series.Add(series3);
@@ -222,11 +222,11 @@
             // Data
             // 
             this.Data.Controls.Add(this.splitContainer1);
-            this.Data.Location = new System.Drawing.Point(4, 25);
+            this.Data.Location = new System.Drawing.Point(4, 22);
             this.Data.Margin = new System.Windows.Forms.Padding(1);
             this.Data.Name = "Data";
             this.Data.Padding = new System.Windows.Forms.Padding(1);
-            this.Data.Size = new System.Drawing.Size(746, 792);
+            this.Data.Size = new System.Drawing.Size(746, 795);
             this.Data.TabIndex = 1;
             this.Data.Text = "Data";
             this.Data.UseVisualStyleBackColor = true;
@@ -250,8 +250,8 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.VelocityPlot);
             this.splitContainer1.Panel2.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.splitContainer1.Size = new System.Drawing.Size(744, 790);
-            this.splitContainer1.SplitterDistance = 376;
+            this.splitContainer1.Size = new System.Drawing.Size(744, 793);
+            this.splitContainer1.SplitterDistance = 377;
             this.splitContainer1.TabIndex = 3;
             // 
             // DistancePlot
@@ -277,7 +277,7 @@
             chartArea3.Name = "ChartArea1";
             this.VelocityPlot.ChartAreas.Add(chartArea3);
             this.VelocityPlot.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.VelocityPlot.Location = new System.Drawing.Point(0, -40);
+            this.VelocityPlot.Location = new System.Drawing.Point(0, -38);
             this.VelocityPlot.Name = "VelocityPlot";
             this.VelocityPlot.Padding = new System.Windows.Forms.Padding(0, 0, 0, 10);
             series7.ChartArea = "ChartArea1";
@@ -291,10 +291,10 @@
             // 
             this.tabPage1.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.tabPage1.Controls.Add(this.AnglePlot);
-            this.tabPage1.Location = new System.Drawing.Point(4, 25);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(746, 792);
+            this.tabPage1.Size = new System.Drawing.Size(746, 795);
             this.tabPage1.TabIndex = 2;
             this.tabPage1.Text = "More Data";
             // 
@@ -342,7 +342,7 @@
             this.maxVelocity.Location = new System.Drawing.Point(168, 39);
             this.maxVelocity.Margin = new System.Windows.Forms.Padding(1);
             this.maxVelocity.Name = "maxVelocity";
-            this.maxVelocity.Size = new System.Drawing.Size(71, 23);
+            this.maxVelocity.Size = new System.Drawing.Size(71, 20);
             this.maxVelocity.TabIndex = 4;
             this.maxVelocity.Text = "3500";
             this.maxVelocity.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -352,7 +352,7 @@
             this.timeSample.Location = new System.Drawing.Point(179, 424);
             this.timeSample.Margin = new System.Windows.Forms.Padding(1);
             this.timeSample.Name = "timeSample";
-            this.timeSample.Size = new System.Drawing.Size(71, 23);
+            this.timeSample.Size = new System.Drawing.Size(71, 20);
             this.timeSample.TabIndex = 4;
             this.timeSample.Text = "10";
             this.timeSample.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -363,7 +363,7 @@
             this.trackWidth.Location = new System.Drawing.Point(179, 443);
             this.trackWidth.Margin = new System.Windows.Forms.Padding(1);
             this.trackWidth.Name = "trackWidth";
-            this.trackWidth.Size = new System.Drawing.Size(71, 23);
+            this.trackWidth.Size = new System.Drawing.Size(71, 20);
             this.trackWidth.TabIndex = 4;
             this.trackWidth.Text = "673";
             this.trackWidth.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -374,7 +374,7 @@
             this.AccelRate.Location = new System.Drawing.Point(179, 462);
             this.AccelRate.Margin = new System.Windows.Forms.Padding(1);
             this.AccelRate.Name = "AccelRate";
-            this.AccelRate.Size = new System.Drawing.Size(71, 23);
+            this.AccelRate.Size = new System.Drawing.Size(71, 20);
             this.AccelRate.TabIndex = 4;
             this.AccelRate.Text = "80";
             this.AccelRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -387,7 +387,7 @@
             this.label1.Location = new System.Drawing.Point(6, 41);
             this.label1.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(98, 17);
+            this.label1.Size = new System.Drawing.Size(79, 13);
             this.label1.TabIndex = 5;
             this.label1.Text = "Max Velocity";
             // 
@@ -397,7 +397,7 @@
             this.label2.Location = new System.Drawing.Point(18, 424);
             this.label2.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(80, 17);
+            this.label2.Size = new System.Drawing.Size(61, 13);
             this.label2.TabIndex = 5;
             this.label2.Text = "Time (ms)";
             this.label2.Visible = false;
@@ -408,7 +408,7 @@
             this.label3.Location = new System.Drawing.Point(18, 443);
             this.label3.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(95, 17);
+            this.label3.Size = new System.Drawing.Size(77, 13);
             this.label3.TabIndex = 5;
             this.label3.Text = "Track Width";
             this.label3.Visible = false;
@@ -419,7 +419,7 @@
             this.label4.Location = new System.Drawing.Point(18, 462);
             this.label4.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(133, 17);
+            this.label4.Size = new System.Drawing.Size(104, 13);
             this.label4.TabIndex = 5;
             this.label4.Text = "Accel Filter (FL1)";
             this.label4.Visible = false;
@@ -432,7 +432,7 @@
             this.checkBox1.Location = new System.Drawing.Point(53, 312);
             this.checkBox1.Margin = new System.Windows.Forms.Padding(1);
             this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(148, 21);
+            this.checkBox1.Size = new System.Drawing.Size(119, 17);
             this.checkBox1.TabIndex = 6;
             this.checkBox1.Text = "Limit Max Speed";
             this.checkBox1.UseVisualStyleBackColor = true;
@@ -462,7 +462,7 @@
             this.CTRE.Location = new System.Drawing.Point(9, 87);
             this.CTRE.Margin = new System.Windows.Forms.Padding(1);
             this.CTRE.Name = "CTRE";
-            this.CTRE.Size = new System.Drawing.Size(122, 21);
+            this.CTRE.Size = new System.Drawing.Size(99, 17);
             this.CTRE.TabIndex = 6;
             this.CTRE.Text = "CTRE output";
             this.CTRE.UseVisualStyleBackColor = true;
@@ -475,7 +475,7 @@
             this.wheel.Location = new System.Drawing.Point(205, 85);
             this.wheel.Margin = new System.Windows.Forms.Padding(1);
             this.wheel.Name = "wheel";
-            this.wheel.Size = new System.Drawing.Size(34, 23);
+            this.wheel.Size = new System.Drawing.Size(34, 20);
             this.wheel.TabIndex = 4;
             this.wheel.Text = "8";
             this.wheel.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -486,7 +486,7 @@
             this.tolerence.Location = new System.Drawing.Point(138, 331);
             this.tolerence.Margin = new System.Windows.Forms.Padding(1);
             this.tolerence.Name = "tolerence";
-            this.tolerence.Size = new System.Drawing.Size(71, 23);
+            this.tolerence.Size = new System.Drawing.Size(71, 20);
             this.tolerence.TabIndex = 7;
             this.tolerence.Text = "660";
             this.tolerence.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -498,7 +498,7 @@
             this.offset.Location = new System.Drawing.Point(138, 350);
             this.offset.Margin = new System.Windows.Forms.Padding(1);
             this.offset.Name = "offset";
-            this.offset.Size = new System.Drawing.Size(71, 23);
+            this.offset.Size = new System.Drawing.Size(71, 20);
             this.offset.TabIndex = 8;
             this.offset.Text = "50";
             this.offset.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -511,7 +511,7 @@
             this.label5.Location = new System.Drawing.Point(18, 333);
             this.label5.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(114, 17);
+            this.label5.Size = new System.Drawing.Size(90, 13);
             this.label5.TabIndex = 5;
             this.label5.Text = "Velocity Offset";
             this.label5.Visible = false;
@@ -523,7 +523,7 @@
             this.label6.Location = new System.Drawing.Point(18, 352);
             this.label6.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(109, 17);
+            this.label6.Size = new System.Drawing.Size(86, 13);
             this.label6.TabIndex = 5;
             this.label6.Text = "Vel Tolerence";
             this.label6.Visible = false;
@@ -559,7 +559,7 @@
             this.SpeedLimit.Location = new System.Drawing.Point(179, 481);
             this.SpeedLimit.Margin = new System.Windows.Forms.Padding(1);
             this.SpeedLimit.Name = "SpeedLimit";
-            this.SpeedLimit.Size = new System.Drawing.Size(71, 23);
+            this.SpeedLimit.Size = new System.Drawing.Size(71, 20);
             this.SpeedLimit.TabIndex = 4;
             this.SpeedLimit.Text = "2.5";
             this.SpeedLimit.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -571,7 +571,7 @@
             this.label7.Location = new System.Drawing.Point(18, 481);
             this.label7.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(144, 17);
+            this.label7.Size = new System.Drawing.Size(113, 13);
             this.label7.TabIndex = 5;
             this.label7.Text = "Speed Limit Factor";
             this.label7.Visible = false;
@@ -584,7 +584,7 @@
             this.smoothness.Location = new System.Drawing.Point(194, 63);
             this.smoothness.Margin = new System.Windows.Forms.Padding(1);
             this.smoothness.Name = "smoothness";
-            this.smoothness.Size = new System.Drawing.Size(45, 23);
+            this.smoothness.Size = new System.Drawing.Size(45, 20);
             this.smoothness.TabIndex = 8;
             this.smoothness.Text = "10";
             this.smoothness.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -596,7 +596,7 @@
             this.label8.Location = new System.Drawing.Point(7, 54);
             this.label8.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(84, 17);
+            this.label8.Size = new System.Drawing.Size(66, 13);
             this.label8.TabIndex = 5;
             this.label8.Text = "Smoothing";
             // 
@@ -606,7 +606,7 @@
             this.Label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Label9.Location = new System.Drawing.Point(126, 87);
             this.Label9.Name = "Label9";
-            this.Label9.Size = new System.Drawing.Size(99, 17);
+            this.Label9.Size = new System.Drawing.Size(79, 13);
             this.Label9.TabIndex = 9;
             this.Label9.Text = "Wheel Size :";
             // 
@@ -631,7 +631,7 @@
             this.profilename.ForeColor = System.Drawing.Color.White;
             this.profilename.Location = new System.Drawing.Point(345, 80);
             this.profilename.Name = "profilename";
-            this.profilename.Size = new System.Drawing.Size(100, 23);
+            this.profilename.Size = new System.Drawing.Size(100, 20);
             this.profilename.TabIndex = 22;
             // 
             // label15
@@ -640,7 +640,7 @@
             this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label15.Location = new System.Drawing.Point(265, 83);
             this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(106, 17);
+            this.label15.Size = new System.Drawing.Size(83, 13);
             this.label15.TabIndex = 21;
             this.label15.Text = "Profile Name:";
             // 
@@ -654,40 +654,40 @@
             this.insertAboveToolStripMenuItem,
             this.insertBelowToolStripMenuItem});
             this.contextMenuStrip2.Name = "contextMenuStrip2";
-            this.contextMenuStrip2.Size = new System.Drawing.Size(162, 124);
+            this.contextMenuStrip2.Size = new System.Drawing.Size(141, 114);
             // 
             // deleteToolStripMenuItem
             // 
             this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
-            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(161, 24);
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
             this.deleteToolStripMenuItem.Text = "Delete";
             this.deleteToolStripMenuItem.Click += new System.EventHandler(this.Delete_Click);
             // 
             // moveUpToolStripMenuItem
             // 
             this.moveUpToolStripMenuItem.Name = "moveUpToolStripMenuItem";
-            this.moveUpToolStripMenuItem.Size = new System.Drawing.Size(161, 24);
+            this.moveUpToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
             this.moveUpToolStripMenuItem.Text = "Move Up";
             this.moveUpToolStripMenuItem.Click += new System.EventHandler(this.BtnUp_Click);
             // 
             // moveDownToolStripMenuItem
             // 
             this.moveDownToolStripMenuItem.Name = "moveDownToolStripMenuItem";
-            this.moveDownToolStripMenuItem.Size = new System.Drawing.Size(161, 24);
+            this.moveDownToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
             this.moveDownToolStripMenuItem.Text = "Move Down";
             this.moveDownToolStripMenuItem.Click += new System.EventHandler(this.BtnDown_Click);
             // 
             // insertAboveToolStripMenuItem
             // 
             this.insertAboveToolStripMenuItem.Name = "insertAboveToolStripMenuItem";
-            this.insertAboveToolStripMenuItem.Size = new System.Drawing.Size(161, 24);
+            this.insertAboveToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
             this.insertAboveToolStripMenuItem.Text = "Insert Above";
             this.insertAboveToolStripMenuItem.Click += new System.EventHandler(this.InsertAbove_Click);
             // 
             // insertBelowToolStripMenuItem
             // 
             this.insertBelowToolStripMenuItem.Name = "insertBelowToolStripMenuItem";
-            this.insertBelowToolStripMenuItem.Size = new System.Drawing.Size(161, 24);
+            this.insertBelowToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
             this.insertBelowToolStripMenuItem.Text = "Insert Below";
             this.insertBelowToolStripMenuItem.Click += new System.EventHandler(this.InsertBelow_Click);
             // 
@@ -738,6 +738,7 @@
             // 
             // x
             // 
+            this.x.DataPropertyName = "X";
             dataGridViewCellStyle1.Format = "N0";
             dataGridViewCellStyle1.NullValue = null;
             this.x.DefaultCellStyle = dataGridViewCellStyle1;
@@ -750,6 +751,7 @@
             // 
             // y
             // 
+            this.y.DataPropertyName = "Y";
             dataGridViewCellStyle2.Format = "N0";
             dataGridViewCellStyle2.NullValue = null;
             this.y.DefaultCellStyle = dataGridViewCellStyle2;
@@ -761,6 +763,7 @@
             // 
             // Direction
             // 
+            this.Direction.DataPropertyName = "Direction";
             this.Direction.Frozen = true;
             this.Direction.HeaderText = "Direction(+/-)";
             this.Direction.MaxInputLength = 1;
@@ -773,7 +776,7 @@
             this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label10.Location = new System.Drawing.Point(265, 103);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(200, 20);
+            this.label10.Size = new System.Drawing.Size(171, 17);
             this.label10.TabIndex = 23;
             this.label10.Text = "Motion Profiles On Rio";
             // 
@@ -819,7 +822,7 @@
             this.fileToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.fileToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Transparent;
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(47, 24);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(43, 24);
             this.fileToolStripMenuItem.Text = "File";
             this.fileToolStripMenuItem.DropDownClosed += new System.EventHandler(this.FileToolStripMenuItem_DropDownClosed);
             this.fileToolStripMenuItem.DropDownOpened += new System.EventHandler(this.FileToolStripMenuItem_DropDownOpened);
@@ -830,33 +833,33 @@
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
             this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(177, 26);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
             this.saveToolStripMenuItem.Text = "Save";
             // 
             // loadToolStripMenuItem
             // 
             this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
             this.loadToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.loadToolStripMenuItem.Size = new System.Drawing.Size(177, 26);
+            this.loadToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
             this.loadToolStripMenuItem.Text = "Load";
             this.loadToolStripMenuItem.Click += new System.EventHandler(this.Load_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(174, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(150, 6);
             // 
             // optionsToolStripMenuItem
             // 
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(177, 26);
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
             this.optionsToolStripMenuItem.Text = "Settings";
             this.optionsToolStripMenuItem.Click += new System.EventHandler(this.OptionsToolStripMenuItem_Click);
             // 
             // abouToolStripMenuItem
             // 
             this.abouToolStripMenuItem.Name = "abouToolStripMenuItem";
-            this.abouToolStripMenuItem.Size = new System.Drawing.Size(177, 26);
+            this.abouToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
             this.abouToolStripMenuItem.Text = "About";
             this.abouToolStripMenuItem.Click += new System.EventHandler(this.About_Click);
             // 
@@ -943,40 +946,40 @@
             this.toolStripMenuItem4,
             this.toolStripMenuItem5});
             this.commandPointListMenuStrip.Name = "contextMenuStrip2";
-            this.commandPointListMenuStrip.Size = new System.Drawing.Size(162, 124);
+            this.commandPointListMenuStrip.Size = new System.Drawing.Size(141, 114);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(161, 24);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(140, 22);
             this.toolStripMenuItem1.Text = "Delete";
             this.toolStripMenuItem1.Click += new System.EventHandler(this.Delete_Click_commandPoints);
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(161, 24);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(140, 22);
             this.toolStripMenuItem2.Text = "Move Up";
             this.toolStripMenuItem2.Click += new System.EventHandler(this.BtnUp_Click_commandPoints);
             // 
             // toolStripMenuItem3
             // 
             this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(161, 24);
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(140, 22);
             this.toolStripMenuItem3.Text = "Move Down";
             this.toolStripMenuItem3.Click += new System.EventHandler(this.BtnDown_Click_commandPoints);
             // 
             // toolStripMenuItem4
             // 
             this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-            this.toolStripMenuItem4.Size = new System.Drawing.Size(161, 24);
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(140, 22);
             this.toolStripMenuItem4.Text = "Insert Above";
             this.toolStripMenuItem4.Click += new System.EventHandler(this.InsertAbove_Click_commandPoints);
             // 
             // toolStripMenuItem5
             // 
             this.toolStripMenuItem5.Name = "toolStripMenuItem5";
-            this.toolStripMenuItem5.Size = new System.Drawing.Size(161, 24);
+            this.toolStripMenuItem5.Size = new System.Drawing.Size(140, 22);
             this.toolStripMenuItem5.Text = "Insert Below";
             this.toolStripMenuItem5.Click += new System.EventHandler(this.InsertBelow_Click_commandPoints);
             // 
@@ -1049,12 +1052,12 @@
             this.rioFilesContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.loadToolStripMenuItem1});
             this.rioFilesContextMenuStrip.Name = "rioFilesContextMenuStrip";
-            this.rioFilesContextMenuStrip.Size = new System.Drawing.Size(112, 28);
+            this.rioFilesContextMenuStrip.Size = new System.Drawing.Size(101, 26);
             // 
             // loadToolStripMenuItem1
             // 
             this.loadToolStripMenuItem1.Name = "loadToolStripMenuItem1";
-            this.loadToolStripMenuItem1.Size = new System.Drawing.Size(111, 24);
+            this.loadToolStripMenuItem1.Size = new System.Drawing.Size(100, 22);
             this.loadToolStripMenuItem1.Text = "Load";
             this.loadToolStripMenuItem1.Click += new System.EventHandler(this.RioFilesLoad);
             // 
@@ -1186,9 +1189,6 @@
         private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
         private System.Windows.Forms.CheckBox GridCheckBox;
         private System.Windows.Forms.DataGridView commandPointsList;
-        private System.Windows.Forms.DataGridViewTextBoxColumn x;
-        private System.Windows.Forms.DataGridViewTextBoxColumn y;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Direction;
         private System.Windows.Forms.ContextMenuStrip commandPointListMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
@@ -1206,6 +1206,9 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
         private System.Windows.Forms.ContextMenuStrip rioFilesContextMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem loadToolStripMenuItem1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn x;
+        private System.Windows.Forms.DataGridViewTextBoxColumn y;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Direction;
     }
 }
 

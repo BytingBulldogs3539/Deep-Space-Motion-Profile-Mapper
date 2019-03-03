@@ -13,6 +13,7 @@
     using System.Windows.Forms.DataVisualization.Charting;
     using MotionProfile;
     using static MotionProfile.ControlPoint;
+    using MotionProfile.Spline;
 
     /// <summary>
     /// Defines the <see cref="MainForm" />
@@ -62,6 +63,7 @@
             VelocityPlot.Dock = DockStyle.Fill;
 
             splitContainer1.SplitterDistance = splitContainer1.Height / 2;
+
         }
 
         /// <summary>
@@ -848,7 +850,7 @@
             foreach(ControlPoint controlpoint in controlPointArray)
             {
 
-                controlpoint.setGraphIndex(mainField.Series["cp"].Points.AddXY(controlpoint.getX(), controlpoint.getY()));
+                controlpoint.setGraphIndex(mainField.Series["cp"].Points.AddXY(controlpoint.X, controlpoint.Y));
                 if(controlpoint.isReverse())
                 {
                     mainField.Series["cp"].Points.Last().Color = Color.Red;
@@ -861,9 +863,30 @@
         /// </summary>
         private void Apply_Click(object sender, EventArgs e)
         {
-            if(controlPointArray.Count >0)
+            updateControlPointArray();
+            if (!(controlPointArray.Count >0))
             {
+                MessageBox.Show("Not enought points!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
+            mainField.Series["path"].Points.Clear();
+            Random rnd = new Random();
+            foreach (ControlPointSegment seg in SplinePath.GenSpline(controlPointArray))
+            {
+                Color randomColor;
+
+                randomColor = Color.FromArgb(rnd.Next(256), rnd.Next(256), rnd.Next(256));
+
+
+                foreach (SplinePoint point in seg.points)
+                {
+                    mainField.Series["path"].Points.AddXY(point.X, point.Y);
+                    mainField.Series["path"].Points.Last().Color = randomColor;
+
+                }
+            }
+
+
         }
 
         /// <summary>
@@ -1703,11 +1726,11 @@
                     row.Cells[2].Value = "+";
                 }
 
-                Direction direction = ControlPoint.Direction.FORWARD;
+                ControlPointDirection direction = ControlPoint.ControlPointDirection.FORWARD;
 
                 if (row.Cells[2].Value.ToString() == "-")
                 {
-                    direction = ControlPoint.Direction.REVERSE;
+                    direction = ControlPoint.ControlPointDirection.REVERSE;
                 }
                 //Add the data to the control point array.
                 controlPointArray.Add(new ControlPoint(float.Parse(row.Cells[0].Value.ToString()), float.Parse(row.Cells[1].Value.ToString()), direction));

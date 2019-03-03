@@ -79,14 +79,14 @@ namespace MotionProfile
 				if (instVelocity )
 					return vMax;
 				
-				return spline.Eval(d, false).First();
+				return spline.Eval(d, false).First().Y;
 
 			}
 			else if (distance > this.distance - rampDistance)
 			{
 				//ramp down
 				d[0] = (float)(this.distance - distance);
-				return spline.Eval(d, false).First();
+				return spline.Eval(d, false).First().Y;
 			}
 
 			//steady state
