@@ -1,117 +1,163 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace MotionProfile
+namespace MotionProfile.Spline
 {
-	/// <summary>
-	/// Used to calculate the velocity of the robot.
-	/// </summary>
-	class VelocityGenerator
+    public class VelocityGenerator
     {
-		public float vMax = 4;
+        // Mechanism characteristics
+        private double maxVel;
+        private double maxAccel;
+        private double maxJerk;
 
-		public double T1 = .4;
-		public double T2 = .2;
-		public double time = .01;
+        // Calculated constants
+        private double timeToMaxAchievableVel;
+        private double timeToMaxAchievableVelCoast;
 
-		public bool instVelocity = false;
+        private double timeToMaxAchievableAccel;
+        private double timeToMaxAchievableAccelCoast;
+        private double timeToAccelCoastDeccel;
 
-		public int FL1 = 40;
-		private int FL2 = 20;
+        private double displacementAccelCoastDeccel;
+        private double timeToAccelCoastDeccelCoast;
 
-		private double distance = 100;
-		private double rampDistance = 1;
+        public VelocityGenerator(double maxVel, double maxAccel, double maxJerk)
+        {
+            this.maxVel = Math.Abs(maxVel);
+            this.maxAccel = Math.Abs(maxAccel);
+            this.maxJerk = Math.Abs(maxJerk);
+        }
 
-		private List<double> _filter1 = new List<double>();
-		private List<double> _filter2 = new List<double>();
+        public List<double[]> generateMotionProfile(double distance, double dt)
+        {
+            calculateConstants(distance);
+            double timeToComplete = timeToAccelCoastDeccelCoast + timeToAccelCoastDeccel;
+            List<double[]> points = new List<double[]>();
 
-		private List<float> velocity = new List<float>();
-		private List<float> position = new List<float>();
+            // vel at time t is found from algebraic integration, while position is found from numerical integration
+            double v1 = maxJerk * timeToMaxAchievableAccel * timeToMaxAchievableAccel / 2; // vel at maxAccel
+            double v2 = v1 + maxJerk * timeToMaxAchievableAccel * timeToMaxAchievableAccelCoast; // vel after accel coast
+            double v3 = v2 + v1; // vel after accel-coast-deccel
+                                 // skipping a portion since velocity is constant during this period
+            double v4 = v3 - v1; // vel after accel-coast-deccel-zero-accel
+            double v5 = v3 - v2; // vel after accel-coast-deccel-zero-accel-coast
 
-		private MotionProfile.Spline.CubicSpline spline;
+            double currTime = 0;
+            double currPos = 0;
 
-		//used to return the slowest that the robot will be going.
-		public float GetMinVelocity()
-		{
-			return velocity.Skip(1).First();
-		}
+            // {time, vel, pos}
+            double[] currPoint = new double[3];
 
-		//used to set the over all distance of the path.
-		public void SetLength(float distance)
-		{
-			this.distance = distance;
-			BuildFilter1();
-			BuildFilter2();
+            while (currTime <= timeToComplete)
+            {
+                currPoint[0] = currTime;
 
-			velocity.Clear();
-			position.Clear();
+                if (currTime > timeToComplete - timeToMaxAchievableAccel)
+                {
+                    double t6 = timeToComplete - timeToMaxAchievableAccel;
+                    currPoint[1] = v5 + lookUpAccel(currTime - t6) * (currTime - t6) / 2 + lookUpAccel(timeToComplete - timeToMaxAchievableAccel) * (currTime - t6);
+                }
+                else if (currTime > timeToAccelCoastDeccelCoast + timeToMaxAchievableAccel)
+                {
+                    currPoint[1] = v4 + (lookUpAccel(currTime) * (currTime - (timeToAccelCoastDeccelCoast + timeToMaxAchievableAccel)));
+                }
+                else if (currTime > timeToAccelCoastDeccelCoast)
+                {
+                    currPoint[1] = v3 + (lookUpAccel(currTime) * (currTime - timeToAccelCoastDeccelCoast)) / 2;
+                }
+                else if (currTime > timeToAccelCoastDeccel)
+                {
+                    currPoint[1] = v3;
+                }
+                else if (currTime > timeToMaxAchievableAccel + timeToMaxAchievableAccelCoast)
+                {
+                    double t2 = timeToMaxAchievableAccel + timeToMaxAchievableAccelCoast;
+                    currPoint[1] = v2 + (currTime - t2) * (lookUpAccel(currTime) + lookUpAccel(t2)) / 2;
+                }
+                else if (currTime > timeToMaxAchievableAccel)
+                {
+                    currPoint[1] = v1 + lookUpAccel(currTime) * (currTime - timeToMaxAchievableAccel);
+                }
+                else if (currTime >= 0)
+                {
+                    currPoint[1] = lookUpAccel(currTime) * currTime / 2;
+                }
 
-			velocity.Add(0);
-			position.Add(0);
+                currPoint[2] = currPos += currPoint[1] * dt;
 
-			for (int i = 1; i < FL2 + FL1; i++)
-			{
-				velocity.Add((float)((_filter1[i] + _filter2[i]) / (1 + FL2) * vMax));
-				position.Add((float)((velocity[i] + velocity[i - 1]) / 2.0 * time + position.Last()));
-			}
+                double[] currPoints2 = { currPoint[0], currPoint[1], currPoint[2] };
+                points.Add(currPoints2);
 
-			rampDistance = position.Last();
+                currTime += dt;
+            }
+            return points;
+        }
 
-			if (position.Last() * 2 > this.distance)
-				rampDistance = this.distance / 2;
+        // default 10ms dt
+        public List<double[]> generateMotionProfile(double distance)
+        {
+            return generateMotionProfile(distance, 0.010);
+        }
 
-			spline = new Spline.CubicSpline(position.ToArray(), velocity.ToArray());
-		}
+        private void calculateConstants(double distance)
+        {
+            timeToMaxAchievableVel = Math.Min(Math.Sqrt(distance / maxAccel), maxVel / maxAccel);
+            double maxAchieveableVel = timeToMaxAchievableVel * maxAccel;
+            timeToMaxAchievableVelCoast = distance / (maxAccel * timeToMaxAchievableVel) - timeToMaxAchievableVel;
 
-		/// <summary>
-		/// Returns the velocity the robot should be going at x distance
-		/// </summary>
-		public float GetVelocity(float distance)
-		{
-			float[] d = {distance };
+            timeToMaxAchievableAccel = Math.Min(Math.Min(Math.Sqrt(maxAchieveableVel / maxJerk), maxAccel / maxJerk),
+                    (timeToMaxAchievableVel + timeToMaxAchievableVelCoast) / 2);
+            timeToMaxAchievableAccelCoast = Math.Min(timeToMaxAchievableVel + timeToMaxAchievableVelCoast - 2 * timeToMaxAchievableAccel,
+                    maxAchieveableVel / (maxJerk * timeToMaxAchievableAccel) - timeToMaxAchievableAccel);
+            timeToAccelCoastDeccel = 2 * timeToMaxAchievableAccel + timeToMaxAchievableAccelCoast;
 
-			if (distance < rampDistance)
-			{ 
-				// ramp up
-				if (instVelocity )
-					return vMax;
-				
-				return spline.Eval(d, false).First().Y;
+            displacementAccelCoastDeccel = timeToAccelCoastDeccel * maxJerk * timeToMaxAchievableAccel * (timeToMaxAchievableAccel + timeToMaxAchievableAccelCoast) / 2;
+            timeToAccelCoastDeccelCoast = timeToAccelCoastDeccel +
+                    (distance - 2 * displacementAccelCoastDeccel) / (maxJerk * timeToMaxAchievableAccel * (timeToMaxAchievableAccel + timeToMaxAchievableAccelCoast));
+        }
 
-			}
-			else if (distance > this.distance - rampDistance)
-			{
-				//ramp down
-				d[0] = (float)(this.distance - distance);
-				return spline.Eval(d, false).First().Y;
-			}
+        private double lookUpAccel(double time)
+        {
+            if (time > timeToAccelCoastDeccelCoast + timeToAccelCoastDeccel || time <= 0) return 0;
+            if (time > timeToAccelCoastDeccelCoast + timeToAccelCoastDeccel - timeToMaxAchievableAccel) return -maxJerk * (timeToAccelCoastDeccelCoast + timeToAccelCoastDeccel - time);
+            if (time > timeToAccelCoastDeccelCoast + timeToMaxAchievableAccel) return -maxJerk * timeToMaxAchievableAccel;
+            if (time > timeToAccelCoastDeccelCoast) return -maxJerk * (time - timeToAccelCoastDeccelCoast);
+            if (time > timeToAccelCoastDeccel) return 0;
+            if (time > timeToMaxAchievableAccel + timeToMaxAchievableAccelCoast) return maxJerk * (timeToAccelCoastDeccel - time);
+            if (time > timeToMaxAchievableAccel) return maxJerk * timeToMaxAchievableAccel;
+            if (time > 0) return maxJerk * time;
+            else return 0;
+        }
 
-			//steady state
-			return (float)vMax ;
-		}
+        // Getters and Setters
+        public double getMaxVel()
+        {
+            return maxVel;
+        }
 
-		public void BuildFilter1()
-		{
-			_filter1.Clear();
+        public void setMaxVel(double maxVel)
+        {
+            this.maxVel = maxVel;
+        }
 
-			for (int i = 0; i <= FL2+FL1; i++)
-			{
-				double a = Math.Min(1, (time*i / this.time) / FL1);
-				_filter1.Add(Math.Max(0, a));
-			}
-		}
+        public double getMaxAccel()
+        {
+            return maxAccel;
+        }
 
-		public void BuildFilter2()
-		{
-			_filter2.Clear();
-			for (int i = 1; i <= FL1+FL2 ; i++)
-			{
-				double aPos = _filter1.Skip(Math.Max(0,i-FL2)).Take(Math.Min(FL2,i)).Sum() ;
-				_filter2.Add(aPos);
-			}
-		}
-	}
+        public void setMaxAccel(double maxAccel)
+        {
+            this.maxAccel = maxAccel;
+        }
+
+        public double getMaxJerk()
+        {
+            return maxJerk;
+        }
+
+        public void setMaxJerk(double maxJerk)
+        {
+            this.maxJerk = maxJerk;
+        }
+    }
 }

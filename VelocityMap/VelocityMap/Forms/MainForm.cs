@@ -166,7 +166,12 @@
             //set the color of the lines.
             AnglePlot.Series["angle"].Color = Color.White;
 
+
+
+
+
         }
+
 
 
         /// <summary>
@@ -877,7 +882,7 @@
         private void Apply_Click(object sender, EventArgs e)
         {
             updateControlPointArray();
-            if (!(controlPointArray.Count >0))
+            if (!(controlPointArray.Count >1))
             {
                 MessageBox.Show("Not enought points!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -898,7 +903,13 @@
 
                 }
             }
-
+            VelocityGenerator gen = new VelocityGenerator(3500, 3500, 8000);
+            
+            foreach(double[] arr in gen.generateMotionProfile(100, .01))
+            {
+                DistancePlot.Series["path"].Points.AddXY(arr[0], arr[2]);
+                VelocityPlot.Series["path"].Points.AddXY(arr[0], arr[1]);
+            }
 
         }
 
@@ -1067,9 +1078,6 @@
                 writer.WritePropertyName("Speed Limit");
                 writer.WriteValue(SpeedLimit.Text);
 
-                writer.WritePropertyName("Smoothness");
-                writer.WriteValue(smoothness.Text);
-
                 writer.WritePropertyName("CTRE");
                 writer.WriteValue(CTRE.Checked.ToString());
 
@@ -1152,7 +1160,6 @@
                     timeSample.Text = (string)o["Time Sample"];
                     SpeedLimit.Text = (string)o["Speed Limit"];
                     wheel.Text = (string)o["Wheel Diameter"];
-                    smoothness.Text = (string)o["Smoothness"];
                     CTRE.Checked = Boolean.Parse((string)o["CTRE"]);
                     isntaVel.Checked = Boolean.Parse((string)o["isntaVel"]);
 
@@ -1225,6 +1232,8 @@
                 writer.WriteLine("{");
                 writer.WriteLine("  \"Data\":[ ");
 
+
+
                 List<string> left = new List<string>();
                 List<string> right = new List<string>();
                 List<string> center = new List<string>();
@@ -1242,9 +1251,7 @@
                 float[] c = paths.GetOffsetVelocityProfile(0).ToArray();
                 List<float> cd = paths.GetOffsetDistanceProfile(0);
 
-                float[] angles = paths.GetHeadingProfile();
-
-                r = paths.GetOffsetVelocityProfile(-trackwidth).ToArray();
+                float[] angles = paths.GetHeadingProfile();               r = paths.GetOffsetVelocityProfile(-trackwidth).ToArray();
                 rd = paths.GetOffsetDistanceProfile(-trackwidth);
 
 
@@ -1622,7 +1629,6 @@
                     timeSample.Text = (string)o["Time Sample"];
                     SpeedLimit.Text = (string)o["Speed Limit"];
                     wheel.Text = (string)o["Wheel Diameter"];
-                    smoothness.Text = (string)o["Smoothness"];
                     CTRE.Checked = Boolean.Parse((string)o["CTRE"]);
                     isntaVel.Checked = Boolean.Parse((string)o["isntaVel"]);
 
