@@ -61,12 +61,6 @@
             SetupMainField();
             SetupPlots();
 
-            DistancePlot.Dock = DockStyle.Fill;
-            VelocityPlot.Dock = DockStyle.Fill;
-
-            splitContainer1.SplitterDistance = splitContainer1.Height / 2;
-
-
         }
 
         /// <summary>
@@ -96,54 +90,6 @@
         /// </summary>
         private void SetupPlots()
         {
-            //set the minimum for the domaine
-            VelocityPlot.ChartAreas[0].Axes[0].Minimum = 0;
-            //set the lables on the graph
-            VelocityPlot.ChartAreas[0].Axes[0].Title = "Distance (mm)";
-
-            VelocityPlot.ChartAreas[0].Axes[1].Title = "Velocity (mm/s)";
-
-            //add different point types for our main path and our right and left paths.
-            VelocityPlot.Series.Add("path");
-            VelocityPlot.Series.Add("left");
-            VelocityPlot.Series.Add("right");
-
-            //Set what the velocity chart should look like.
-            VelocityPlot.Series["path"].ChartType = SeriesChartType.FastLine;
-            VelocityPlot.Series["left"].ChartType = SeriesChartType.FastLine;
-            VelocityPlot.Series["right"].ChartType = SeriesChartType.FastLine;
-
-            //Sets what the point color should look like on the velocity map.
-            VelocityPlot.Series["path"].Color = Color.Lime;
-            VelocityPlot.Series["left"].Color = Color.Blue;
-            VelocityPlot.Series["right"].Color = Color.Red;
-
-            //set the minimium x axis value on the distance graph
-            DistancePlot.ChartAreas[0].Axes[0].Minimum = 0;
-            //set the amount the x axis increases distance graph
-            DistancePlot.ChartAreas[0].Axes[0].Interval = .5;
-            //set the title of the x axis distance graph
-            DistancePlot.ChartAreas[0].Axes[0].Title = "Time (s)";
-            //set the interval of the y axis
-            DistancePlot.ChartAreas[0].Axes[1].Interval = 500;
-            //set the title of the y axis
-            DistancePlot.ChartAreas[0].Axes[1].Title = "Distance (mm)";
-
-            //add the seperate lines to the distance plot.
-            DistancePlot.Series.Add("path");
-            DistancePlot.Series.Add("left");
-            DistancePlot.Series.Add("right");
-
-            //set the type of lines
-            DistancePlot.Series["path"].ChartType = SeriesChartType.FastLine;
-            DistancePlot.Series["left"].ChartType = SeriesChartType.FastLine;
-            DistancePlot.Series["right"].ChartType = SeriesChartType.FastLine;
-
-
-            //set the color of the lines.
-            DistancePlot.Series["path"].Color = Color.Lime;
-            DistancePlot.Series["left"].Color = Color.Blue;
-            DistancePlot.Series["right"].Color = Color.Red;
 
             //set the minimium x axis value on the distance graph
             AnglePlot.ChartAreas[0].Axes[0].Minimum = 0;
@@ -658,13 +604,12 @@
             mainField.Series["left"].Points.Clear();
             mainField.Series["right"].Points.Clear();
 
-            VelocityPlot.Series["path"].Points.Clear();
-            VelocityPlot.Series["right"].Points.Clear();
-            VelocityPlot.Series["left"].Points.Clear();
+            kinematicsChart.Series["Position"].Points.Clear();
+            kinematicsChart.Series["Velocity"].Points.Clear();
+            kinematicsChart.Series["Accerlation"].Points.Clear();
+            kinematicsChart.Series["Jerk"].Points.Clear();
 
-            DistancePlot.Series["path"].Points.Clear();
-            DistancePlot.Series["right"].Points.Clear();
-            DistancePlot.Series["left"].Points.Clear();
+
 
             AnglePlot.Series["angle"].Points.Clear();
 
@@ -903,13 +848,17 @@
 
                 }
             }
-            VelocityGenerator gen = new VelocityGenerator(3500, 3500, 8000);
-            
-            foreach(double[] arr in gen.generateMotionProfile(100, .01))
+            VelocityGenerator test = new VelocityGenerator(3500.0, 2500.0, 25000, .01);
+
+            foreach (VelocityPoint point in test.GeneratePoints(1000.0))
             {
-                DistancePlot.Series["path"].Points.AddXY(arr[0], arr[2]);
-                VelocityPlot.Series["path"].Points.AddXY(arr[0], arr[1]);
+                kinematicsChart.Series["Position"].Points.AddXY(point.Time, point.Pos);
+                kinematicsChart.Series["Velocity"].Points.AddXY(point.Time, point.Vel);
+                kinematicsChart.Series["Acceleration"].Points.AddXY(point.Time, point.Acc);
+                //kinematicsChart.Series["Jerk"].Points.AddXY(point.Time, point.Jerk);
             }
+
+
 
         }
 

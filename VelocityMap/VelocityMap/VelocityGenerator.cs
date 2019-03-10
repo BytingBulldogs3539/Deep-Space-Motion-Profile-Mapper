@@ -5,159 +5,240 @@ namespace MotionProfile.Spline
 {
     public class VelocityGenerator
     {
-        // Mechanism characteristics
-        private double maxVel;
-        private double maxAccel;
-        private double maxJerk;
-
-        // Calculated constants
-        private double timeToMaxAchievableVel;
-        private double timeToMaxAchievableVelCoast;
-
-        private double timeToMaxAchievableAccel;
-        private double timeToMaxAchievableAccelCoast;
-        private double timeToAccelCoastDeccel;
-
-        private double displacementAccelCoastDeccel;
-        private double timeToAccelCoastDeccelCoast;
-
-        public VelocityGenerator(double maxVel, double maxAccel, double maxJerk)
+        private double max_jerk = 10000;
+        private double max_vel = 1000;
+        private double max_acc = 2500;
+        private double p_target = 100;
+        private double dt=.01;
+        private S_Curve[] s_curve = new S_Curve[7];
+        public VelocityGenerator(double max_vel, double max_acc, double max_jerk, double dt)
         {
-            this.maxVel = Math.Abs(maxVel);
-            this.maxAccel = Math.Abs(maxAccel);
-            this.maxJerk = Math.Abs(maxJerk);
+            this.max_vel = max_vel;
+            this.max_acc = max_acc;
+            this.max_jerk = max_jerk;
+            this.dt = dt;
+
+            s_curve[0] = new S_Curve(0.0, 0.0, max_jerk, 0.0, 0.0, 0.0); // curve1
+            s_curve[1] = new S_Curve(0.0, 0.0, 0.0, 0.0, 0.0, 0.0); // curve2
+            s_curve[2] = new S_Curve(0.0, 0.0, -max_jerk, 0.0, 0.0, 0.0); // curve3
+            s_curve[3] = new S_Curve(0.0, 0.0, 0.0, 0.0, 0.0, 0.0); // curve4
+            s_curve[4] = new S_Curve(0.0, 0.0, -max_jerk, 0.0, 0.0, 0.0); // curve5
+            s_curve[5] = new S_Curve(0.0, 0.0, 0.0, 0.0, 0.0, 0.0); // curve6
+            s_curve[6] = new S_Curve(0.0, 0.0, max_jerk, 0.0, 0.0, 0.0); // curve7
         }
 
-        public List<double[]> generateMotionProfile(double distance, double dt)
+        public List<VelocityPoint> GeneratePoints(double distance)
         {
-            calculateConstants(distance);
-            double timeToComplete = timeToAccelCoastDeccelCoast + timeToAccelCoastDeccel;
-            List<double[]> points = new List<double[]>();
-
-            // vel at time t is found from algebraic integration, while position is found from numerical integration
-            double v1 = maxJerk * timeToMaxAchievableAccel * timeToMaxAchievableAccel / 2; // vel at maxAccel
-            double v2 = v1 + maxJerk * timeToMaxAchievableAccel * timeToMaxAchievableAccelCoast; // vel after accel coast
-            double v3 = v2 + v1; // vel after accel-coast-deccel
-                                 // skipping a portion since velocity is constant during this period
-            double v4 = v3 - v1; // vel after accel-coast-deccel-zero-accel
-            double v5 = v3 - v2; // vel after accel-coast-deccel-zero-accel-coast
-
-            double currTime = 0;
-            double currPos = 0;
-
-            // {time, vel, pos}
-            double[] currPoint = new double[3];
-
-            while (currTime <= timeToComplete)
+            List<VelocityPoint> list = new List<VelocityPoint>();
+            this.p_target = distance;
+            recalculate_s_curve();
+            for (double time = 0; time < s_curve[6].t0 + s_curve[6].t; time += dt)
             {
-                currPoint[0] = currTime;
-
-                if (currTime > timeToComplete - timeToMaxAchievableAccel)
-                {
-                    double t6 = timeToComplete - timeToMaxAchievableAccel;
-                    currPoint[1] = v5 + lookUpAccel(currTime - t6) * (currTime - t6) / 2 + lookUpAccel(timeToComplete - timeToMaxAchievableAccel) * (currTime - t6);
-                }
-                else if (currTime > timeToAccelCoastDeccelCoast + timeToMaxAchievableAccel)
-                {
-                    currPoint[1] = v4 + (lookUpAccel(currTime) * (currTime - (timeToAccelCoastDeccelCoast + timeToMaxAchievableAccel)));
-                }
-                else if (currTime > timeToAccelCoastDeccelCoast)
-                {
-                    currPoint[1] = v3 + (lookUpAccel(currTime) * (currTime - timeToAccelCoastDeccelCoast)) / 2;
-                }
-                else if (currTime > timeToAccelCoastDeccel)
-                {
-                    currPoint[1] = v3;
-                }
-                else if (currTime > timeToMaxAchievableAccel + timeToMaxAchievableAccelCoast)
-                {
-                    double t2 = timeToMaxAchievableAccel + timeToMaxAchievableAccelCoast;
-                    currPoint[1] = v2 + (currTime - t2) * (lookUpAccel(currTime) + lookUpAccel(t2)) / 2;
-                }
-                else if (currTime > timeToMaxAchievableAccel)
-                {
-                    currPoint[1] = v1 + lookUpAccel(currTime) * (currTime - timeToMaxAchievableAccel);
-                }
-                else if (currTime >= 0)
-                {
-                    currPoint[1] = lookUpAccel(currTime) * currTime / 2;
-                }
-
-                currPoint[2] = currPos += currPoint[1] * dt;
-
-                double[] currPoints2 = { currPoint[0], currPoint[1], currPoint[2] };
-                points.Add(currPoints2);
-
-                currTime += dt;
+                VelocityPoint point = new VelocityPoint();
+                point.Pos = s_curve_pos(s_curve, time);
+                point.Vel = s_curve_vel(s_curve, time);
+                point.Acc = s_curve_acc(s_curve, time);
+                point.Jerk = s_curve_jerk(s_curve, time);
+                point.Time = time;
+                list.Add(point);
             }
-            return points;
+            return list;
         }
 
-        // default 10ms dt
-        public List<double[]> generateMotionProfile(double distance)
+        
+        private void recalculate_s_curve()
         {
-            return generateMotionProfile(distance, 0.010);
+
+            double t1 = 0;
+            double t2 = 0;
+
+            // Compute a constant jerk S-curve profile with starting
+            // and ending velocity of 0 using max_jrk, max_acc, and
+            // max_vel.  The total distance travelled by the curve will
+            // be "p_target".  Maximum velocity may be reduced in order
+            // to reach p_target.
+
+            double p = 0;
+
+            double test_vel_min = 0;
+            double test_vel_max = max_vel;
+            double test_vel = test_vel_max; // Start at max vel - probably the solution
+            while ((test_vel_max - test_vel_min) > 5) // Solve to within 5 velocity units
+            {
+                if (Math.Pow(max_acc, 2) / max_jerk > test_vel)
+                {
+                    t1 = Math.Pow(test_vel / max_jerk, 0.5);
+                    t2 = 0;
+                }
+                else
+                {
+                    t1 = max_acc / max_jerk;
+                    t2 = (test_vel - max_acc * t1) / max_acc;
+                }
+
+                s_curve[0].t = s_curve[2].t = s_curve[4].t = s_curve[6].t = t1;
+                s_curve[1].t = s_curve[5].t = t2;
+                calculate_s_curve(s_curve);
+
+                p = s_curve_pos(s_curve, s_curve[6].t0 + s_curve[6].t);
+
+                if (p > p_target)
+                {
+                    // Need to reduce velocity
+                    test_vel_max = test_vel;
+                    test_vel = (test_vel_max + test_vel_min) / 2.0;
+                }
+                else
+                {
+                    if (p > (p_target - 5))
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        // Increase velocity
+                        test_vel_min = test_vel;
+                        test_vel = (test_vel_max + test_vel_min) / 2.0;
+                    }
+                }
+            }
+
+            // Adjust the constant velocity section to reach the target position
+            double t = (p_target - p) / test_vel;
+            s_curve[3].t = Math.Max(t, 0);
+            calculate_s_curve(s_curve);
+        }
+        private void calculate_s_curve(S_Curve[] curve)
+        {
+            S_Curve last_curve = curve[0];
+            for (var i = 1; i < 7; i++)
+            {
+                curve[i].t0 = last_curve.t0 + last_curve.t;
+                curve[i].a = s_curve_part_acc(last_curve, last_curve.t);
+                curve[i].v = s_curve_part_vel(last_curve, last_curve.t);
+                curve[i].p = s_curve_part_pos(last_curve, last_curve.t);
+                last_curve = curve[i];
+            }
+        }
+        private double s_curve_pos(S_Curve[] curve, double time)
+        {
+            int i = s_curve_index(curve, time);
+            return s_curve_part_pos(curve[i], time - curve[i].t0);
+        }
+        private double s_curve_vel(S_Curve[] curve, double time)
+        {
+            int i = s_curve_index(curve, time);
+            return s_curve_part_vel(curve[i], time - curve[i].t0);
+        }
+        private double s_curve_acc(S_Curve[] curve, double time)
+        {
+            int i = s_curve_index(curve, time);
+            return s_curve_part_acc(curve[i], time - curve[i].t0);
+        }
+        private double s_curve_jerk(S_Curve[] curve, double time)
+        {
+            int i = s_curve_index(curve, time);
+            return s_curve_part_jerk(curve[i], time - curve[i].t0);
         }
 
-        private void calculateConstants(double distance)
+        private double s_curve_part_pos(S_Curve part, double time)
         {
-            timeToMaxAchievableVel = Math.Min(Math.Sqrt(distance / maxAccel), maxVel / maxAccel);
-            double maxAchieveableVel = timeToMaxAchievableVel * maxAccel;
-            timeToMaxAchievableVelCoast = distance / (maxAccel * timeToMaxAchievableVel) - timeToMaxAchievableVel;
-
-            timeToMaxAchievableAccel = Math.Min(Math.Min(Math.Sqrt(maxAchieveableVel / maxJerk), maxAccel / maxJerk),
-                    (timeToMaxAchievableVel + timeToMaxAchievableVelCoast) / 2);
-            timeToMaxAchievableAccelCoast = Math.Min(timeToMaxAchievableVel + timeToMaxAchievableVelCoast - 2 * timeToMaxAchievableAccel,
-                    maxAchieveableVel / (maxJerk * timeToMaxAchievableAccel) - timeToMaxAchievableAccel);
-            timeToAccelCoastDeccel = 2 * timeToMaxAchievableAccel + timeToMaxAchievableAccelCoast;
-
-            displacementAccelCoastDeccel = timeToAccelCoastDeccel * maxJerk * timeToMaxAchievableAccel * (timeToMaxAchievableAccel + timeToMaxAchievableAccelCoast) / 2;
-            timeToAccelCoastDeccelCoast = timeToAccelCoastDeccel +
-                    (distance - 2 * displacementAccelCoastDeccel) / (maxJerk * timeToMaxAchievableAccel * (timeToMaxAchievableAccel + timeToMaxAchievableAccelCoast));
+            return part.p + part.v * time +
+            1.0 / 2.0 * part.a * Math.Pow(time, 2) +
+            1.0 / 6.0 * part.j * Math.Pow(time, 3);
         }
 
-        private double lookUpAccel(double time)
+        private double s_curve_part_vel(S_Curve part, double time)
         {
-            if (time > timeToAccelCoastDeccelCoast + timeToAccelCoastDeccel || time <= 0) return 0;
-            if (time > timeToAccelCoastDeccelCoast + timeToAccelCoastDeccel - timeToMaxAchievableAccel) return -maxJerk * (timeToAccelCoastDeccelCoast + timeToAccelCoastDeccel - time);
-            if (time > timeToAccelCoastDeccelCoast + timeToMaxAchievableAccel) return -maxJerk * timeToMaxAchievableAccel;
-            if (time > timeToAccelCoastDeccelCoast) return -maxJerk * (time - timeToAccelCoastDeccelCoast);
-            if (time > timeToAccelCoastDeccel) return 0;
-            if (time > timeToMaxAchievableAccel + timeToMaxAchievableAccelCoast) return maxJerk * (timeToAccelCoastDeccel - time);
-            if (time > timeToMaxAchievableAccel) return maxJerk * timeToMaxAchievableAccel;
-            if (time > 0) return maxJerk * time;
-            else return 0;
+            return part.v + part.a * time +
+            1.0 / 2.0 * part.j * Math.Pow(time, 2);
         }
 
-        // Getters and Setters
-        public double getMaxVel()
+        private double s_curve_part_acc(S_Curve part, double time)
         {
-            return maxVel;
+            return part.a + part.j * time;
         }
 
-        public void setMaxVel(double maxVel)
+        private double s_curve_part_jerk(S_Curve part, double time)
         {
-            this.maxVel = maxVel;
+            return part.j;
         }
 
-        public double getMaxAccel()
+        private int s_curve_index(S_Curve[] curve, double time)
         {
-            return maxAccel;
+            int i;
+            for (i = 1; i < 7; i++)
+            {
+                if (curve[i].t0 > time)
+                {
+                    break;
+                }
+            }
+            return i - 1;
         }
+    }
+    public class VelocityPoint
+    {
+        private double pos;
+        private double vel;
+        private double acc;
+        private double jerk;
+        private double time;
 
-        public void setMaxAccel(double maxAccel)
+        public double Pos
         {
-            this.maxAccel = maxAccel;
+            get
+            {
+                return pos;
+            }
+            set
+            {
+                pos = value;
+            }
         }
-
-        public double getMaxJerk()
+        public double Vel
         {
-            return maxJerk;
+            get
+            {
+                return vel;
+            }
+            set
+            {
+                vel = value;
+            }
         }
-
-        public void setMaxJerk(double maxJerk)
+        public double Acc
         {
-            this.maxJerk = maxJerk;
+            get
+            {
+                return acc;
+            }
+            set
+            {
+                acc = value;
+            }
+        }
+        public double Jerk
+        {
+            get
+            {
+                return jerk;
+            }
+            set
+            {
+                jerk = value;
+            }
+        }
+        public double Time
+        {
+            get
+            {
+                return time;
+            }
+            set
+            {
+                time = value;
+            }
         }
     }
 }
