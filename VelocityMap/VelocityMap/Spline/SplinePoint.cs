@@ -10,6 +10,7 @@ namespace MotionProfile.Spline
     {
         float x;
         float y;
+        int controlPointNum;
 
 
         public float X
@@ -37,11 +38,20 @@ namespace MotionProfile.Spline
                 y = value;
             }
         }
+        public int ControlPointNum
+        {
+            get
+            {
+                return controlPointNum;
+            }
+        }
 
-        public SplinePoint(float x, float y)
+
+        public SplinePoint(float x, float y, int controlPointNum)
         {
             this.x = x;
             this.y = y;
+            this.controlPointNum = controlPointNum;
         }
 
     }

@@ -606,7 +606,7 @@
 
             kinematicsChart.Series["Position"].Points.Clear();
             kinematicsChart.Series["Velocity"].Points.Clear();
-            kinematicsChart.Series["Accerlation"].Points.Clear();
+            kinematicsChart.Series["Acceleration"].Points.Clear();
             kinematicsChart.Series["Jerk"].Points.Clear();
 
 
@@ -833,8 +833,21 @@
                 return;
             }
             mainField.Series["path"].Points.Clear();
+            kinematicsChart.Series["Position"].Points.Clear();
+            kinematicsChart.Series["Velocity"].Points.Clear();
+            kinematicsChart.Series["Acceleration"].Points.Clear();
+            kinematicsChart.Series["Jerk"].Points.Clear();
             Random rnd = new Random();
-            foreach (ControlPointSegment seg in SplinePath.GenSpline(controlPointArray))
+            SplinePath.GenSpline(controlPointArray);
+            VelocityGenerator test = new VelocityGenerator(3500.0, 2500.0, 25000, .01);
+            foreach (VelocityPoint point in test.GeneratePoints(SplinePath.getLength()))
+            {
+                kinematicsChart.Series["Position"].Points.AddXY(point.Time, point.Pos);
+                kinematicsChart.Series["Velocity"].Points.AddXY(point.Time, point.Vel);
+                kinematicsChart.Series["Acceleration"].Points.AddXY(point.Time, point.Acc);
+                //kinematicsChart.Series["Jerk"].Points.AddXY(point.Time, point.Jerk);
+            }
+            foreach (ControlPointSegment seg in SplinePath.GenSpline(controlPointArray, test.GeneratePoints(SplinePath.getLength())))
             {
                 Color randomColor;
 
@@ -848,15 +861,8 @@
 
                 }
             }
-            VelocityGenerator test = new VelocityGenerator(3500.0, 2500.0, 25000, .01);
-
-            foreach (VelocityPoint point in test.GeneratePoints(1000.0))
-            {
-                kinematicsChart.Series["Position"].Points.AddXY(point.Time, point.Pos);
-                kinematicsChart.Series["Velocity"].Points.AddXY(point.Time, point.Vel);
-                kinematicsChart.Series["Acceleration"].Points.AddXY(point.Time, point.Acc);
-                //kinematicsChart.Series["Jerk"].Points.AddXY(point.Time, point.Jerk);
-            }
+            
+            
 
 
 

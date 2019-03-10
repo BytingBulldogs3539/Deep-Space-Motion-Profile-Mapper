@@ -290,7 +290,6 @@ namespace MotionProfile.Spline
                 output.Add(new CubicSplinePoint(y, j));
 
 			}
-
 			return output;
 		}
 
@@ -465,7 +464,7 @@ namespace MotionProfile.Spline
 
 		public float[] distance;
 
-		public float totaldist;
+		public float length;
 
 		public ParametricSpline(float[] x, float[] y, int nOutputPoints, out List<CubicSplinePoint> xs, out List<CubicSplinePoint> ys,
 			float firstDx = Single.NaN, float firstDy = Single.NaN, float lastDx = Single.NaN, float lastDy = Single.NaN)
@@ -521,7 +520,7 @@ namespace MotionProfile.Spline
 			}
 			getxs = xs;
 			getys = ys;
-			totaldist = totalDist;
+			length = totalDist;
 			
 		}
 
@@ -532,7 +531,7 @@ namespace MotionProfile.Spline
             List<CubicSplinePoint> xs = xSpline.Eval(xx, debug);
             List<CubicSplinePoint> ys = ySpline.Eval(xx, debug);
 
-			return new SplinePoint(xs[0].Y, ys[0].Y);
+			return new SplinePoint(xs[0].Y, ys[0].Y, xs[0].ControlPointNum);
 		}
 
 		public int FindControlPoint(float x, bool debug = false)
@@ -553,7 +552,7 @@ namespace MotionProfile.Spline
             List<CubicSplinePoint> ys = ySpline.Eval(x, debug);
 			for (int i = 0; i < xs.Count ; i++)
 			{
-				pts.Add(new SplinePoint(xs[i].Y, ys[i].Y));
+				pts.Add(new SplinePoint(xs[i].Y, ys[i].Y, xs[i].ControlPointNum));
 			}
 			return pts;
 		}
