@@ -11,10 +11,13 @@ namespace MotionProfile.Spline
     class SplinePath
     {
         private static ParametricSpline spline;
+        private static double length = 0.0;
         public static List<ControlPointSegment> GenSpline(List<ControlPoint> points, List<VelocityPoint> velocityPoints = null)
         {
-            List<ControlPointSegment> splinePoints = new List<ControlPointSegment>();
-            splinePoints.Clear();
+
+            float[] xOrig = new float[0];
+            List<ControlPointSegment> splineSegments = new List<ControlPointSegment>();
+            splineSegments.Clear();
 
             List<float> xs = new List<float>();
             List<float> ys = new List<float>();
@@ -29,11 +32,51 @@ namespace MotionProfile.Spline
             List<CubicSplinePoint> outys;
 
             spline = new ParametricSpline(xs.ToArray(), ys.ToArray(), 100, out outxs, out outys);
+            xOrig = spline.xSpline.xOrig;
 
-            spline = new ParametricSpline(xs.ToArray(), ys.ToArray(), (int)spline.distance.Last() / 25, out outxs, out outys);
+            spline = new ParametricSpline(xs.ToArray(), ys.ToArray(), (int)(spline.length), out outxs, out outys);
 
+            List<double> CPDistances = new List<double>();
 
-            if(velocityPoints==null)
+            double d = 0;
+
+            CPDistances.Add(d);
+
+            for (int i = 0; i < outxs.Last().ControlPointNum + 1; i++)
+            {
+
+                for (int x = 1; x < outxs.Count; x++)
+                {
+                    if (outxs[x].ControlPointNum == i)
+                    {
+                        d += GetDistance(outxs[x-1].Y, outys[x-1].Y, outxs[x].Y, outys[x].Y);
+                    }
+
+                }
+                CPDistances.Add(d);
+
+            }
+
+            Console.WriteLine(String.Join(", ", CPDistances.ToArray()));
+
+            xs.Clear();
+            ys.Clear();
+
+            foreach (CubicSplinePoint point in outxs)
+            {
+                xs.Add(point.Y);
+            }
+
+            foreach (CubicSplinePoint point in outys)
+            {
+                ys.Add(point.Y);
+            }
+
+            spline = new ParametricSpline(xs.ToArray(), ys.ToArray(), 100, out outxs, out outys);
+
+            
+
+            if (velocityPoints==null)
             {
                 for (int i = 0; i < outxs.Last().ControlPointNum + 1; i++)
                 {
@@ -47,7 +90,7 @@ namespace MotionProfile.Spline
                         }
 
                     }
-                    splinePoints.Add(seg);
+                    splineSegments.Add(seg);
 
                 }
             }
@@ -55,25 +98,47 @@ namespace MotionProfile.Spline
             {
                 ControlPointSegment seg = new ControlPointSegment();
                 int lastControlPointNum=0;
-                foreach (VelocityPoint point in velocityPoints)
-                {
-                    Console.WriteLine(point.Pos);
-                    SplinePoint spoint = spline.Eval((float)point.Pos);
-                    if (spoint.ControlPointNum != lastControlPointNum)
-                    {
-                        splinePoints.Add(seg);
-                        seg = new ControlPointSegment();
-                    }
-                    seg.points.Add(spoint);
-                    lastControlPointNum = spoint.ControlPointNum;
+                double distance=0;
 
+
+
+
+                for (int i = 1; i < velocityPoints.Count; i++)
+                {
+                    SplinePoint spoint = spline.Eval((float)velocityPoints[i].Pos);
+                    SplinePoint lastpoint = spline.Eval((float)velocityPoints[i - 1].Pos);
+
+                    distance += GetDistance(spoint.X, spoint.Y, lastpoint.X, lastpoint.Y);
+
+                    for (int dis = 1; dis < CPDistances.Count; dis++)
+                    {
+                        if (distance > CPDistances[dis - 1] && distance < CPDistances[dis])
+                        {
+                            spoint.ControlPointNum = dis - 1;
+                            Console.WriteLine(dis - 1);
+
+                            if (spoint.ControlPointNum != lastControlPointNum)
+                            {
+                                splineSegments.Add(seg);
+                                seg = new ControlPointSegment();
+                            }
+                            seg.points.Add(spoint);
+                            lastControlPointNum = dis - 1;
+
+
+                        }
+
+                    }
                 }
-                splinePoints.Add(seg);
+                splineSegments.Add(seg);
 
             }
+            return splineSegments;
 
-            return splinePoints;
-
+        }
+        private static double GetDistance(double x1, double y1, double x2, double y2)
+        {
+            return Math.Sqrt(Math.Pow((x2 - x1), 2) + Math.Pow((y2 - y1), 2));
         }
         public static double getLength()
         {

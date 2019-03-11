@@ -293,7 +293,22 @@ namespace MotionProfile.Spline
 			return output;
 		}
 
-		public List<int> FindControlPoint(float[] x, bool debug = false)
+        private int GetNextXIndex(float x, float[] xOrig)
+        {
+            if (x < xOrig[_lastIndex])
+            {
+                throw new ArgumentException("The X values to evaluate must be sorted.");
+            }
+
+            while ((_lastIndex < xOrig.Length - 2) && (x > xOrig[_lastIndex + 1]))
+            {
+                _lastIndex++;
+            }
+
+            return _lastIndex;
+        }
+
+        public List<int> FindControlPoint(float[] x, float[] xOrig ,bool debug = false)
 		{
 			List<int> test = new List<int>();
 			CheckAlreadyFitted();
@@ -305,7 +320,7 @@ namespace MotionProfile.Spline
 			for (int i = 0; i < n; i++)
 			{
 				// Find which spline can be used to compute this x (by simultaneous traverse)
-				int j = GetNextXIndex(x[i]);
+				int j = GetNextXIndex(x[i], xOrig);
 
 				test.Add(j);
 			}
@@ -462,7 +477,7 @@ namespace MotionProfile.Spline
         public List<CubicSplinePoint> getxs, getys;
         public float[] getx, gety;
 
-		public float[] distance;
+		//public float[] distance;
 
 		public float length;
 
@@ -507,7 +522,7 @@ namespace MotionProfile.Spline
 			ySpline = new CubicSpline();
 			ys = ySpline.FitAndEval(dists, y, times, firstDy / dt, lastDy / dt);
 
-			distance = new float[xs.Count];
+			/*distance = new float[xs.Count];
 			totalDist = 0;
 			for (int i = 1; i < xs.Count; i++)
 			{
@@ -517,7 +532,7 @@ namespace MotionProfile.Spline
 				totalDist += dist;
 				distance[i] = totalDist;
 
-			}
+			}*/
 			getxs = xs;
 			getys = ys;
 			length = totalDist;
@@ -534,12 +549,11 @@ namespace MotionProfile.Spline
 			return new SplinePoint(xs[0].Y, ys[0].Y, xs[0].ControlPointNum);
 		}
 
-		public int FindControlPoint(float x, bool debug = false)
+		public int FindControlPoint(float x, float[] xOrig, bool debug = false)
 		{
 			float[] xx = { x };
 
-			int[] xs = xSpline.FindControlPoint(xx, debug).ToArray();
-			int[] ys = ySpline.FindControlPoint(xx, debug).ToArray();
+			int[] xs = xSpline.FindControlPoint(xx, xOrig, debug).ToArray();
 
 			return xs[0];
 		}

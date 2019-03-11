@@ -44,6 +44,10 @@ namespace MotionProfile.Spline
             {
                 return controlPointNum;
             }
+            set
+            {
+                controlPointNum = value;
+            }
         }
 
 

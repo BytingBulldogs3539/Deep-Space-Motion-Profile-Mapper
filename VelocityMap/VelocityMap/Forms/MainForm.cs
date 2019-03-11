@@ -838,21 +838,17 @@
             kinematicsChart.Series["Acceleration"].Points.Clear();
             kinematicsChart.Series["Jerk"].Points.Clear();
             Random rnd = new Random();
+
             SplinePath.GenSpline(controlPointArray);
             VelocityGenerator test = new VelocityGenerator(3500.0, 2500.0, 25000, .01);
-            foreach (VelocityPoint point in test.GeneratePoints(SplinePath.getLength()))
-            {
-                kinematicsChart.Series["Position"].Points.AddXY(point.Time, point.Pos);
-                kinematicsChart.Series["Velocity"].Points.AddXY(point.Time, point.Vel);
-                kinematicsChart.Series["Acceleration"].Points.AddXY(point.Time, point.Acc);
-                //kinematicsChart.Series["Jerk"].Points.AddXY(point.Time, point.Jerk);
-            }
-            foreach (ControlPointSegment seg in SplinePath.GenSpline(controlPointArray, test.GeneratePoints(SplinePath.getLength())))
+
+            List<VelocityPoint> velocityPoints = test.GeneratePoints(SplinePath.getLength());
+
+            foreach (ControlPointSegment seg in SplinePath.GenSpline(controlPointArray, velocityPoints))
             {
                 Color randomColor;
 
                 randomColor = Color.FromArgb(rnd.Next(256), rnd.Next(256), rnd.Next(256));
-
 
                 foreach (SplinePoint point in seg.points)
                 {
@@ -861,8 +857,17 @@
 
                 }
             }
-            
-            
+
+            foreach (VelocityPoint point in velocityPoints)
+            {
+
+                kinematicsChart.Series["Position"].Points.AddXY(point.Time, point.Pos);
+                kinematicsChart.Series["Velocity"].Points.AddXY(point.Time, point.Vel);
+                kinematicsChart.Series["Acceleration"].Points.AddXY(point.Time, point.Acc);
+                //kinematicsChart.Series["Jerk"].Points.AddXY(point.Time, point.Jerk);
+            }
+
+
 
 
 
