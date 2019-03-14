@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using static MotionProfile.ControlPoint;
 
 namespace MotionProfile.Spline
 {
@@ -9,13 +10,16 @@ namespace MotionProfile.Spline
         private double max_vel = 1000;
         private double max_acc = 2500;
         private double p_target = 100;
+        private ControlPointDirection direction;
         private double dt=.01;
         private S_Curve[] s_curve = new S_Curve[7];
-        public VelocityGenerator(double max_vel, double max_acc, double max_jerk, double dt)
+        public VelocityGenerator(double max_vel, double max_acc, double max_jerk, ControlPointDirection direction, double dt)
         {
+
             this.max_vel = max_vel;
             this.max_acc = max_acc;
             this.max_jerk = max_jerk;
+            this.direction = direction;
             this.dt = dt;
 
             s_curve[0] = new S_Curve(0.0, 0.0, max_jerk, 0.0, 0.0, 0.0); // curve1
@@ -35,10 +39,20 @@ namespace MotionProfile.Spline
             for (double time = 0; time < s_curve[6].t0 + s_curve[6].t; time += dt)
             {
                 VelocityPoint point = new VelocityPoint();
-                point.Pos = s_curve_pos(s_curve, time);
-                point.Vel = s_curve_vel(s_curve, time);
-                point.Acc = s_curve_acc(s_curve, time);
-                point.Jerk = s_curve_jerk(s_curve, time);
+                if (direction == ControlPointDirection.FORWARD)
+                {
+                    point.Pos = s_curve_pos(s_curve, time);
+                    point.Vel = s_curve_vel(s_curve, time);
+                    point.Acc = s_curve_acc(s_curve, time);
+                    point.Jerk = s_curve_jerk(s_curve, time);
+                }
+                if (direction == ControlPointDirection.REVERSE)
+                {
+                    point.Pos = -s_curve_pos(s_curve, time);
+                    point.Vel = -s_curve_vel(s_curve, time);
+                    point.Acc = -s_curve_acc(s_curve, time);
+                    point.Jerk = -s_curve_jerk(s_curve, time);
+                }
                 point.Time = time;
                 list.Add(point);
             }

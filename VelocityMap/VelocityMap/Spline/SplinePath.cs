@@ -57,8 +57,6 @@ namespace MotionProfile.Spline
 
             }
 
-            Console.WriteLine(String.Join(", ", CPDistances.ToArray()));
-
             xs.Clear();
             ys.Clear();
 
@@ -105,8 +103,8 @@ namespace MotionProfile.Spline
 
                 for (int i = 1; i < velocityPoints.Count; i++)
                 {
-                    SplinePoint spoint = spline.Eval((float)velocityPoints[i].Pos);
-                    SplinePoint lastpoint = spline.Eval((float)velocityPoints[i - 1].Pos);
+                    SplinePoint spoint = spline.Eval(Math.Abs((float)velocityPoints[i].Pos));
+                    SplinePoint lastpoint = spline.Eval(Math.Abs((float)velocityPoints[i - 1].Pos));
 
                     distance += GetDistance(spoint.X, spoint.Y, lastpoint.X, lastpoint.Y);
 
@@ -115,7 +113,6 @@ namespace MotionProfile.Spline
                         if (distance > CPDistances[dis - 1] && distance < CPDistances[dis])
                         {
                             spoint.ControlPointNum = dis - 1;
-                            Console.WriteLine(dis - 1);
 
                             if (spoint.ControlPointNum != lastControlPointNum)
                             {

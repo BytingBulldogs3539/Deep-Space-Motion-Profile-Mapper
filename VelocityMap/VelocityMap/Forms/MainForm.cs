@@ -37,6 +37,8 @@
 
         public List<ControlPoint> controlPointArray = new List<ControlPoint>();
 
+        public OutputPoints outputPoints = new OutputPoints();
+
         /// <summary>
         /// Initializes a new instance of the <see cref="MainForm"/> class.
         /// </summary>
@@ -607,7 +609,6 @@
             kinematicsChart.Series["Position"].Points.Clear();
             kinematicsChart.Series["Velocity"].Points.Clear();
             kinematicsChart.Series["Acceleration"].Points.Clear();
-            kinematicsChart.Series["Jerk"].Points.Clear();
 
 
 
@@ -826,51 +827,283 @@
         /// </summary>
         private void Apply_Click(object sender, EventArgs e)
         {
+            double maxV = 0;
+            double maxA = 0;
+            double maxJ = 0;
+
             updateControlPointArray();
             if (!(controlPointArray.Count >1))
             {
                 MessageBox.Show("Not enought points!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+
+            if (maxVelocity.Text==null || maxVelocity.Text == "" || !double.TryParse(maxVelocity.Text.ToString(), out maxV))
+            {
+                MessageBox.Show("Max Velocity Not Specified", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            if (maxAcc.Text == null || maxAcc.Text == "" || !double.TryParse(maxAcc.Text.ToString(), out maxA))
+            {
+                MessageBox.Show("Max Acceleration Not Specified", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            if (maxJerk.Text == null || maxJerk.Text == "" || !double.TryParse(maxJerk.Text.ToString(), out maxJ))
+            {
+                MessageBox.Show("Max Jerk Not Specified", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+
+
             mainField.Series["path"].Points.Clear();
             kinematicsChart.Series["Position"].Points.Clear();
             kinematicsChart.Series["Velocity"].Points.Clear();
             kinematicsChart.Series["Acceleration"].Points.Clear();
-            kinematicsChart.Series["Jerk"].Points.Clear();
             Random rnd = new Random();
 
-            SplinePath.GenSpline(controlPointArray);
-            VelocityGenerator test = new VelocityGenerator(3500.0, 2500.0, 25000, .01);
+            outputPoints = new OutputPoints();
 
-            List<VelocityPoint> velocityPoints = test.GeneratePoints(SplinePath.getLength());
+            List<ControlPoints> directionPoints = new List<ControlPoints>();
+            ControlPointDirection lastDirection = controlPointArray.First().Direction;
+            ControlPoints points = new ControlPoints();
+            points.direction = controlPointArray.First().Direction;
 
-            foreach (ControlPointSegment seg in SplinePath.GenSpline(controlPointArray, velocityPoints))
+
+            foreach (ControlPoint point in controlPointArray)
             {
-                Color randomColor;
-
-                randomColor = Color.FromArgb(rnd.Next(256), rnd.Next(256), rnd.Next(256));
-
-                foreach (SplinePoint point in seg.points)
+                points.points.Add(point);
+                if (point.Direction != lastDirection)
                 {
-                    mainField.Series["path"].Points.AddXY(point.X, point.Y);
-                    mainField.Series["path"].Points.Last().Color = randomColor;
+                    if (points.points.Count>=2)
+                    {
+                        directionPoints.Add(points);
+                    }
+                    points = new ControlPoints();
+                    points.direction = point.Direction;
+                    points.points.Add(point);
 
+                }
+                lastDirection = point.Direction;
+            }
+            if (points.points.Count >= 2)
+            {
+                directionPoints.Add(points);
+            }
+
+            double Posoffset = 0;
+            double Timeoffset = 0;
+            double angleOffset = 0;
+            Boolean isFirst = true;
+            List<SplinePoint> pointList = new List<SplinePoint>();
+            int count = 0;
+
+            foreach (ControlPoints ps in directionPoints)
+            {
+                SplinePath.GenSpline(ps.points);
+                VelocityGenerator test = new VelocityGenerator(maxV, maxA, maxJ, ps.direction, .01);
+                List<VelocityPoint> velocityPoints = test.GeneratePoints(SplinePath.getLength());
+
+                List<ControlPointSegment> spline = SplinePath.GenSpline(ps.points, velocityPoints);
+
+
+                foreach (ControlPointSegment seg in spline)
+                {
+                    Color randomColor;
+
+                    randomColor = Color.FromArgb(rnd.Next(256), rnd.Next(256), rnd.Next(256));
+
+
+                    foreach (SplinePoint point in seg.points)
+                    {
+                        count++;
+                        mainField.Series["path"].Points.AddXY(point.X, point.Y);
+                        point.Direction = ps.direction;
+                        pointList.Add(point);
+                        mainField.Series["path"].Points.Last().Color = randomColor;
+                    }
+                }
+               
+                foreach (VelocityPoint point in velocityPoints)
+                {
+                    outputPoints.position.Add(point.Pos + Posoffset);
+                    outputPoints.time.Add(point.Time + Timeoffset);
+                    outputPoints.velocity.Add(point.Vel);
+                    outputPoints.acceleration.Add(point.Acc);
+
+                }
+                Posoffset = outputPoints.position.Last();
+                Timeoffset = outputPoints.time.Last();
+                angleOffset = outputPoints.time.Last();
+
+            }
+
+            float startAngle = findStartAngle(pointList[1].X, pointList[0].X, pointList[1].Y, pointList[0].Y);
+
+            for (int i = 0; i < (pointList.Count - 2); i++) //for not zeroing the angle after each path.
+            {
+
+                if (i == 0)
+                {
+                    outputPoints.angle.Add(findStartAngle(pointList[i + 1].X, pointList[i].X, pointList[i + 1].Y, pointList[i].Y));
+                }
+                else
+                {
+
+                    outputPoints.angle.Add(findAngleChange(pointList[i + 1].X, pointList[i].X, pointList[i + 1].Y, pointList[i].Y, outputPoints.angle[outputPoints.angle.Count - 1], pointList[i].Direction));
                 }
             }
 
-            foreach (VelocityPoint point in velocityPoints)
+            for (int i = 0; i < (pointList.Count - 2); i++) //converts the values from raw graph angles to angles the robot can use.
             {
 
-                kinematicsChart.Series["Position"].Points.AddXY(point.Time, point.Pos);
-                kinematicsChart.Series["Velocity"].Points.AddXY(point.Time, point.Vel);
-                kinematicsChart.Series["Acceleration"].Points.AddXY(point.Time, point.Acc);
-                //kinematicsChart.Series["Jerk"].Points.AddXY(point.Time, point.Jerk);
+                double angle = outputPoints.angle[i];
+                angle = (angle - startAngle);
+                angle = -angle;
+
+                outputPoints.angle[i] = angle;
+
+            }
+
+            for (int i = 0; i < (pointList.Count - 2); i++) //converts the values from raw graph angles to angles the robot can use.
+            {
+                if (i > 0)
+                {
+                    double ang = outputPoints.angle[i];
+                    double prevAngle = outputPoints.angle[i - 1];
+                    double angleChange = ang - prevAngle;
+                    if (angleChange > 300) angleChange -= 360;
+                    if (angleChange < -300) angleChange += 360;
+
+                    double angle = (prevAngle + angleChange);
+
+                    outputPoints.angle[i] = angle;
+                }
+
+            }
+
+            Console.WriteLine(outputPoints.position.Count);
+
+            for (int x = 0; x < outputPoints.position.Count; x++)
+            {
+                kinematicsChart.Series["Position"].Points.AddXY(outputPoints.time[x], outputPoints.position[x]);
+                kinematicsChart.Series["Velocity"].Points.AddXY(outputPoints.time[x], outputPoints.velocity[x]);
+                kinematicsChart.Series["Acceleration"].Points.AddXY(outputPoints.time[x], outputPoints.acceleration[x]);
+                //AnglePlot.Series["Angle"].Points.AddXY(outputPoints.time[x], outputPoints.angle[x]);
             }
 
 
 
+        }
 
+        private float findStartAngle(double x2, double x1, double y2, double y1)
+        {
+            double CONVERT = 180.0 / Math.PI;
+            float ang = 0;
+            float chx = (float)(x2 - x1);
+            float chy = (float)(y2 - y1);
+            if (chy == 0)
+            {
+                if (chx >= 0) ang = 0;
+                else ang = 180;
+            }
+            else if (chy > 0)
+            {                         // X AND Y ARE REVERSED BECAUSE OF MOTION PROFILER STUFF
+                if (chx > 0)
+                {
+                    // positive x, positive y, 90 - ang, quad 1
+                    ang = (float)(90 - CONVERT * (Math.Atan(chx / chy)));
+                    //ang = (float)(CONVERT * Math.Atan(chx / chy));
+                    //ang = 1; // represents quadrants.
+                }
+                else
+                {
+                    // positive x, negative y, 90 + ang, quad 2
+                    ang = (float)(90 - CONVERT * (Math.Atan(chx / chy)));
+                    //ang = (float)(CONVERT * Math.Atan(chx / chy));
+                    //ang = 2;
+                }
+            }
+            else
+            {
+                if (chx > 0)
+                {
+                    // negative x, positive y, 270 + ang, quad 4
+                    ang = (float)(270 - CONVERT * (Math.Atan(chx / chy)));
+                    //ang = (float)(CONVERT * Math.Atan(chx / chy));
+                    //ang = 4;
+                }
+                else
+                {
+                    // negative x, negative y, 270 - ang, quad 3
+                    ang = (float)(270 - CONVERT * (Math.Atan(chx / chy)));
+                    //ang = (float)(CONVERT * Math.Atan(chx / chy));
+                    //ang = 3;
+                }
+            }
+            return ang;
+        }
 
+        private double findAngleChange(double x2, double x1, double y2, double y1, double prevAngle, ControlPointDirection direction)
+        {
+            double CONVERT = 180.0 / Math.PI;
+            float ang = 0;
+            float chx = (float)(x2 - x1);
+            float chy = (float)(y2 - y1);
+            if (chy == 0)
+            {
+                if (chx >= 0) ang = 0;
+                else ang = 180;
+            }
+            else if (chy > 0)
+            {                         // X AND Y ARE REVERSED BECAUSE OF MOTION PROFILER STUFF
+                if (chx > 0)
+                {
+                    // positive x, positive y, 90 - ang, quad 1
+                    ang = (float)(90 - CONVERT * (Math.Atan(chx / chy)));
+                    //ang = (float)(CONVERT * Math.Atan(chx / chy));
+                    //ang = 1; // represents quadrants.
+                }
+                else
+                {
+                    // positive x, negative y, 90 + ang, quad 2
+                    ang = (float)(90 - CONVERT * (Math.Atan(chx / chy)));
+                    //ang = (float)(CONVERT * Math.Atan(chx / chy));
+                    //ang = 2;
+                }
+            }
+            else
+            {
+                if (chx > 0)
+                {
+                    // negative x, positive y, 270 + ang, quad 4
+                    ang = (float)(270 - CONVERT * (Math.Atan(chx / chy)));
+                    //ang = (float)(CONVERT * Math.Atan(chx / chy));
+                    //ang = 4;
+                }
+                else
+                {
+                    // negative x, negative y, 270 - ang, quad 3
+                    ang = (float)(270 - CONVERT * (Math.Atan(chx / chy)));
+                    //ang = (float)(CONVERT * Math.Atan(chx / chy));
+                    //ang = 3;
+                }
+            }
+
+            if (direction == ControlPointDirection.REVERSE)
+            {
+                int add = 0;
+                if (ang > 0)
+                    add = -180;
+                if (ang < 0)
+                    add = 180;
+                ang = ang + add;
+            }
+
+            double angleChange = ang - prevAngle;
+            if (angleChange > 300) angleChange -= 360;
+            if (angleChange < -300) angleChange += 360;
+            return (prevAngle + angleChange);
         }
 
         /// <summary>

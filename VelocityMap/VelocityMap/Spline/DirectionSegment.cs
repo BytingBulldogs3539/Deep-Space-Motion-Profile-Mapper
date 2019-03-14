@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static MotionProfile.ControlPoint;
 
 namespace MotionProfile.Spline
 {
-    class ControlPointSegment
+    public class DirectionSegment
     {
-
-        public List<SplinePoint> points = new List<SplinePoint>();
-        public int PathNum;
-        public float velocity;
+        ControlPointDirection direction;
+        List<ControlPointSegment> segments;
     }
 }

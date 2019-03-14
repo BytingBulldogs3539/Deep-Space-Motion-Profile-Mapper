@@ -35,8 +35,13 @@
             System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series6 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series7 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series8 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series10 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series9 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -45,17 +50,12 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series6 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series7 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series8 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series9 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.Field = new System.Windows.Forms.TabPage();
             this.mainField = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.Data = new System.Windows.Forms.TabPage();
+            this.kinematicsChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.AnglePlot = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
@@ -81,8 +81,6 @@
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.SpeedLimit = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
-            this.smoothness = new System.Windows.Forms.TextBox();
-            this.label8 = new System.Windows.Forms.Label();
             this.Label9 = new System.Windows.Forms.Label();
             this.deploy = new System.Windows.Forms.Button();
             this.profilename = new System.Windows.Forms.TextBox();
@@ -121,11 +119,15 @@
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.rioFilesContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.loadToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.kinematicsChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.label11 = new System.Windows.Forms.Label();
+            this.maxAcc = new System.Windows.Forms.TextBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.maxJerk = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.Field.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mainField)).BeginInit();
             this.Data.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kinematicsChart)).BeginInit();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.AnglePlot)).BeginInit();
             this.contextMenuStrip2.SuspendLayout();
@@ -135,7 +137,6 @@
             this.commandPointListMenuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.RioFiles)).BeginInit();
             this.rioFilesContextMenuStrip.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kinematicsChart)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -157,11 +158,11 @@
             // 
             this.Field.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.Field.Controls.Add(this.mainField);
-            this.Field.Location = new System.Drawing.Point(4, 22);
+            this.Field.Location = new System.Drawing.Point(4, 26);
             this.Field.Margin = new System.Windows.Forms.Padding(1);
             this.Field.Name = "Field";
             this.Field.Padding = new System.Windows.Forms.Padding(1);
-            this.Field.Size = new System.Drawing.Size(746, 795);
+            this.Field.Size = new System.Drawing.Size(746, 791);
             this.Field.TabIndex = 0;
             this.Field.Text = "Field";
             // 
@@ -171,8 +172,8 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.mainField.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            chartArea1.BackImage = "C:\\Users\\camco\\Documents\\GitHub\\Deep-Space-Motion-Profile-Mapper\\VelocityMap\\Velo" +
-    "cityMap\\Resources\\2019-field.jpg";
+            chartArea1.BackImage = "C:\\Users\\Cameron\\Documents\\GitHub\\Deep-Space-Motion-Profile-Mapper\\VelocityMap\\Ve" +
+    "locityMap\\Resources\\2019-field.jpg";
             chartArea1.BackImageWrapMode = System.Windows.Forms.DataVisualization.Charting.ChartImageWrapMode.Scaled;
             chartArea1.Name = "field";
             this.mainField.ChartAreas.Add(chartArea1);
@@ -207,7 +208,7 @@
             this.mainField.Series.Add(series3);
             this.mainField.Series.Add(series4);
             this.mainField.Series.Add(series5);
-            this.mainField.Size = new System.Drawing.Size(737, 779);
+            this.mainField.Size = new System.Drawing.Size(737, 775);
             this.mainField.TabIndex = 4;
             this.mainField.Text = "chart2";
             this.mainField.MouseClick += new System.Windows.Forms.MouseEventHandler(this.MainField_MouseClick);
@@ -219,22 +220,61 @@
             this.Data.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.Data.Controls.Add(this.kinematicsChart);
             this.Data.ForeColor = System.Drawing.Color.White;
-            this.Data.Location = new System.Drawing.Point(4, 22);
+            this.Data.Location = new System.Drawing.Point(4, 25);
             this.Data.Margin = new System.Windows.Forms.Padding(1);
             this.Data.Name = "Data";
             this.Data.Padding = new System.Windows.Forms.Padding(1);
-            this.Data.Size = new System.Drawing.Size(746, 795);
+            this.Data.Size = new System.Drawing.Size(746, 792);
             this.Data.TabIndex = 1;
             this.Data.Text = "Data";
+            // 
+            // kinematicsChart
+            // 
+            this.kinematicsChart.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.kinematicsChart.BorderlineColor = System.Drawing.SystemColors.WindowFrame;
+            chartArea2.AxisX.Interval = 0.5D;
+            chartArea2.AxisX.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount;
+            chartArea2.AxisX.MinorGrid.Enabled = true;
+            chartArea2.AxisX.MinorGrid.Interval = 0.25D;
+            chartArea2.AxisX.ScaleBreakStyle.Spacing = 0.5D;
+            chartArea2.AxisX.Title = "Time (Seconds)";
+            chartArea2.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            chartArea2.Name = "ChartArea1";
+            this.kinematicsChart.ChartAreas.Add(chartArea2);
+            legend1.Name = "Legend1";
+            this.kinematicsChart.Legends.Add(legend1);
+            this.kinematicsChart.Location = new System.Drawing.Point(0, 0);
+            this.kinematicsChart.Name = "kinematicsChart";
+            series6.BorderWidth = 3;
+            series6.ChartArea = "ChartArea1";
+            series6.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series6.Legend = "Legend1";
+            series6.Name = "Position";
+            series7.BorderWidth = 3;
+            series7.ChartArea = "ChartArea1";
+            series7.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series7.Legend = "Legend1";
+            series7.Name = "Velocity";
+            series8.BorderWidth = 3;
+            series8.ChartArea = "ChartArea1";
+            series8.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series8.Legend = "Legend1";
+            series8.Name = "Acceleration";
+            this.kinematicsChart.Series.Add(series6);
+            this.kinematicsChart.Series.Add(series7);
+            this.kinematicsChart.Series.Add(series8);
+            this.kinematicsChart.Size = new System.Drawing.Size(738, 795);
+            this.kinematicsChart.TabIndex = 0;
+            this.kinematicsChart.Text = "Kinematics";
             // 
             // tabPage1
             // 
             this.tabPage1.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.tabPage1.Controls.Add(this.AnglePlot);
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Location = new System.Drawing.Point(4, 26);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(746, 795);
+            this.tabPage1.Size = new System.Drawing.Size(746, 791);
             this.tabPage1.TabIndex = 2;
             this.tabPage1.Text = "More Data";
             // 
@@ -243,14 +283,15 @@
             this.AnglePlot.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.AnglePlot.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             chartArea3.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            chartArea3.Name = "ChartArea1";
+            chartArea3.Name = "Angle";
             this.AnglePlot.ChartAreas.Add(chartArea3);
             this.AnglePlot.Dock = System.Windows.Forms.DockStyle.Top;
             this.AnglePlot.Location = new System.Drawing.Point(3, 3);
             this.AnglePlot.Name = "AnglePlot";
-            series10.ChartArea = "ChartArea1";
-            series10.Name = "Series1";
-            this.AnglePlot.Series.Add(series10);
+            series9.ChartArea = "Angle";
+            series9.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series9.Name = "Angle";
+            this.AnglePlot.Series.Add(series9);
             this.AnglePlot.Size = new System.Drawing.Size(740, 431);
             this.AnglePlot.TabIndex = 3;
             this.AnglePlot.Text = "chart2";
@@ -279,10 +320,10 @@
             this.maxVelocity.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.maxVelocity.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.maxVelocity.ForeColor = System.Drawing.Color.White;
-            this.maxVelocity.Location = new System.Drawing.Point(168, 39);
+            this.maxVelocity.Location = new System.Drawing.Point(168, 23);
             this.maxVelocity.Margin = new System.Windows.Forms.Padding(1);
             this.maxVelocity.Name = "maxVelocity";
-            this.maxVelocity.Size = new System.Drawing.Size(71, 20);
+            this.maxVelocity.Size = new System.Drawing.Size(71, 23);
             this.maxVelocity.TabIndex = 4;
             this.maxVelocity.Text = "3500";
             this.maxVelocity.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -292,7 +333,7 @@
             this.timeSample.Location = new System.Drawing.Point(179, 424);
             this.timeSample.Margin = new System.Windows.Forms.Padding(1);
             this.timeSample.Name = "timeSample";
-            this.timeSample.Size = new System.Drawing.Size(71, 20);
+            this.timeSample.Size = new System.Drawing.Size(71, 23);
             this.timeSample.TabIndex = 4;
             this.timeSample.Text = "10";
             this.timeSample.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -303,7 +344,7 @@
             this.trackWidth.Location = new System.Drawing.Point(179, 443);
             this.trackWidth.Margin = new System.Windows.Forms.Padding(1);
             this.trackWidth.Name = "trackWidth";
-            this.trackWidth.Size = new System.Drawing.Size(71, 20);
+            this.trackWidth.Size = new System.Drawing.Size(71, 23);
             this.trackWidth.TabIndex = 4;
             this.trackWidth.Text = "673";
             this.trackWidth.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -314,7 +355,7 @@
             this.AccelRate.Location = new System.Drawing.Point(179, 462);
             this.AccelRate.Margin = new System.Windows.Forms.Padding(1);
             this.AccelRate.Name = "AccelRate";
-            this.AccelRate.Size = new System.Drawing.Size(71, 20);
+            this.AccelRate.Size = new System.Drawing.Size(71, 23);
             this.AccelRate.TabIndex = 4;
             this.AccelRate.Text = "80";
             this.AccelRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -324,12 +365,12 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(6, 41);
+            this.label1.Location = new System.Drawing.Point(5, 25);
             this.label1.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(79, 13);
+            this.label1.Size = new System.Drawing.Size(103, 17);
             this.label1.TabIndex = 5;
-            this.label1.Text = "Max Velocity";
+            this.label1.Text = "Max Velocity:";
             // 
             // label2
             // 
@@ -337,7 +378,7 @@
             this.label2.Location = new System.Drawing.Point(18, 424);
             this.label2.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(61, 13);
+            this.label2.Size = new System.Drawing.Size(80, 17);
             this.label2.TabIndex = 5;
             this.label2.Text = "Time (ms)";
             this.label2.Visible = false;
@@ -348,7 +389,7 @@
             this.label3.Location = new System.Drawing.Point(18, 443);
             this.label3.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(77, 13);
+            this.label3.Size = new System.Drawing.Size(95, 17);
             this.label3.TabIndex = 5;
             this.label3.Text = "Track Width";
             this.label3.Visible = false;
@@ -359,7 +400,7 @@
             this.label4.Location = new System.Drawing.Point(18, 462);
             this.label4.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(104, 13);
+            this.label4.Size = new System.Drawing.Size(133, 17);
             this.label4.TabIndex = 5;
             this.label4.Text = "Accel Filter (FL1)";
             this.label4.Visible = false;
@@ -372,7 +413,7 @@
             this.checkBox1.Location = new System.Drawing.Point(53, 312);
             this.checkBox1.Margin = new System.Windows.Forms.Padding(1);
             this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(119, 17);
+            this.checkBox1.Size = new System.Drawing.Size(148, 21);
             this.checkBox1.TabIndex = 6;
             this.checkBox1.Text = "Limit Max Speed";
             this.checkBox1.UseVisualStyleBackColor = true;
@@ -399,23 +440,24 @@
             this.CTRE.Checked = true;
             this.CTRE.CheckState = System.Windows.Forms.CheckState.Checked;
             this.CTRE.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.CTRE.Location = new System.Drawing.Point(9, 87);
+            this.CTRE.Location = new System.Drawing.Point(53, 289);
             this.CTRE.Margin = new System.Windows.Forms.Padding(1);
             this.CTRE.Name = "CTRE";
-            this.CTRE.Size = new System.Drawing.Size(99, 17);
+            this.CTRE.Size = new System.Drawing.Size(122, 21);
             this.CTRE.TabIndex = 6;
             this.CTRE.Text = "CTRE output";
             this.CTRE.UseVisualStyleBackColor = true;
+            this.CTRE.Visible = false;
             // 
             // wheel
             // 
             this.wheel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.wheel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.wheel.ForeColor = System.Drawing.Color.White;
-            this.wheel.Location = new System.Drawing.Point(205, 85);
+            this.wheel.Location = new System.Drawing.Point(205, 86);
             this.wheel.Margin = new System.Windows.Forms.Padding(1);
             this.wheel.Name = "wheel";
-            this.wheel.Size = new System.Drawing.Size(34, 20);
+            this.wheel.Size = new System.Drawing.Size(34, 23);
             this.wheel.TabIndex = 4;
             this.wheel.Text = "8";
             this.wheel.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -426,7 +468,7 @@
             this.tolerence.Location = new System.Drawing.Point(138, 331);
             this.tolerence.Margin = new System.Windows.Forms.Padding(1);
             this.tolerence.Name = "tolerence";
-            this.tolerence.Size = new System.Drawing.Size(71, 20);
+            this.tolerence.Size = new System.Drawing.Size(71, 23);
             this.tolerence.TabIndex = 7;
             this.tolerence.Text = "660";
             this.tolerence.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -438,7 +480,7 @@
             this.offset.Location = new System.Drawing.Point(138, 350);
             this.offset.Margin = new System.Windows.Forms.Padding(1);
             this.offset.Name = "offset";
-            this.offset.Size = new System.Drawing.Size(71, 20);
+            this.offset.Size = new System.Drawing.Size(71, 23);
             this.offset.TabIndex = 8;
             this.offset.Text = "50";
             this.offset.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -451,7 +493,7 @@
             this.label5.Location = new System.Drawing.Point(18, 333);
             this.label5.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(90, 13);
+            this.label5.Size = new System.Drawing.Size(114, 17);
             this.label5.TabIndex = 5;
             this.label5.Text = "Velocity Offset";
             this.label5.Visible = false;
@@ -463,7 +505,7 @@
             this.label6.Location = new System.Drawing.Point(18, 352);
             this.label6.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(86, 13);
+            this.label6.Size = new System.Drawing.Size(109, 17);
             this.label6.TabIndex = 5;
             this.label6.Text = "Vel Tolerence";
             this.label6.Visible = false;
@@ -499,7 +541,7 @@
             this.SpeedLimit.Location = new System.Drawing.Point(179, 481);
             this.SpeedLimit.Margin = new System.Windows.Forms.Padding(1);
             this.SpeedLimit.Name = "SpeedLimit";
-            this.SpeedLimit.Size = new System.Drawing.Size(71, 20);
+            this.SpeedLimit.Size = new System.Drawing.Size(71, 23);
             this.SpeedLimit.TabIndex = 4;
             this.SpeedLimit.Text = "2.5";
             this.SpeedLimit.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -511,42 +553,18 @@
             this.label7.Location = new System.Drawing.Point(18, 481);
             this.label7.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(113, 13);
+            this.label7.Size = new System.Drawing.Size(144, 17);
             this.label7.TabIndex = 5;
             this.label7.Text = "Speed Limit Factor";
             this.label7.Visible = false;
-            // 
-            // smoothness
-            // 
-            this.smoothness.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.smoothness.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.smoothness.ForeColor = System.Drawing.Color.White;
-            this.smoothness.Location = new System.Drawing.Point(194, 63);
-            this.smoothness.Margin = new System.Windows.Forms.Padding(1);
-            this.smoothness.Name = "smoothness";
-            this.smoothness.Size = new System.Drawing.Size(45, 20);
-            this.smoothness.TabIndex = 8;
-            this.smoothness.Text = "10";
-            this.smoothness.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(7, 54);
-            this.label8.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(66, 13);
-            this.label8.TabIndex = 5;
-            this.label8.Text = "Smoothing";
             // 
             // Label9
             // 
             this.Label9.AutoSize = true;
             this.Label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Label9.Location = new System.Drawing.Point(126, 87);
+            this.Label9.Location = new System.Drawing.Point(102, 86);
             this.Label9.Name = "Label9";
-            this.Label9.Size = new System.Drawing.Size(79, 13);
+            this.Label9.Size = new System.Drawing.Size(99, 17);
             this.Label9.TabIndex = 9;
             this.Label9.Text = "Wheel Size :";
             // 
@@ -557,9 +575,9 @@
             this.deploy.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.deploy.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.deploy.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.deploy.Location = new System.Drawing.Point(292, 19);
+            this.deploy.Location = new System.Drawing.Point(268, 17);
             this.deploy.Name = "deploy";
-            this.deploy.Size = new System.Drawing.Size(140, 46);
+            this.deploy.Size = new System.Drawing.Size(177, 50);
             this.deploy.TabIndex = 11;
             this.deploy.Text = "Deploy";
             this.deploy.UseVisualStyleBackColor = false;
@@ -571,7 +589,7 @@
             this.profilename.ForeColor = System.Drawing.Color.White;
             this.profilename.Location = new System.Drawing.Point(345, 80);
             this.profilename.Name = "profilename";
-            this.profilename.Size = new System.Drawing.Size(100, 20);
+            this.profilename.Size = new System.Drawing.Size(100, 23);
             this.profilename.TabIndex = 22;
             // 
             // label15
@@ -580,7 +598,7 @@
             this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label15.Location = new System.Drawing.Point(265, 83);
             this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(83, 13);
+            this.label15.Size = new System.Drawing.Size(106, 17);
             this.label15.TabIndex = 21;
             this.label15.Text = "Profile Name:";
             // 
@@ -594,40 +612,40 @@
             this.insertAboveToolStripMenuItem,
             this.insertBelowToolStripMenuItem});
             this.contextMenuStrip2.Name = "contextMenuStrip2";
-            this.contextMenuStrip2.Size = new System.Drawing.Size(141, 114);
+            this.contextMenuStrip2.Size = new System.Drawing.Size(162, 124);
             // 
             // deleteToolStripMenuItem
             // 
             this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
-            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(161, 24);
             this.deleteToolStripMenuItem.Text = "Delete";
             this.deleteToolStripMenuItem.Click += new System.EventHandler(this.Delete_Click);
             // 
             // moveUpToolStripMenuItem
             // 
             this.moveUpToolStripMenuItem.Name = "moveUpToolStripMenuItem";
-            this.moveUpToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
+            this.moveUpToolStripMenuItem.Size = new System.Drawing.Size(161, 24);
             this.moveUpToolStripMenuItem.Text = "Move Up";
             this.moveUpToolStripMenuItem.Click += new System.EventHandler(this.BtnUp_Click);
             // 
             // moveDownToolStripMenuItem
             // 
             this.moveDownToolStripMenuItem.Name = "moveDownToolStripMenuItem";
-            this.moveDownToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
+            this.moveDownToolStripMenuItem.Size = new System.Drawing.Size(161, 24);
             this.moveDownToolStripMenuItem.Text = "Move Down";
             this.moveDownToolStripMenuItem.Click += new System.EventHandler(this.BtnDown_Click);
             // 
             // insertAboveToolStripMenuItem
             // 
             this.insertAboveToolStripMenuItem.Name = "insertAboveToolStripMenuItem";
-            this.insertAboveToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
+            this.insertAboveToolStripMenuItem.Size = new System.Drawing.Size(161, 24);
             this.insertAboveToolStripMenuItem.Text = "Insert Above";
             this.insertAboveToolStripMenuItem.Click += new System.EventHandler(this.InsertAbove_Click);
             // 
             // insertBelowToolStripMenuItem
             // 
             this.insertBelowToolStripMenuItem.Name = "insertBelowToolStripMenuItem";
-            this.insertBelowToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
+            this.insertBelowToolStripMenuItem.Size = new System.Drawing.Size(161, 24);
             this.insertBelowToolStripMenuItem.Text = "Insert Below";
             this.insertBelowToolStripMenuItem.Click += new System.EventHandler(this.InsertBelow_Click);
             // 
@@ -716,7 +734,7 @@
             this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label10.Location = new System.Drawing.Point(265, 103);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(171, 17);
+            this.label10.Size = new System.Drawing.Size(200, 20);
             this.label10.TabIndex = 23;
             this.label10.Text = "Motion Profiles On Rio";
             // 
@@ -762,7 +780,7 @@
             this.fileToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.fileToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Transparent;
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(43, 24);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(47, 24);
             this.fileToolStripMenuItem.Text = "File";
             this.fileToolStripMenuItem.DropDownClosed += new System.EventHandler(this.FileToolStripMenuItem_DropDownClosed);
             this.fileToolStripMenuItem.DropDownOpened += new System.EventHandler(this.FileToolStripMenuItem_DropDownOpened);
@@ -773,40 +791,40 @@
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
             this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(177, 26);
             this.saveToolStripMenuItem.Text = "Save";
             // 
             // loadToolStripMenuItem
             // 
             this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
             this.loadToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.loadToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
+            this.loadToolStripMenuItem.Size = new System.Drawing.Size(177, 26);
             this.loadToolStripMenuItem.Text = "Load";
             this.loadToolStripMenuItem.Click += new System.EventHandler(this.Load_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(150, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(174, 6);
             // 
             // optionsToolStripMenuItem
             // 
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(177, 26);
             this.optionsToolStripMenuItem.Text = "Settings";
             this.optionsToolStripMenuItem.Click += new System.EventHandler(this.OptionsToolStripMenuItem_Click);
             // 
             // abouToolStripMenuItem
             // 
             this.abouToolStripMenuItem.Name = "abouToolStripMenuItem";
-            this.abouToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
+            this.abouToolStripMenuItem.Size = new System.Drawing.Size(177, 26);
             this.abouToolStripMenuItem.Text = "About";
             this.abouToolStripMenuItem.Click += new System.EventHandler(this.About_Click);
             // 
             // GridCheckBox
             // 
             this.GridCheckBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.GridCheckBox.Location = new System.Drawing.Point(10, 70);
+            this.GridCheckBox.Location = new System.Drawing.Point(10, 86);
             this.GridCheckBox.Margin = new System.Windows.Forms.Padding(1);
             this.GridCheckBox.Name = "GridCheckBox";
             this.GridCheckBox.Size = new System.Drawing.Size(79, 17);
@@ -886,40 +904,40 @@
             this.toolStripMenuItem4,
             this.toolStripMenuItem5});
             this.commandPointListMenuStrip.Name = "contextMenuStrip2";
-            this.commandPointListMenuStrip.Size = new System.Drawing.Size(141, 114);
+            this.commandPointListMenuStrip.Size = new System.Drawing.Size(162, 124);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(140, 22);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(161, 24);
             this.toolStripMenuItem1.Text = "Delete";
             this.toolStripMenuItem1.Click += new System.EventHandler(this.Delete_Click_commandPoints);
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(140, 22);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(161, 24);
             this.toolStripMenuItem2.Text = "Move Up";
             this.toolStripMenuItem2.Click += new System.EventHandler(this.BtnUp_Click_commandPoints);
             // 
             // toolStripMenuItem3
             // 
             this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(140, 22);
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(161, 24);
             this.toolStripMenuItem3.Text = "Move Down";
             this.toolStripMenuItem3.Click += new System.EventHandler(this.BtnDown_Click_commandPoints);
             // 
             // toolStripMenuItem4
             // 
             this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-            this.toolStripMenuItem4.Size = new System.Drawing.Size(140, 22);
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(161, 24);
             this.toolStripMenuItem4.Text = "Insert Above";
             this.toolStripMenuItem4.Click += new System.EventHandler(this.InsertAbove_Click_commandPoints);
             // 
             // toolStripMenuItem5
             // 
             this.toolStripMenuItem5.Name = "toolStripMenuItem5";
-            this.toolStripMenuItem5.Size = new System.Drawing.Size(140, 22);
+            this.toolStripMenuItem5.Size = new System.Drawing.Size(161, 24);
             this.toolStripMenuItem5.Text = "Insert Below";
             this.toolStripMenuItem5.Click += new System.EventHandler(this.InsertBelow_Click_commandPoints);
             // 
@@ -992,65 +1010,72 @@
             this.rioFilesContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.loadToolStripMenuItem1});
             this.rioFilesContextMenuStrip.Name = "rioFilesContextMenuStrip";
-            this.rioFilesContextMenuStrip.Size = new System.Drawing.Size(101, 26);
+            this.rioFilesContextMenuStrip.Size = new System.Drawing.Size(112, 28);
             // 
             // loadToolStripMenuItem1
             // 
             this.loadToolStripMenuItem1.Name = "loadToolStripMenuItem1";
-            this.loadToolStripMenuItem1.Size = new System.Drawing.Size(100, 22);
+            this.loadToolStripMenuItem1.Size = new System.Drawing.Size(111, 24);
             this.loadToolStripMenuItem1.Text = "Load";
             this.loadToolStripMenuItem1.Click += new System.EventHandler(this.RioFilesLoad);
             // 
-            // kinematicsChart
+            // label11
             // 
-            this.kinematicsChart.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.kinematicsChart.BorderlineColor = System.Drawing.SystemColors.WindowFrame;
-            chartArea2.AxisX.Interval = 0.5D;
-            chartArea2.AxisX.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount;
-            chartArea2.AxisX.MinorGrid.Enabled = true;
-            chartArea2.AxisX.MinorGrid.Interval = 0.25D;
-            chartArea2.AxisX.ScaleBreakStyle.Spacing = 0.5D;
-            chartArea2.AxisX.Title = "Time (Seconds)";
-            chartArea2.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            chartArea2.Name = "ChartArea1";
-            this.kinematicsChart.ChartAreas.Add(chartArea2);
-            legend1.Name = "Legend1";
-            this.kinematicsChart.Legends.Add(legend1);
-            this.kinematicsChart.Location = new System.Drawing.Point(0, 0);
-            this.kinematicsChart.Name = "kinematicsChart";
-            series6.BorderWidth = 3;
-            series6.ChartArea = "ChartArea1";
-            series6.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series6.Legend = "Legend1";
-            series6.Name = "Position";
-            series7.BorderWidth = 3;
-            series7.ChartArea = "ChartArea1";
-            series7.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series7.Legend = "Legend1";
-            series7.Name = "Velocity";
-            series8.BorderWidth = 3;
-            series8.ChartArea = "ChartArea1";
-            series8.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series8.Legend = "Legend1";
-            series8.Name = "Acceleration";
-            series9.BorderWidth = 3;
-            series9.ChartArea = "ChartArea1";
-            series9.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series9.Legend = "Legend1";
-            series9.Name = "Jerk";
-            this.kinematicsChart.Series.Add(series6);
-            this.kinematicsChart.Series.Add(series7);
-            this.kinematicsChart.Series.Add(series8);
-            this.kinematicsChart.Series.Add(series9);
-            this.kinematicsChart.Size = new System.Drawing.Size(738, 795);
-            this.kinematicsChart.TabIndex = 0;
-            this.kinematicsChart.Text = "Kinematics";
+            this.label11.AutoSize = true;
+            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label11.Location = new System.Drawing.Point(5, 47);
+            this.label11.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(136, 17);
+            this.label11.TabIndex = 31;
+            this.label11.Text = "Max Acceleration:";
+            // 
+            // maxAcc
+            // 
+            this.maxAcc.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.maxAcc.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.maxAcc.ForeColor = System.Drawing.Color.White;
+            this.maxAcc.Location = new System.Drawing.Point(168, 44);
+            this.maxAcc.Margin = new System.Windows.Forms.Padding(1);
+            this.maxAcc.Name = "maxAcc";
+            this.maxAcc.Size = new System.Drawing.Size(71, 23);
+            this.maxAcc.TabIndex = 30;
+            this.maxAcc.Text = "2500";
+            this.maxAcc.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.Location = new System.Drawing.Point(5, 68);
+            this.label8.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(77, 17);
+            this.label8.TabIndex = 33;
+            this.label8.Text = "Max Jerk:";
+            // 
+            // maxJerk
+            // 
+            this.maxJerk.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.maxJerk.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.maxJerk.ForeColor = System.Drawing.Color.White;
+            this.maxJerk.Location = new System.Drawing.Point(168, 65);
+            this.maxJerk.Margin = new System.Windows.Forms.Padding(1);
+            this.maxJerk.Name = "maxJerk";
+            this.maxJerk.Size = new System.Drawing.Size(71, 23);
+            this.maxJerk.TabIndex = 32;
+            this.maxJerk.Text = "12000";
+            this.maxJerk.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.ClientSize = new System.Drawing.Size(1203, 821);
+            this.Controls.Add(this.label8);
+            this.Controls.Add(this.maxJerk);
+            this.Controls.Add(this.label11);
+            this.Controls.Add(this.maxAcc);
             this.Controls.Add(this.RioFiles);
             this.Controls.Add(this.commandPointsList);
             this.Controls.Add(this.GridCheckBox);
@@ -1060,13 +1085,11 @@
             this.Controls.Add(this.label15);
             this.Controls.Add(this.deploy);
             this.Controls.Add(this.Label9);
-            this.Controls.Add(this.smoothness);
             this.Controls.Add(this.offset);
             this.Controls.Add(this.tolerence);
             this.Controls.Add(this.isntaVel);
             this.Controls.Add(this.CTRE);
             this.Controls.Add(this.checkBox1);
-            this.Controls.Add(this.label8);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label6);
@@ -1099,6 +1122,7 @@
             this.Field.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.mainField)).EndInit();
             this.Data.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.kinematicsChart)).EndInit();
             this.tabPage1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.AnglePlot)).EndInit();
             this.contextMenuStrip2.ResumeLayout(false);
@@ -1109,7 +1133,6 @@
             this.commandPointListMenuStrip.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.RioFiles)).EndInit();
             this.rioFilesContextMenuStrip.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.kinematicsChart)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1144,8 +1167,6 @@
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
         private System.Windows.Forms.TextBox SpeedLimit;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.TextBox smoothness;
-        private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label Label9;
         private System.Windows.Forms.Button deploy;
         private System.Windows.Forms.TextBox profilename;
@@ -1187,6 +1208,10 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn y;
         private System.Windows.Forms.DataGridViewTextBoxColumn Direction;
         private System.Windows.Forms.DataVisualization.Charting.Chart kinematicsChart;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.TextBox maxAcc;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.TextBox maxJerk;
     }
 }
 

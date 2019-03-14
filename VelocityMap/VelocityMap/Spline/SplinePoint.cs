@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static MotionProfile.ControlPoint;
 
 namespace MotionProfile.Spline
 {
@@ -11,6 +12,7 @@ namespace MotionProfile.Spline
         float x;
         float y;
         int controlPointNum;
+        ControlPointDirection direction;
 
 
         public float X
@@ -47,6 +49,19 @@ namespace MotionProfile.Spline
             set
             {
                 controlPointNum = value;
+            }
+        }
+
+        public ControlPointDirection Direction
+        {
+            get
+            {
+                return direction;
+            }
+
+            set
+            {
+                direction = value;
             }
         }
 
