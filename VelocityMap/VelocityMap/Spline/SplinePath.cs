@@ -38,7 +38,7 @@ namespace MotionProfile.Spline
 
             List<double> CPDistances = new List<double>();
 
-            double d = 0;
+            double d = 0.0;
 
             CPDistances.Add(d);
 
@@ -71,9 +71,6 @@ namespace MotionProfile.Spline
             }
 
             spline = new ParametricSpline(xs.ToArray(), ys.ToArray(), 100, out outxs, out outys);
-
-            
-
             if (velocityPoints==null)
             {
                 for (int i = 0; i < outxs.Last().ControlPointNum + 1; i++)
@@ -95,22 +92,19 @@ namespace MotionProfile.Spline
             else
             {
                 ControlPointSegment seg = new ControlPointSegment();
+
+
                 int lastControlPointNum=0;
-                double distance=0;
 
-
-
-
-                for (int i = 1; i < velocityPoints.Count; i++)
+                for (int i = 0; i < velocityPoints.Count; i++)
                 {
                     SplinePoint spoint = spline.Eval(Math.Abs((float)velocityPoints[i].Pos));
-                    SplinePoint lastpoint = spline.Eval(Math.Abs((float)velocityPoints[i - 1].Pos));
 
-                    distance += GetDistance(spoint.X, spoint.Y, lastpoint.X, lastpoint.Y);
+                    double distance = Math.Abs((float)velocityPoints[i].Pos);
 
                     for (int dis = 1; dis < CPDistances.Count; dis++)
                     {
-                        if (distance > CPDistances[dis - 1] && distance < CPDistances[dis])
+                        if (distance >= CPDistances[dis - 1] && distance <= CPDistances[dis])
                         {
                             spoint.ControlPointNum = dis - 1;
 
@@ -121,8 +115,13 @@ namespace MotionProfile.Spline
                             }
                             seg.points.Add(spoint);
                             lastControlPointNum = dis - 1;
-
-
+                        }
+                        if(distance >= CPDistances[dis] && dis == CPDistances.Count-1)
+                        {
+                            seg.points.Add(spoint);
+                            //we add any of the points that over shoot the last distance point by just a little because
+                            //we have an error somewhere but the ending error is less then 5mm less than the accuracy of
+                            //the robot anyways so.
                         }
 
                     }
@@ -135,7 +134,7 @@ namespace MotionProfile.Spline
         }
         private static double GetDistance(double x1, double y1, double x2, double y2)
         {
-            return Math.Sqrt(Math.Pow((x2 - x1), 2) + Math.Pow((y2 - y1), 2));
+            return Math.Sqrt(Math.Pow((x2 - x1), 2.0) + Math.Pow((y2 - y1), 2.0));
         }
         public static double getLength()
         {

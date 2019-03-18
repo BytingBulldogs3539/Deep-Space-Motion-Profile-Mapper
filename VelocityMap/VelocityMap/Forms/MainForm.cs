@@ -916,7 +916,6 @@
 
                     foreach (SplinePoint point in seg.points)
                     {
-                        count++;
                         mainField.Series["path"].Points.AddXY(point.X, point.Y);
                         point.Direction = ps.direction;
                         pointList.Add(point);
@@ -937,50 +936,7 @@
                 angleOffset = outputPoints.time.Last();
 
             }
-
-            float startAngle = findStartAngle(pointList[1].X, pointList[0].X, pointList[1].Y, pointList[0].Y);
-
-            for (int i = 0; i < (pointList.Count - 2); i++) //for not zeroing the angle after each path.
-            {
-
-                if (i == 0)
-                {
-                    outputPoints.angle.Add(findStartAngle(pointList[i + 1].X, pointList[i].X, pointList[i + 1].Y, pointList[i].Y));
-                }
-                else
-                {
-
-                    outputPoints.angle.Add(findAngleChange(pointList[i + 1].X, pointList[i].X, pointList[i + 1].Y, pointList[i].Y, outputPoints.angle[outputPoints.angle.Count - 1], pointList[i].Direction));
-                }
-            }
-
-            for (int i = 0; i < (pointList.Count - 2); i++) //converts the values from raw graph angles to angles the robot can use.
-            {
-
-                double angle = outputPoints.angle[i];
-                angle = (angle - startAngle);
-                angle = -angle;
-
-                outputPoints.angle[i] = angle;
-
-            }
-
-            for (int i = 0; i < (pointList.Count - 2); i++) //converts the values from raw graph angles to angles the robot can use.
-            {
-                if (i > 0)
-                {
-                    double ang = outputPoints.angle[i];
-                    double prevAngle = outputPoints.angle[i - 1];
-                    double angleChange = ang - prevAngle;
-                    if (angleChange > 300) angleChange -= 360;
-                    if (angleChange < -300) angleChange += 360;
-
-                    double angle = (prevAngle + angleChange);
-
-                    outputPoints.angle[i] = angle;
-                }
-
-            }
+            Console.WriteLine(pointList.Count);
 
             Console.WriteLine(outputPoints.position.Count);
 
