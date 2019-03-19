@@ -39,6 +39,8 @@
 
         public OutputPoints outputPoints = new OutputPoints();
 
+        private double CONVERT = 180.0 / Math.PI;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="MainForm"/> class.
         /// </summary>
@@ -61,7 +63,6 @@
 
             //Put all of the points from the fieldpoints.txt and put them on the field
             SetupMainField();
-            SetupPlots();
 
         }
 
@@ -87,38 +88,6 @@
 
         }
 
-        /// <summary>
-        /// Configure what the velocity chart and the distance chart look like
-        /// </summary>
-        private void SetupPlots()
-        {
-
-            //set the minimium x axis value on the distance graph
-            AnglePlot.ChartAreas[0].Axes[0].Minimum = 0;
-            //set the amount the x axis increases distance graph
-            AnglePlot.ChartAreas[0].Axes[0].Interval = 1000;
-            //set the title of the x axis distance graph
-            AnglePlot.ChartAreas[0].Axes[0].Title = "Distance (mm)";
-            //set the interval of the y axis
-            AnglePlot.ChartAreas[0].Axes[1].Interval = 20;
-            //set the title of the y axis
-            AnglePlot.ChartAreas[0].Axes[1].Title = "Degrees";
-
-            //add the seperate lines to the distance plot.
-            AnglePlot.Series.Add("angle");
-
-
-            //set the type of lines
-            AnglePlot.Series["angle"].ChartType = SeriesChartType.FastLine;
-
-            //set the color of the lines.
-            AnglePlot.Series["angle"].Color = Color.White;
-
-
-
-
-
-        }
 
 
 
@@ -301,7 +270,7 @@
 
                     c.Invalidate();
                 }
-                
+
             }
         }
 
@@ -336,7 +305,7 @@
             Apply_Click(sender, e);
         }
 
-       /// <summary>
+        /// <summary>
         /// The event that is called when a rows state is changed ex: the row is selected.
         /// </summary>
         private void ControlPointsTable_RowStateChange(object sender, DataGridViewRowStateChangedEventArgs e)
@@ -610,11 +579,6 @@
             kinematicsChart.Series["Velocity"].Points.Clear();
             kinematicsChart.Series["Acceleration"].Points.Clear();
 
-
-
-            AnglePlot.Series["angle"].Points.Clear();
-
-
         }
 
         /// <summary>
@@ -805,7 +769,7 @@
             //Clear all of the points from the main field controlpoint series.
             mainField.Series["cp"].Points.Clear();
 
-            foreach(ControlPoint controlpoint in controlPointArray)
+            foreach (ControlPoint controlpoint in controlPointArray)
             {
 
                 controlpoint.setGraphIndex(mainField.Series["cp"].Points.AddXY(controlpoint.X, controlpoint.Y));
@@ -818,7 +782,7 @@
                 {
                     mainField.Series["cp"].Points.Last().Color = Color.Red;
                 }
-                
+
             }
         }
 
@@ -832,13 +796,13 @@
             double maxJ = 0;
 
             updateControlPointArray();
-            if (!(controlPointArray.Count >1))
+            if (!(controlPointArray.Count > 1))
             {
                 MessageBox.Show("Not enought points!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            if (maxVelocity.Text==null || maxVelocity.Text == "" || !double.TryParse(maxVelocity.Text.ToString(), out maxV))
+            if (maxVelocity.Text == null || maxVelocity.Text == "" || !double.TryParse(maxVelocity.Text.ToString(), out maxV))
             {
                 MessageBox.Show("Max Velocity Not Specified", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -860,6 +824,9 @@
             kinematicsChart.Series["Position"].Points.Clear();
             kinematicsChart.Series["Velocity"].Points.Clear();
             kinematicsChart.Series["Acceleration"].Points.Clear();
+            AngleChart.Series["Angle"].Points.Clear();
+
+
             Random rnd = new Random();
 
             outputPoints = new OutputPoints();
@@ -875,7 +842,7 @@
                 points.points.Add(point);
                 if (point.Direction != lastDirection)
                 {
-                    if (points.points.Count>=2)
+                    if (points.points.Count >= 2)
                     {
                         directionPoints.Add(points);
                     }
@@ -922,7 +889,7 @@
                         mainField.Series["path"].Points.Last().Color = randomColor;
                     }
                 }
-               
+
                 foreach (VelocityPoint point in velocityPoints)
                 {
                     outputPoints.position.Add(point.Pos + Posoffset);
@@ -940,21 +907,73 @@
 
             Console.WriteLine(outputPoints.position.Count);
 
+            List<float> headings = getHeadingList(pointList);
+
+            for (int x = 0; x < outputPoints.position.Count; x++)
+            {
+                outputPoints.angle.Add(headings[x]);
+                Console.WriteLine(headings[x]);
+            }
+
+
             for (int x = 0; x < outputPoints.position.Count; x++)
             {
                 kinematicsChart.Series["Position"].Points.AddXY(outputPoints.time[x], outputPoints.position[x]);
                 kinematicsChart.Series["Velocity"].Points.AddXY(outputPoints.time[x], outputPoints.velocity[x]);
                 kinematicsChart.Series["Acceleration"].Points.AddXY(outputPoints.time[x], outputPoints.acceleration[x]);
-                //AnglePlot.Series["Angle"].Points.AddXY(outputPoints.time[x], outputPoints.angle[x]);
+                AngleChart.Series["Angle"].Points.AddXY(outputPoints.time[x], outputPoints.angle[x]);
             }
 
 
 
         }
 
+        private List<float> getHeadingList(List<SplinePoint> pointList)
+        {
+            List<float> headings = new List<float>();
+
+
+
+            float startAngle = findStartAngle(pointList[2].X, pointList[1].X, pointList[2].Y, pointList[1].Y);
+
+            for (int i = 0; i < (pointList.Count); i++) //for not zeroing the angle after each path.
+            {
+
+                if (i == 0)
+                {
+                    headings.Add(findStartAngle(pointList[2].X, pointList[1].X, pointList[2].Y, pointList[1].Y));
+                }
+                else
+                {
+
+                    headings.Add(findAngleChange(pointList[i].X, pointList[i - 1].X, pointList[i].Y, pointList[i - 1].Y, headings[headings.Count - 1], pointList[i].Direction));
+                }
+            }
+
+            for (int i = 0; i < (pointList.Count); i++) //converts the values from raw graph angles to angles the robot can use.
+            {
+                float angle = headings[i];
+                angle = (angle - startAngle);
+                if (pointList[i].Direction==ControlPointDirection.REVERSE)
+                {
+                    int add = 0;
+                    if (angle > 0)
+                        add = -180;
+                    if (angle < 0)
+                        add = 180;
+                    angle = angle + add;
+                }
+                angle = -angle;
+
+                headings[i] = angle;
+
+            }
+            headings.NoiseReduction(10);
+            return headings;
+        }
+
         private float findStartAngle(double x2, double x1, double y2, double y1)
         {
-            double CONVERT = 180.0 / Math.PI;
             float ang = 0;
             float chx = (float)(x2 - x1);
             float chy = (float)(y2 - y1);
@@ -999,10 +1018,12 @@
             }
             return ang;
         }
+        /// <summary>
+        /// Returns the angle of this point by adding the angle change to the prevAngle.
+        /// </summary>
 
-        private double findAngleChange(double x2, double x1, double y2, double y1, double prevAngle, ControlPointDirection direction)
+        private float findAngleChange(double x2, double x1, double y2, double y1, float prevAngle, ControlPointDirection direction)
         {
-            double CONVERT = 180.0 / Math.PI;
             float ang = 0;
             float chx = (float)(x2 - x1);
             float chy = (float)(y2 - y1);
@@ -1045,7 +1066,6 @@
                     //ang = 3;
                 }
             }
-
             if (direction == ControlPointDirection.REVERSE)
             {
                 int add = 0;
@@ -1056,138 +1076,104 @@
                 ang = ang + add;
             }
 
-            double angleChange = ang - prevAngle;
+            float angleChange = ang - prevAngle;
             if (angleChange > 300) angleChange -= 360;
             if (angleChange < -300) angleChange += 360;
             return (prevAngle + angleChange);
         }
 
+
         /// <summary>
         /// The event that is called when the save button is clicked.
         /// </summary>
-        /*private void Save_Click(object sender, EventArgs e)
+        private void Save_Click(object sender, EventArgs e)
         {
             //Make sure that we have at least two points that we can actually make a path between.
-            if (!(controlPoints.RowCount - 2 > 0))
+            if (!(controlPointArray.Count > 1))
             {
-                //If not cancel this and show an error stating so.
                 MessageBox.Show("Not enought points!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
                 return;
             }
             //We are going to apply before we save so that we have the newest data.
             Apply_Click(null, null);
             //Double check that we have more than 1 point for our calculation.
-            if ((controlPoints.RowCount - 2 > 0))
+
+            //Create a save dialog window that allows the user to select where they want us to save the information to.
+            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+            saveFileDialog1.InitialDirectory = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            //Limit the user to that can only see .mp and .json files.
+            saveFileDialog1.Filter = "Motion Profile|*.mp;*.json";
+            //Set the window title.
+            saveFileDialog1.Title = "Save an MP File";
+            //Actually open the dialog so that user can see it.
+            saveFileDialog1.ShowDialog();
+
+
+            //If the save dialog file name is not blank then continue.
+            if (saveFileDialog1.FileName != "")
             {
-                //Create a save dialog window that allows the user to select where they want us to save the information to.
-                SaveFileDialog saveFileDialog1 = new SaveFileDialog();
-                saveFileDialog1.InitialDirectory = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-                //Limit the user to that can only see .mp and .json files.
-                saveFileDialog1.Filter = "Motion Profile|*.mp;*.json";
-                //Set the window title.
-                saveFileDialog1.Title = "Save an MP File";
-                //Actually open the dialog so that user can see it.
-                saveFileDialog1.ShowDialog();
+                String DirPath = System.IO.Path.GetDirectoryName(saveFileDialog1.FileName);    // Used for storing the directory path of the saved file.
+                String JSONPath = Path.Combine(DirPath, Path.GetFileNameWithoutExtension(saveFileDialog1.FileName) + ".json");     // Used for storing the json saved file directory path.
+                String MPPath = Path.Combine(DirPath, Path.GetFileNameWithoutExtension(saveFileDialog1.FileName) + ".mp");      // Used for storing the mp saved file directory path.
 
 
-                //If the save dialog file name is not blank then continue.
-                if (saveFileDialog1.FileName != "")
+                //open a new writer to the JSONPath.
+                using (var writer = new System.IO.StreamWriter(JSONPath))
                 {
-                    String DirPath = System.IO.Path.GetDirectoryName(saveFileDialog1.FileName);    // Used for storing the directory path of the saved file.
-                    String JSONPath = Path.Combine(DirPath, Path.GetFileNameWithoutExtension(saveFileDialog1.FileName) + ".json");     // Used for storing the json saved file directory path.
-                    String MPPath = Path.Combine(DirPath, Path.GetFileNameWithoutExtension(saveFileDialog1.FileName) + ".mp");      // Used for storing the mp saved file directory path.
+                    //similiar to the apply stuff where we load our data from our paths into arrays then we us the arrays to write into the file.
+                    writer.WriteLine("{");
+                    writer.WriteLine("  \"Data\":[ ");
 
+                    List<string> left = new List<string>();
+                    List<string> right = new List<string>();
+                    List<string> center = new List<string>();
 
-                    //open a new writer to the JSONPath.
-                    using (var writer = new System.IO.StreamWriter(JSONPath))
+                    List<string> line = new List<string>();
+
+                    int trackwidth = (int)((int.Parse(trackWidth.Text)) / 2);
+
+                    //write the information to the json file.
+                    Dictionary<int, String> commandPoints = new Dictionary<int, String>();
+                    foreach (DataGridViewRow row in commandPointsList.Rows)
                     {
-                        //similiar to the apply stuff where we load our data from our paths into arrays then we us the arrays to write into the file.
-                        writer.WriteLine("{");
-                        writer.WriteLine("  \"Data\":[ ");
-
-                        List<string> left = new List<string>();
-                        List<string> right = new List<string>();
-                        List<string> center = new List<string>();
-
-                        List<string> line = new List<string>();
-
-                        int trackwidth = (int)((int.Parse(trackWidth.Text)) / 2);
-
-                        float[] l = paths.GetOffsetVelocityProfile(trackwidth).ToArray();
-                        List<float> ld = paths.GetOffsetDistanceProfile(trackwidth);
-
-                        float[] r;
-                        List<float> rd = new List<float>(); ;
-
-                        float[] c = paths.GetOffsetVelocityProfile(0).ToArray();
-                        List<float> cd = paths.GetOffsetDistanceProfile(0);
-
-                        float[] angles = paths.GetHeadingProfile();
-
-
-
-
-                        r = paths.GetOffsetVelocityProfile(-trackwidth).ToArray();
-                        rd = paths.GetOffsetDistanceProfile(-trackwidth);
-
-
-                        //angles.NoiseReduction(int.Parse(smoothness.Text));
-                        r.NoiseReduction(int.Parse(smoothness.Text));
-                        rd.NoiseReduction(int.Parse(smoothness.Text));
-                        l.NoiseReduction(int.Parse(smoothness.Text));
-                        ld.NoiseReduction(int.Parse(smoothness.Text));
-                        c.NoiseReduction(int.Parse(smoothness.Text));
-                        cd.NoiseReduction(int.Parse(smoothness.Text));
-                        //write the information to the json file.
-                        Dictionary<int, String> commandPoints = new Dictionary<int, String>();
-                        foreach (DataGridViewRow row in commandPointsList.Rows)
+                        if (RowContainData(row, true))
                         {
-                            if (RowContainData(row, true))
+
+                            if (mainField.Series["path"].Points.Count >= int.Parse(row.Cells[0].Value.ToString()))
                             {
-
-                                if (mainField.Series["path"].Points.Count >= int.Parse(row.Cells[0].Value.ToString()))
-                                {
-                                        commandPoints[int.Parse(row.Cells[0].Value.ToString())] = row.Cells[1].Value.ToString();
-                                }
-
+                                commandPoints[int.Parse(row.Cells[0].Value.ToString())] = row.Cells[1].Value.ToString();
                             }
+
                         }
-                        for (int i = 0; i < l.Length; i++)
-                        {
-                            String text = "";
-                            if (commandPoints.ContainsKey(i))
-                            {
-                                text = commandPoints[i];
-                            }
-                            if (CTRE.Checked)
-                            {
-                                double dConvert = Math.PI * double.Parse(wheel.Text) * 25.4;
-
-                                line.Add("  {   \"Rotation\":" + cd.Take(i).Sum() / dConvert + " , " + "\"Velocity\":" + (c[i] / dConvert * 60).ToString() + " , " + "\"Time\":" + paths[0].velocityMap.time * 1000 + " , " + "\"Angle\":" + angles[i] + " , " + "\"State\":" + "\"" + text + "\"" + "}");
-
-                            }
-                            else
-                            {
-                                line.Add("  {   \"Rotation\":" + cd.Take(i).Sum().ToString() + " , " + "\"Velocity\":" + c[i].ToString() + " , " + "\"Time\":" + paths[0].velocityMap.time * 1000 + " , " + "\"Angle\":" + angles[i] + " , " + "\"State\":" + "\"" + text + "\"" + "}");
-                            }
-                        }
-                        right.Add(string.Join(",\n", line));
-
-                        foreach (string ret in right)
-                        {
-                            writer.WriteLine(ret);
-                        }
-                        writer.WriteLine("  ] ");
-                        writer.WriteLine("} ");
                     }
-                    //Call the WriteSetupFile that will write a file so that we can go back and load these points again.
-                    WriteSetupFile(MPPath);
+                    for (int i = 0; i < outputPoints.position.Count; i++)
+                    {
+                        String text = "";
+                        if (commandPoints.ContainsKey(i))
+                        {
+                            text = commandPoints[i];
+                        }
+                        double dConvert = Math.PI * double.Parse(wheel.Text) * 25.4;
 
+                        line.Add("  {   \"Rotation\":" + outputPoints.position[i] / dConvert + " , " + "\"Velocity\":" + (outputPoints.velocity[i] / dConvert * 60).ToString() + " , " + "\"Time\":" + 10 + " , " + "\"Angle\":" + outputPoints.angle[i] + " , " + "\"State\":" + "\"" + text + "\"" + "}");
+
+                    }
+                    right.Add(string.Join(",\n", line));
+
+                    foreach (string ret in right)
+                    {
+                        writer.WriteLine(ret);
+                    }
+                    writer.WriteLine("  ] ");
+                    writer.WriteLine("} ");
                 }
+                //Call the WriteSetupFile that will write a file so that we can go back and load these points again.
+                WriteSetupFile(MPPath);
 
             }
-        }*/
+
+
+        }
 
         /// <summary>
         /// A Method that will allow us to write a file that we can later load.
@@ -1352,7 +1338,7 @@
         /// </summary>
         /// <param name="sender">The sender<see cref="object"/></param>
         /// <param name="e">The e<see cref="EventArgs"/></param>
-        /*private void Deploy_Click(object sender, EventArgs e)
+        private void Deploy_Click(object sender, EventArgs e)
         {
             //Check to make sure that the user have given this profile a name.
             if (profilename.Text == "")
@@ -1362,11 +1348,9 @@
             }
 
             //Make sure that we have at least two points that we can actually make a path between.
-            if (!(controlPoints.RowCount - 2 > 0))
+            if (!(controlPointArray.Count > 1))
             {
-                //If not cancel this and show an error stating so.
                 MessageBox.Show("Not enought points!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
                 return;
             }
 
@@ -1391,29 +1375,6 @@
 
                 int trackwidth = (int)((int.Parse(trackWidth.Text)) / 2);
 
-                float[] l = paths.GetOffsetVelocityProfile(trackwidth).ToArray();
-                List<float> ld = paths.GetOffsetDistanceProfile(trackwidth);
-
-                float[] r;
-                List<float> rd = new List<float>(); ;
-
-                float[] c = paths.GetOffsetVelocityProfile(0).ToArray();
-                List<float> cd = paths.GetOffsetDistanceProfile(0);
-
-                float[] angles = paths.GetHeadingProfile();               r = paths.GetOffsetVelocityProfile(-trackwidth).ToArray();
-                rd = paths.GetOffsetDistanceProfile(-trackwidth);
-
-
-                r.NoiseReduction(int.Parse(smoothness.Text));
-                rd.NoiseReduction(int.Parse(smoothness.Text));
-                l.NoiseReduction(int.Parse(smoothness.Text));
-                ld.NoiseReduction(int.Parse(smoothness.Text));
-                c.NoiseReduction(int.Parse(smoothness.Text));
-                cd.NoiseReduction(int.Parse(smoothness.Text));
-
-
-
-
 
                 Dictionary<int, String> commandPoints = new Dictionary<int, String>();
                 foreach (DataGridViewRow row in commandPointsList.Rows)
@@ -1429,24 +1390,17 @@
 
                     }
                 }
-                for (int i = 0; i < l.Length; i++)
+                for (int i = 0; i < outputPoints.position.Count; i++)
                 {
                     String text = "";
                     if (commandPoints.ContainsKey(i))
                     {
                         text = commandPoints[i];
                     }
-                    if (CTRE.Checked)
-                    {
-                        double dConvert = Math.PI * double.Parse(wheel.Text) * 25.4;
+                    double dConvert = Math.PI * double.Parse(wheel.Text) * 25.4;
 
-                        line.Add("  {   \"Rotation\":" + cd.Take(i).Sum() / dConvert + " , " + "\"Velocity\":" + (c[i] / dConvert * 60).ToString() + " , " + "\"Time\":" + paths[0].velocityMap.time * 1000 + " , " + "\"Angle\":" + angles[i] + " , " + "\"State\":" + "\"" + text + "\"" + "}");
+                    line.Add("  {   \"Rotation\":" + outputPoints.position[i] / dConvert + " , " + "\"Velocity\":" + (outputPoints.velocity[i] / dConvert * 60).ToString() + " , " + "\"Time\":" + 10 + " , " + "\"Angle\":" + outputPoints.angle[i] + " , " + "\"State\":" + "\"" + text + "\"" + "}");
 
-                    }
-                    else
-                    {
-                        line.Add("  {   \"Rotation\":" + cd.Take(i).Sum().ToString() + " , " + "\"Velocity\":" + c[i].ToString() + " , " + "\"Time\":" + paths[0].velocityMap.time * 1000 + " , " + "\"Angle\":" + angles[i] + " , " + "\"State\":" + "\"" + text + "\"" + "}");
-                    }
                 }
                 right.Add(string.Join(",\n", line));
 
@@ -1574,7 +1528,7 @@
 
             File.Delete(JSONPath);
             File.Delete(MPPath);
-        }*/
+        }
 
 
 
