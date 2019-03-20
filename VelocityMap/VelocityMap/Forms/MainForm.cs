@@ -302,7 +302,10 @@
                 if (RowContainData(row, true))
                     row.Cells[0].Value = this.fieldWidth - float.Parse(row.Cells[0].Value.ToString());
             }
-            Apply_Click(sender, e);
+            if (!UpdateField())
+            {
+                return;
+            }
         }
 
         /// <summary>
@@ -480,7 +483,10 @@
                 commandPointsList.CurrentRow.Cells[0].Value = 0;
             }
 
-            Apply_Click(null, null);
+            if (!UpdateField())
+            {
+                return;
+            }
         }
 
         /// <summary>
@@ -545,7 +551,10 @@
             }
             //Reload the points because we just deleted one and we need the rest of the program to know.
             DrawControlPoints();
-            Apply_Click(null, null);
+            if (!UpdateField())
+            {
+                return;
+            }
         }
 
         private void Delete_Click_commandPoints(object sender, EventArgs e)
@@ -558,7 +567,10 @@
             }
             //Reload the points because we just deleted one and we need the rest of the program to know.
             DrawControlPoints();
-            Apply_Click(null, null);
+            if (!UpdateField())
+            {
+                return;
+            }
         }
 
         /// <summary>
@@ -734,32 +746,6 @@
 
         }
 
-        /// <summary>
-        /// Converts our field points to a rectangle that can be drawn on a bitmap.
-        /// </summary>
-        /// <param name="array">The array that contains the x and y values of the rectangle.</param>
-        /// <param name="adjustToScreen">If true will adjust the box to the screen.<see cref="bool"/></param>
-        /// <returns>A rectangle that can be drawn on a bitmap.</returns>
-        private Rectangle MakeRectangle(int[] array, bool adjustToScreen = false)
-        {
-            Rectangle rec = new Rectangle();
-            rec.X = array[0] + padding - 1;
-            if (rec.X < 0) rec.X = padding - 1;
-
-            rec.Width = array[2];
-            if (array[0] < 0) rec.Width = rec.Width + array[0];
-
-            rec.Y = array[1] - padding - 1;
-            if (rec.Y < 0) rec.Y = 0;
-
-            rec.Height = array[3];
-            if (array[1] < 0) rec.Height = rec.Height + array[1];
-
-            if (adjustToScreen)
-                rec.Y = fieldWidth - rec.Y - rec.Height;
-
-            return rec;
-        }
 
         /// <summary>
         /// A method that reloads the control points and redraws them on the main field plot.
@@ -791,6 +777,11 @@
         /// </summary>
         private void Apply_Click(object sender, EventArgs e)
         {
+            UpdateField();
+        }
+
+        private Boolean UpdateField()
+        {
             double maxV = 0;
             double maxA = 0;
             double maxJ = 0;
@@ -799,23 +790,23 @@
             if (!(controlPointArray.Count > 1))
             {
                 MessageBox.Show("Not enought points!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                return false;
             }
 
             if (maxVelocity.Text == null || maxVelocity.Text == "" || !double.TryParse(maxVelocity.Text.ToString(), out maxV))
             {
                 MessageBox.Show("Max Velocity Not Specified", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                return false;
             }
             if (maxAcc.Text == null || maxAcc.Text == "" || !double.TryParse(maxAcc.Text.ToString(), out maxA))
             {
                 MessageBox.Show("Max Acceleration Not Specified", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                return false;
             }
             if (maxJerk.Text == null || maxJerk.Text == "" || !double.TryParse(maxJerk.Text.ToString(), out maxJ))
             {
                 MessageBox.Show("Max Jerk Not Specified", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                return false;
             }
 
 
@@ -861,9 +852,7 @@
             double Posoffset = 0;
             double Timeoffset = 0;
             double angleOffset = 0;
-            Boolean isFirst = true;
             List<SplinePoint> pointList = new List<SplinePoint>();
-            int count = 0;
 
             foreach (ControlPoints ps in directionPoints)
             {
@@ -903,18 +892,8 @@
                 angleOffset = outputPoints.time.Last();
 
             }
-            Console.WriteLine(pointList.Count);
 
-            Console.WriteLine(outputPoints.position.Count);
-
-            List<float> headings = getHeadingList(pointList);
-
-            for (int x = 0; x < outputPoints.position.Count; x++)
-            {
-                outputPoints.angle.Add(headings[x]);
-                Console.WriteLine(headings[x]);
-            }
-
+            outputPoints.angle.AddRange(getHeadingList(pointList));
 
             for (int x = 0; x < outputPoints.position.Count; x++)
             {
@@ -925,7 +904,7 @@
             }
 
 
-
+            return true;
         }
 
         private List<float> getHeadingList(List<SplinePoint> pointList)
@@ -1088,14 +1067,11 @@
         /// </summary>
         private void Save_Click(object sender, EventArgs e)
         {
-            //Make sure that we have at least two points that we can actually make a path between.
-            if (!(controlPointArray.Count > 1))
+            //We are going to apply before we save so that we have the newest data.
+            if(!UpdateField())
             {
-                MessageBox.Show("Not enought points!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            //We are going to apply before we save so that we have the newest data.
-            Apply_Click(null, null);
             //Double check that we have more than 1 point for our calculation.
 
             //Create a save dialog window that allows the user to select where they want us to save the information to.
@@ -1316,7 +1292,10 @@
                 }
             }
             //Run the apply so that it looks like where we left off.
-            Apply_Click(null, null);
+            if (!UpdateField())
+            {
+                return;
+            }
         }
 
         /// <summary>
@@ -1358,8 +1337,11 @@
             String DirPath = Path.GetTempPath();    // Used for storing the directory path of the saved file.
             String JSONPath = Path.Combine(DirPath, profilename.Text + ".json");     // Used for storing the json saved file directory path.
             String MPPath = Path.Combine(DirPath, profilename.Text + ".mp");         // Used for storing the mp saved file directory path.
-            //This is almost the same as saving the file however this one will be a temp file which will be deleted after deploying.
-            Apply_Click(null, null);
+                                                                                     //This is almost the same as saving the file however this one will be a temp file which will be deleted after deploying.
+            if (!UpdateField())
+            {
+                return;
+            }
             using (var writer = new System.IO.StreamWriter(JSONPath))
             {
                 writer.WriteLine("{");
@@ -1752,7 +1734,10 @@
                     }
                 }
                 //Run the apply so that it looks like where we left off.
-                Apply_Click(null, null);
+                if (!UpdateField())
+                {
+                    return;
+                }
             }
             catch (Exception)
             {

@@ -12,7 +12,7 @@ namespace MotionProfile
         public List<double> acceleration = new List<double>();
         public List<double> jerk = new List<double>();
         public List<double> position = new List<double>();
-        public List<double> angle = new List<double>();
+        public List<float> angle = new List<float>();
         public List<double> time = new List<double>();
 
     }
