@@ -71,7 +71,7 @@ namespace VelocityMap.Forms {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Point similar to {X=139,Y=17}.
+        ///   Looks up a localized resource of type System.Drawing.Point similar to {X=388,Y=17}.
         /// </summary>
         internal static System.Drawing.Point contextMenuStrip2_TrayLocation {
             get {
@@ -81,57 +81,7 @@ namespace VelocityMap.Forms {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Boolean similar to True.
-        /// </summary>
-        internal static bool dataGridViewTextBoxColumn1_UserAddedColumn {
-            get {
-                object obj = ResourceManager.GetObject("dataGridViewTextBoxColumn1.UserAddedColumn", resourceCulture);
-                return ((bool)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Boolean similar to True.
-        /// </summary>
-        internal static bool dataGridViewTextBoxColumn2_UserAddedColumn {
-            get {
-                object obj = ResourceManager.GetObject("dataGridViewTextBoxColumn2.UserAddedColumn", resourceCulture);
-                return ((bool)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Boolean similar to True.
-        /// </summary>
-        internal static bool dataGridViewTextBoxColumn3_UserAddedColumn {
-            get {
-                object obj = ResourceManager.GetObject("dataGridViewTextBoxColumn3.UserAddedColumn", resourceCulture);
-                return ((bool)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Boolean similar to True.
-        /// </summary>
-        internal static bool dataGridViewTextBoxColumn4_UserAddedColumn {
-            get {
-                object obj = ResourceManager.GetObject("dataGridViewTextBoxColumn4.UserAddedColumn", resourceCulture);
-                return ((bool)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Boolean similar to True.
-        /// </summary>
-        internal static bool Direction_UserAddedColumn {
-            get {
-                object obj = ResourceManager.GetObject("Direction.UserAddedColumn", resourceCulture);
-                return ((bool)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Point similar to {X=492,Y=17}.
+        ///   Looks up a localized resource of type System.Drawing.Point similar to {X=184,Y=17}.
         /// </summary>
         internal static System.Drawing.Point folderBrowserDialog1_TrayLocation {
             get {
@@ -141,7 +91,7 @@ namespace VelocityMap.Forms {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Point similar to {X=17,Y=17}.
+        ///   Looks up a localized resource of type System.Drawing.Point similar to {X=574,Y=17}.
         /// </summary>
         internal static System.Drawing.Point MainStrip_TrayLocation {
             get {
@@ -151,7 +101,7 @@ namespace VelocityMap.Forms {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Point similar to {X=325,Y=17}.
+        ///   Looks up a localized resource of type System.Drawing.Point similar to {X=17,Y=17}.
         /// </summary>
         internal static System.Drawing.Point openFileDialog1_TrayLocation {
             get {
@@ -167,26 +117,6 @@ namespace VelocityMap.Forms {
             get {
                 object obj = ResourceManager.GetObject("rioFilesContextMenuStrip.TrayLocation", resourceCulture);
                 return ((System.Drawing.Point)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Boolean similar to True.
-        /// </summary>
-        internal static bool x_UserAddedColumn {
-            get {
-                object obj = ResourceManager.GetObject("x.UserAddedColumn", resourceCulture);
-                return ((bool)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Boolean similar to True.
-        /// </summary>
-        internal static bool y_UserAddedColumn {
-            get {
-                object obj = ResourceManager.GetObject("y.UserAddedColumn", resourceCulture);
-                return ((bool)(obj));
             }
         }
     }

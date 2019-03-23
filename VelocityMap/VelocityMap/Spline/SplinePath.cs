@@ -11,16 +11,15 @@ namespace MotionProfile.Spline
     class SplinePath
     {
         private static ParametricSpline spline;
-        private static double length = 0.0;
         public static List<ControlPointSegment> GenSpline(List<ControlPoint> points, List<VelocityPoint> velocityPoints = null)
         {
 
-            float[] xOrig = new float[0];
+            double[] xOrig = new double[0];
             List<ControlPointSegment> splineSegments = new List<ControlPointSegment>();
             splineSegments.Clear();
 
-            List<float> xs = new List<float>();
-            List<float> ys = new List<float>();
+            List<double> xs = new List<double>();
+            List<double> ys = new List<double>();
 
             foreach (ControlPoint point in points)
             {
@@ -98,9 +97,9 @@ namespace MotionProfile.Spline
 
                 for (int i = 0; i < velocityPoints.Count; i++)
                 {
-                    SplinePoint spoint = spline.Eval(Math.Abs((float)velocityPoints[i].Pos));
+                    SplinePoint spoint = spline.Eval(Math.Abs((double)velocityPoints[i].Pos));
 
-                    double distance = Math.Abs((float)velocityPoints[i].Pos);
+                    double distance = Math.Abs((double)velocityPoints[i].Pos);
 
                     for (int dis = 1; dis < CPDistances.Count; dis++)
                     {
@@ -119,6 +118,7 @@ namespace MotionProfile.Spline
                         if(distance >= CPDistances[dis] && dis == CPDistances.Count-1)
                         {
                             seg.points.Add(spoint);
+                            
                             //we add any of the points that over shoot the last distance point by just a little because
                             //we have an error somewhere but the ending error is less then 5mm less than the accuracy of
                             //the robot anyways so.

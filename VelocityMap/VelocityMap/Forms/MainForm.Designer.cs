@@ -35,14 +35,6 @@
             System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series6 = new System.Windows.Forms.DataVisualization.Charting.Series();
@@ -51,10 +43,22 @@
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series9 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.MoreData = new System.Windows.Forms.TabControl();
             this.Field = new System.Windows.Forms.TabPage();
             this.mainField = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.Data = new System.Windows.Forms.TabPage();
+            this.kinematicsChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.AngleChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.apply = new System.Windows.Forms.Button();
             this.maxVelocity = new System.Windows.Forms.TextBox();
@@ -120,13 +124,13 @@
             this.maxAcc = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.maxJerk = new System.Windows.Forms.TextBox();
-            this.kinematicsChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.Data = new System.Windows.Forms.TabPage();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.AngleChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.MoreData.SuspendLayout();
             this.Field.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mainField)).BeginInit();
+            this.Data.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kinematicsChart)).BeginInit();
+            this.tabPage1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.AngleChart)).BeginInit();
             this.contextMenuStrip2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ControlPointTable)).BeginInit();
             this.MainStrip.SuspendLayout();
@@ -134,10 +138,6 @@
             this.commandPointListMenuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.RioFiles)).BeginInit();
             this.rioFilesContextMenuStrip.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kinematicsChart)).BeginInit();
-            this.Data.SuspendLayout();
-            this.tabPage1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.AngleChart)).BeginInit();
             this.SuspendLayout();
             // 
             // MoreData
@@ -209,12 +209,102 @@
             this.mainField.Series.Add(series3);
             this.mainField.Series.Add(series4);
             this.mainField.Series.Add(series5);
-            this.mainField.Size = new System.Drawing.Size(737, 774);
+            this.mainField.Size = new System.Drawing.Size(737, 773);
             this.mainField.TabIndex = 4;
             this.mainField.Text = "chart2";
             this.mainField.MouseClick += new System.Windows.Forms.MouseEventHandler(this.MainField_MouseClick);
             this.mainField.MouseDown += new System.Windows.Forms.MouseEventHandler(this.MainField_MouseDown);
             this.mainField.MouseMove += new System.Windows.Forms.MouseEventHandler(this.MainField_MouseMove);
+            // 
+            // Data
+            // 
+            this.Data.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.Data.Controls.Add(this.kinematicsChart);
+            this.Data.ForeColor = System.Drawing.Color.White;
+            this.Data.Location = new System.Drawing.Point(4, 25);
+            this.Data.Margin = new System.Windows.Forms.Padding(1);
+            this.Data.Name = "Data";
+            this.Data.Padding = new System.Windows.Forms.Padding(1);
+            this.Data.Size = new System.Drawing.Size(746, 792);
+            this.Data.TabIndex = 1;
+            this.Data.Text = "Data";
+            // 
+            // kinematicsChart
+            // 
+            this.kinematicsChart.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.kinematicsChart.BorderlineColor = System.Drawing.SystemColors.WindowFrame;
+            chartArea2.AxisX.Interval = 0.5D;
+            chartArea2.AxisX.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount;
+            chartArea2.AxisX.MinorGrid.Enabled = true;
+            chartArea2.AxisX.MinorGrid.Interval = 0.25D;
+            chartArea2.AxisX.ScaleBreakStyle.Spacing = 0.5D;
+            chartArea2.AxisX.Title = "Time (Seconds)";
+            chartArea2.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            chartArea2.Name = "ChartArea1";
+            this.kinematicsChart.ChartAreas.Add(chartArea2);
+            legend1.Name = "Legend1";
+            this.kinematicsChart.Legends.Add(legend1);
+            this.kinematicsChart.Location = new System.Drawing.Point(0, 0);
+            this.kinematicsChart.Name = "kinematicsChart";
+            series6.BorderWidth = 3;
+            series6.ChartArea = "ChartArea1";
+            series6.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series6.Legend = "Legend1";
+            series6.Name = "Position";
+            series7.BorderWidth = 3;
+            series7.ChartArea = "ChartArea1";
+            series7.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series7.Legend = "Legend1";
+            series7.Name = "Velocity";
+            series8.BorderWidth = 3;
+            series8.ChartArea = "ChartArea1";
+            series8.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series8.Legend = "Legend1";
+            series8.Name = "Acceleration";
+            this.kinematicsChart.Series.Add(series6);
+            this.kinematicsChart.Series.Add(series7);
+            this.kinematicsChart.Series.Add(series8);
+            this.kinematicsChart.Size = new System.Drawing.Size(738, 795);
+            this.kinematicsChart.TabIndex = 0;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.tabPage1.Controls.Add(this.AngleChart);
+            this.tabPage1.Location = new System.Drawing.Point(4, 25);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(746, 792);
+            this.tabPage1.TabIndex = 2;
+            this.tabPage1.Text = "More Data ";
+            // 
+            // AngleChart
+            // 
+            this.AngleChart.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.AngleChart.BorderlineColor = System.Drawing.SystemColors.WindowFrame;
+            chartArea3.AxisX.Interval = 0.5D;
+            chartArea3.AxisX.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount;
+            chartArea3.AxisX.MinorGrid.Enabled = true;
+            chartArea3.AxisX.MinorGrid.Interval = 0.25D;
+            chartArea3.AxisX.ScaleBreakStyle.Spacing = 0.5D;
+            chartArea3.AxisX.Title = "Time (Seconds)";
+            chartArea3.AxisY.Interval = 5D;
+            chartArea3.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            chartArea3.Name = "ChartArea1";
+            this.AngleChart.ChartAreas.Add(chartArea3);
+            legend2.Name = "Legend1";
+            this.AngleChart.Legends.Add(legend2);
+            this.AngleChart.Location = new System.Drawing.Point(4, -2);
+            this.AngleChart.Name = "AngleChart";
+            series9.BorderWidth = 3;
+            series9.ChartArea = "ChartArea1";
+            series9.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series9.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            series9.Legend = "Legend1";
+            series9.Name = "Angle";
+            this.AngleChart.Series.Add(series9);
+            this.AngleChart.Size = new System.Drawing.Size(738, 795);
+            this.AngleChart.TabIndex = 1;
             // 
             // openFileDialog1
             // 
@@ -711,7 +801,7 @@
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
             this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(177, 26);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.Save_Click);
             // 
@@ -719,26 +809,26 @@
             // 
             this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
             this.loadToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.loadToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.loadToolStripMenuItem.Size = new System.Drawing.Size(177, 26);
             this.loadToolStripMenuItem.Text = "Load";
             this.loadToolStripMenuItem.Click += new System.EventHandler(this.Load_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(213, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(174, 6);
             // 
             // optionsToolStripMenuItem
             // 
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(177, 26);
             this.optionsToolStripMenuItem.Text = "Settings";
             this.optionsToolStripMenuItem.Click += new System.EventHandler(this.OptionsToolStripMenuItem_Click);
             // 
             // abouToolStripMenuItem
             // 
             this.abouToolStripMenuItem.Name = "abouToolStripMenuItem";
-            this.abouToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.abouToolStripMenuItem.Size = new System.Drawing.Size(177, 26);
             this.abouToolStripMenuItem.Text = "About";
             this.abouToolStripMenuItem.Click += new System.EventHandler(this.About_Click);
             // 
@@ -988,96 +1078,6 @@
             this.maxJerk.Text = "12000";
             this.maxJerk.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // kinematicsChart
-            // 
-            this.kinematicsChart.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.kinematicsChart.BorderlineColor = System.Drawing.SystemColors.WindowFrame;
-            chartArea2.AxisX.Interval = 0.5D;
-            chartArea2.AxisX.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount;
-            chartArea2.AxisX.MinorGrid.Enabled = true;
-            chartArea2.AxisX.MinorGrid.Interval = 0.25D;
-            chartArea2.AxisX.ScaleBreakStyle.Spacing = 0.5D;
-            chartArea2.AxisX.Title = "Time (Seconds)";
-            chartArea2.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            chartArea2.Name = "ChartArea1";
-            this.kinematicsChart.ChartAreas.Add(chartArea2);
-            legend1.Name = "Legend1";
-            this.kinematicsChart.Legends.Add(legend1);
-            this.kinematicsChart.Location = new System.Drawing.Point(0, 0);
-            this.kinematicsChart.Name = "kinematicsChart";
-            series6.BorderWidth = 3;
-            series6.ChartArea = "ChartArea1";
-            series6.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series6.Legend = "Legend1";
-            series6.Name = "Position";
-            series7.BorderWidth = 3;
-            series7.ChartArea = "ChartArea1";
-            series7.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series7.Legend = "Legend1";
-            series7.Name = "Velocity";
-            series8.BorderWidth = 3;
-            series8.ChartArea = "ChartArea1";
-            series8.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series8.Legend = "Legend1";
-            series8.Name = "Acceleration";
-            this.kinematicsChart.Series.Add(series6);
-            this.kinematicsChart.Series.Add(series7);
-            this.kinematicsChart.Series.Add(series8);
-            this.kinematicsChart.Size = new System.Drawing.Size(738, 795);
-            this.kinematicsChart.TabIndex = 0;
-            // 
-            // Data
-            // 
-            this.Data.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.Data.Controls.Add(this.kinematicsChart);
-            this.Data.ForeColor = System.Drawing.Color.White;
-            this.Data.Location = new System.Drawing.Point(4, 26);
-            this.Data.Margin = new System.Windows.Forms.Padding(1);
-            this.Data.Name = "Data";
-            this.Data.Padding = new System.Windows.Forms.Padding(1);
-            this.Data.Size = new System.Drawing.Size(746, 791);
-            this.Data.TabIndex = 1;
-            this.Data.Text = "Data";
-            // 
-            // tabPage1
-            // 
-            this.tabPage1.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.tabPage1.Controls.Add(this.AngleChart);
-            this.tabPage1.Location = new System.Drawing.Point(4, 26);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(746, 791);
-            this.tabPage1.TabIndex = 2;
-            this.tabPage1.Text = "More Data ";
-            // 
-            // AngleChart
-            // 
-            this.AngleChart.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.AngleChart.BorderlineColor = System.Drawing.SystemColors.WindowFrame;
-            chartArea3.AxisX.Interval = 0.5D;
-            chartArea3.AxisX.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount;
-            chartArea3.AxisX.MinorGrid.Enabled = true;
-            chartArea3.AxisX.MinorGrid.Interval = 0.25D;
-            chartArea3.AxisX.ScaleBreakStyle.Spacing = 0.5D;
-            chartArea3.AxisX.Title = "Time (Seconds)";
-            chartArea3.AxisY.Interval = 5D;
-            chartArea3.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            chartArea3.Name = "ChartArea1";
-            this.AngleChart.ChartAreas.Add(chartArea3);
-            legend2.Name = "Legend1";
-            this.AngleChart.Legends.Add(legend2);
-            this.AngleChart.Location = new System.Drawing.Point(4, -2);
-            this.AngleChart.Name = "AngleChart";
-            series9.BorderWidth = 3;
-            series9.ChartArea = "ChartArea1";
-            series9.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series9.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
-            series9.Legend = "Legend1";
-            series9.Name = "Angle";
-            this.AngleChart.Series.Add(series9);
-            this.AngleChart.Size = new System.Drawing.Size(738, 795);
-            this.AngleChart.TabIndex = 1;
-            // 
             // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
@@ -1132,6 +1132,10 @@
             this.MoreData.ResumeLayout(false);
             this.Field.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.mainField)).EndInit();
+            this.Data.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.kinematicsChart)).EndInit();
+            this.tabPage1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.AngleChart)).EndInit();
             this.contextMenuStrip2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.ControlPointTable)).EndInit();
             this.MainStrip.ResumeLayout(false);
@@ -1140,10 +1144,6 @@
             this.commandPointListMenuStrip.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.RioFiles)).EndInit();
             this.rioFilesContextMenuStrip.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.kinematicsChart)).EndInit();
-            this.Data.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.AngleChart)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

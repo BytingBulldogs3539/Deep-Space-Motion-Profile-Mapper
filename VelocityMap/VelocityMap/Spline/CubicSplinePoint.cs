@@ -8,10 +8,10 @@ namespace MotionProfile.Spline
 {
     public class CubicSplinePoint
     {
-        float y;
+        double y;
         int Num;
 
-        public float Y
+        public double Y
         {
             get
             {
@@ -36,7 +36,7 @@ namespace MotionProfile.Spline
             }
         }
 
-        public CubicSplinePoint(float y, int ControlPointNum)
+        public CubicSplinePoint(double y, int ControlPointNum)
         {
             this.Num = ControlPointNum;
             this.y = y;

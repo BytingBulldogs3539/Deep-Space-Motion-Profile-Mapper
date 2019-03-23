@@ -591,6 +591,9 @@
             kinematicsChart.Series["Velocity"].Points.Clear();
             kinematicsChart.Series["Acceleration"].Points.Clear();
 
+            AngleChart.Series["Angle"].Points.Clear();
+
+
         }
 
         /// <summary>
@@ -809,6 +812,8 @@
                 return false;
             }
 
+            mainField.Series["left"].Points.Clear();
+            mainField.Series["right"].Points.Clear();
 
 
             mainField.Series["path"].Points.Clear();
@@ -903,8 +908,51 @@
                 AngleChart.Series["Angle"].Points.AddXY(outputPoints.time[x], outputPoints.angle[x]);
             }
 
+            
+            foreach (SplinePoint point in buildOffsetPoints(Properties.Settings.Default.TrackWidth, pointList))
+            {
+                mainField.Series["right"].Points.AddXY(point.X, point.Y);
+            }
+            foreach (SplinePoint point in buildOffsetPoints(-Properties.Settings.Default.TrackWidth, pointList))
+            {
+                mainField.Series["left"].Points.AddXY(point.X, point.Y);
+            }
 
             return true;
+        }
+
+        public List<SplinePoint> buildOffsetPoints(float offset, List<SplinePoint> pointList)
+        {
+            List<SplinePoint> ret = new List<SplinePoint>();
+            SplinePoint p1 = new SplinePoint(0, 0, 0);
+            OffsetSegment prevSeg = new OffsetSegment(p1, p1);
+
+            foreach (SplinePoint p in pointList)
+            {
+                SplinePoint p2 = p;
+
+                if (p.Direction == ControlPointDirection.REVERSE)
+                {
+                    if (p1.X != 0 && p1.Y != 0)
+                    {
+                        ret.Add(new OffsetSegment(p1, p2).perp(-offset/2));
+                    }
+                }
+                else
+                {
+                    if (p1.X != 0 && p1.Y != 0)
+                    {
+                        ret.Add(new OffsetSegment(p1, p2).perp(offset/2));
+                    }
+
+                }
+
+                p1 = p2;
+
+            }
+
+            return ret;
+
         }
 
         private List<float> getHeadingList(List<SplinePoint> pointList)
@@ -933,21 +981,59 @@
             {
                 float angle = headings[i];
                 angle = (angle - startAngle);
-                if (pointList[i].Direction==ControlPointDirection.REVERSE)
-                {
-                    int add = 0;
-                    if (angle > 0)
-                        add = -180;
-                    if (angle < 0)
-                        add = 180;
-                    angle = angle + add;
-                }
                 angle = -angle;
 
                 headings[i] = angle;
-
             }
-            headings.NoiseReduction(10);
+            for (int i = 1; i < (pointList.Count); i++) //converts the values from raw graph angles to angles the robot can use.
+            {
+                float angle = headings[i];
+                float lastAngle = headings[i - 1];
+                float angleChange = (angle - lastAngle);
+                if (angleChange > 170)
+                {
+                    angle -= 180;
+                }
+                if (angleChange < -170)
+                {
+                    angle += 180;
+                }
+
+                headings[i] = angle;
+            }
+            for (int i = 1; i < (pointList.Count); i++) //converts the values from raw graph angles to angles the robot can use.
+            {
+                float angle = headings[i];
+                float lastAngle = headings[i - 1];
+                float angleChange = (angle - lastAngle);
+                if (angleChange > 180)
+                {
+                    angle -= 180;
+                }
+                if (angleChange < -180)
+                {
+                    angle += 180;
+                }
+
+                headings[i] = angle;
+            }
+            for (int i = 1; i < (pointList.Count); i++) //converts the values from raw graph angles to angles the robot can use.
+            {
+                float angle = headings[i];
+                float lastAngle = headings[i - 1];
+                float angleChange = (angle - lastAngle);
+                if (angleChange > 360)
+                {
+                    angle -= 360;
+                }
+                if (angleChange < -360)
+                {
+                    angle += 360;
+                }
+
+                headings[i] = angle;
+            }
+            //headings.NoiseReduction(10);
             return headings;
         }
 

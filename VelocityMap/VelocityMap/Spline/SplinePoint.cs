@@ -9,13 +9,13 @@ namespace MotionProfile.Spline
 {
     public class SplinePoint
     {
-        float x;
-        float y;
+        double x;
+        double y;
         int controlPointNum;
         ControlPointDirection direction;
 
 
-        public float X
+        public double X
         {
             get
             {
@@ -28,7 +28,7 @@ namespace MotionProfile.Spline
             }
         }
 
-        public float Y
+        public double Y
         {
             get
             {
@@ -66,7 +66,7 @@ namespace MotionProfile.Spline
         }
 
 
-        public SplinePoint(float x, float y, int controlPointNum)
+        public SplinePoint(double x, double y, int controlPointNum)
         {
             this.x = x;
             this.y = y;

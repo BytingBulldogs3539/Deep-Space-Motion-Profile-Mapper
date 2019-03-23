@@ -70,5 +70,17 @@ namespace VelocityMap.Properties {
                 this["RioMPPath"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("600")]
+        public float TrackWidth {
+            get {
+                return ((float)(this["TrackWidth"]));
+            }
+            set {
+                this["TrackWidth"] = value;
+            }
+        }
     }
 }

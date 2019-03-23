@@ -78,6 +78,7 @@
     <Compile Include="Spline\ControlPointSegment.cs" />
     <Compile Include="Spline\CubicSplinePoint.cs" />
     <Compile Include="Spline\DirectionSegment.cs" />
+    <Compile Include="Spline\OffsetSegment.cs" />
     <Compile Include="Spline\SplinePath.cs" />
     <Compile Include="Forms\AboutBox.cs">
       <SubType>Form</SubType>

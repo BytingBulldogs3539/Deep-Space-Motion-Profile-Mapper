@@ -14,5 +14,8 @@
     <Setting Name="RioMPPath" Type="System.String" Scope="User">
       <Value Profile="(Default)">/home/lvuser/Motion_Profiles/</Value>
     </Setting>
+    <Setting Name="TrackWidth" Type="System.Single" Scope="User">
+      <Value Profile="(Default)">600</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
