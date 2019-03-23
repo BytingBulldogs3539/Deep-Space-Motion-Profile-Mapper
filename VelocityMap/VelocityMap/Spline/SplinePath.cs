@@ -106,7 +106,7 @@ namespace MotionProfile.Spline
                         if (distance >= CPDistances[dis - 1] && distance <= CPDistances[dis])
                         {
                             spoint.ControlPointNum = dis - 1;
-
+                            seg.PathNum = points[dis - 1].getGraphIndex();
                             if (spoint.ControlPointNum != lastControlPointNum)
                             {
                                 splineSegments.Add(seg);
@@ -126,6 +126,8 @@ namespace MotionProfile.Spline
 
                     }
                 }
+
+                seg.PathNum = points[CPDistances.Count - 1].getGraphIndex();
                 splineSegments.Add(seg);
 
             }
