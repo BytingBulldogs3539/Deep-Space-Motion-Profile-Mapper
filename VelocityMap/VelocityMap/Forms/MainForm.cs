@@ -1124,8 +1124,6 @@
 
                     List<string> line = new List<string>();
 
-                    int trackwidth = (int)((int.Parse(trackWidth.Text)) / 2);
-
                     //write the information to the json file.
                     Dictionary<int, String> commandPoints = new Dictionary<int, String>();
                     foreach (DataGridViewRow row in commandPointsList.Rows)
@@ -1192,26 +1190,9 @@
                 writer.WritePropertyName("Max Velocity");
                 writer.WriteValue(maxVelocity.Text);
 
-                writer.WritePropertyName("Track Width");
-                writer.WriteValue(trackWidth.Text);
-
-                writer.WritePropertyName("Accel Rate");
-                writer.WriteValue(AccelRate.Text);
-
-                writer.WritePropertyName("Time Sample");
-                writer.WriteValue(timeSample.Text);
-
                 writer.WritePropertyName("Wheel Diameter");
                 writer.WriteValue(wheel.Text);
 
-                writer.WritePropertyName("Speed Limit");
-                writer.WriteValue(SpeedLimit.Text);
-
-                writer.WritePropertyName("CTRE");
-                writer.WriteValue(CTRE.Checked.ToString());
-
-                writer.WritePropertyName("isntaVel");
-                writer.WriteValue(isntaVel.Checked.ToString());
 
                 writer.WritePropertyName("Profile Name");
                 writer.WriteValue(profilename.Text);
@@ -1283,13 +1264,7 @@
                         JObject o = JObject.Parse(json);
 
                         maxVelocity.Text = (string)o["Max Velocity"];
-                        trackWidth.Text = (string)o["Track Width"];
-                        AccelRate.Text = (string)o["Accel Rate"];
-                        timeSample.Text = (string)o["Time Sample"];
-                        SpeedLimit.Text = (string)o["Speed Limit"];
                         wheel.Text = (string)o["Wheel Diameter"];
-                        CTRE.Checked = Boolean.Parse((string)o["CTRE"]);
-                        isntaVel.Checked = Boolean.Parse((string)o["isntaVel"]);
 
                         profilename.Text = (string)o["Profile Name"];
 
@@ -1383,9 +1358,6 @@
                 List<string> center = new List<string>();
 
                 List<string> line = new List<string>();
-
-                int trackwidth = (int)((int.Parse(trackWidth.Text)) / 2);
-
 
                 Dictionary<int, String> commandPoints = new Dictionary<int, String>();
                 foreach (DataGridViewRow row in commandPointsList.Rows)
@@ -1738,13 +1710,7 @@
                     JObject o = JObject.Parse(json);
 
                     maxVelocity.Text = (string)o["Max Velocity"];
-                    trackWidth.Text = (string)o["Track Width"];
-                    AccelRate.Text = (string)o["Accel Rate"];
-                    timeSample.Text = (string)o["Time Sample"];
-                    SpeedLimit.Text = (string)o["Speed Limit"];
                     wheel.Text = (string)o["Wheel Diameter"];
-                    CTRE.Checked = Boolean.Parse((string)o["CTRE"]);
-                    isntaVel.Checked = Boolean.Parse((string)o["isntaVel"]);
 
                     profilename.Text = (string)o["Profile Name"];
 
