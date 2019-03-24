@@ -1511,6 +1511,8 @@
 
             File.Delete(JSONPath);
             File.Delete(MPPath);
+
+            Save_Click(null, null);
         }
 
 
