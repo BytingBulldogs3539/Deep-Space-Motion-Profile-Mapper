@@ -21,24 +21,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_42A7EC25F20B0EA297E1F2EF18967769"
-        "OwnerKey" = "8:_0A5E5AFCF82A4BD5BA7A19D158218E34"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_7AE7E5AB3ADCED6D63518A2386EBCBD5"
-        "OwnerKey" = "8:_0A5E5AFCF82A4BD5BA7A19D158218E34"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_E4F93475B1F3B7DA8E1F7B1C7ED8D477"
-        "OwnerKey" = "8:_0A5E5AFCF82A4BD5BA7A19D158218E34"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_F615435560AD4F979AAC72858793C3EB"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -47,24 +29,6 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_0A5E5AFCF82A4BD5BA7A19D158218E34"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_42A7EC25F20B0EA297E1F2EF18967769"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_7AE7E5AB3ADCED6D63518A2386EBCBD5"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_E4F93475B1F3B7DA8E1F7B1C7ED8D477"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -162,99 +126,6 @@
         }
         "File"
         {
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_42A7EC25F20B0EA297E1F2EF18967769"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Renci.SshNet, Version=2016.1.0.0, Culture=neutral, PublicKeyToken=1cee9f8bde3db106, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_42A7EC25F20B0EA297E1F2EF18967769"
-                    {
-                    "Name" = "8:Renci.SshNet.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:Renci.SshNet.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_39048F06E6F04D4B99DC7D290B5254E1"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_7AE7E5AB3ADCED6D63518A2386EBCBD5"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_7AE7E5AB3ADCED6D63518A2386EBCBD5"
-                    {
-                    "Name" = "8:Newtonsoft.Json.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:Newtonsoft.Json.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_39048F06E6F04D4B99DC7D290B5254E1"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_E4F93475B1F3B7DA8E1F7B1C7ED8D477"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:bulldogForms, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_E4F93475B1F3B7DA8E1F7B1C7ED8D477"
-                    {
-                    "Name" = "8:bulldogForms.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:bulldogForms.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_39048F06E6F04D4B99DC7D290B5254E1"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_F615435560AD4F979AAC72858793C3EB"
             {
             "SourcePath" = "8:..\\..\\..\\..\\image_NUW_icon.ico"
@@ -331,15 +202,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Motion-Profiler"
-        "ProductCode" = "8:{F9B5F3A7-904F-497A-ADDE-D7B96FE31064}"
-        "PackageCode" = "8:{E5AB677B-1BB8-4722-AB4D-FE3AE982026D}"
+        "ProductCode" = "8:{906FFCD0-68B2-4AB8-A989-24ADC2B86061}"
+        "PackageCode" = "8:{FA8BB36E-F289-4A35-BCEB-D7859A990294}"
         "UpgradeCode" = "8:{F109F2B2-7D8A-43ED-B73A-025A4428AA32}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:FALSE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.1.0"
+        "ProductVersion" = "8:1.2.0"
         "Manufacturer" = "8:Byting Bulldogs"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
@@ -881,7 +752,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_0A5E5AFCF82A4BD5BA7A19D158218E34"
             {
-            "SourcePath" = "8:..\\VelocityMap\\obj\\Release\\VelocityMap.exe"
+            "SourcePath" = "8:..\\VelocityMap\\obj\\Debug\\VelocityMap.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_39048F06E6F04D4B99DC7D290B5254E1"
