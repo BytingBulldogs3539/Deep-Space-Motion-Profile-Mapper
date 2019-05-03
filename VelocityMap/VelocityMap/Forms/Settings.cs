@@ -19,6 +19,7 @@ namespace VelocityMap
             this.username.Text = Properties.Settings.Default.Username;
             this.password.Text = Properties.Settings.Default.Password;
             this.riopath.Text = Properties.Settings.Default.RioMPPath;
+            this.trackWidth.Text = Properties.Settings.Default.TrackWidth.ToString();
         }
 
         private void save_Click(object sender, EventArgs e)
@@ -35,6 +36,7 @@ namespace VelocityMap
             Properties.Settings.Default.Username = this.username.Text;
             Properties.Settings.Default.Password = this.password.Text;
             Properties.Settings.Default.RioMPPath = this.riopath.Text;
+            Properties.Settings.Default.TrackWidth = float.Parse(this.trackWidth.Text.ToString());
 
             Properties.Settings.Default.Save();
 
@@ -68,6 +70,14 @@ namespace VelocityMap
         private void cancel_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void trackWidth_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
         }
     }
 }

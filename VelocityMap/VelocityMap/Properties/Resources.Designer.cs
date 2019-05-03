@@ -65,7 +65,7 @@ namespace VelocityMap.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap _2019_field {
             get {
-                object obj = ResourceManager.GetObject("2019-field", resourceCulture);
+                object obj = ResourceManager.GetObject("_2019-field", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

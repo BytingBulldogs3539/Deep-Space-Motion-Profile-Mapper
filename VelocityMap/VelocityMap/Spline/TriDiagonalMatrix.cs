@@ -51,17 +51,17 @@ namespace MotionProfile.Spline
 		/// <summary>
 		/// The values for the sub-diagonal. A[0] is never used.
 		/// </summary>
-		public float[] A;
+		public double[] A;
 
 		/// <summary>
 		/// The values for the main diagonal.
 		/// </summary>
-		public float[] B;
+		public double[] B;
 
 		/// <summary>
 		/// The values for the super-diagonal. C[C.Length-1] is never used.
 		/// </summary>
-		public float[] C;
+		public double[] C;
 
 		/// <summary>
 		/// The width and height of this matrix.
@@ -74,7 +74,7 @@ namespace MotionProfile.Spline
 		/// <summary>
 		/// Indexer. Setter throws an exception if you try to set any not on the super, main, or sub diagonals.
 		/// </summary>
-		public float this[int row, int col]
+		public double this[int row, int col]
 		{
 			get
 			{
@@ -126,9 +126,9 @@ namespace MotionProfile.Spline
 		/// </summary>
 		public TriDiagonalMatrixF(int n)
 		{
-			this.A = new float[n];
-			this.B = new float[n];
-			this.C = new float[n];
+			this.A = new double[n];
+			this.B = new double[n];
+			this.C = new double[n];
 		}
 
 		/// <summary>
@@ -172,7 +172,7 @@ namespace MotionProfile.Spline
 		/// Not optimized. Not destructive.
 		/// </remarks>
 		/// <param name="d">Right side of the equation.</param>
-		public float[] Solve(float[] d)
+		public double[] Solve(double[] d)
 		{
 			int n = this.N;
 
@@ -182,7 +182,7 @@ namespace MotionProfile.Spline
 			}
 
 			// cPrime
-			float[] cPrime = new float[n];
+			double[] cPrime = new double[n];
 			cPrime[0] = C[0] / B[0];
 
 			for (int i = 1; i < n; i++)
@@ -191,7 +191,7 @@ namespace MotionProfile.Spline
 			}
 
 			// dPrime
-			float[] dPrime = new float[n];
+			double[] dPrime = new double[n];
 			dPrime[0] = d[0] / B[0];
 
 			for (int i = 1; i < n; i++)
@@ -200,7 +200,7 @@ namespace MotionProfile.Spline
 			}
 
 			// Back substitution
-			float[] x = new float[n];
+			double[] x = new double[n];
 			x[n - 1] = dPrime[n - 1];
 
 			for (int i = n-2; i >= 0; i--)

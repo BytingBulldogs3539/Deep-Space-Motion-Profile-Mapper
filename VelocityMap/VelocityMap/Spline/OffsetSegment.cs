@@ -3,14 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Drawing;
 
-namespace MotionProfile
+namespace MotionProfile.Spline
 {
-    /// <summary>
-    /// Part of the path.
-    /// </summary>
-    public class Segment
+    public class OffsetSegment
     {
         public enum Point
         {
@@ -18,12 +14,12 @@ namespace MotionProfile
             B,
         };
 
-        public PointF A;
-        public PointF B;
+        public SplinePoint A;
+        public SplinePoint B;
         public double length = 0;
         public double dx, dy;
 
-        public Segment(PointF a, PointF b)
+        public OffsetSegment(SplinePoint a, SplinePoint b)
         {
             A = a;
             B = b;
@@ -32,9 +28,9 @@ namespace MotionProfile
             dy = b.Y - a.Y;
             length = Math.Sqrt(dx * dx + dy * dy);
         }
-        public PointF perp(float offset)
+        public SplinePoint perp(float offset)
         {
-            PointF pt = new PointF(0,0);
+            SplinePoint pt = new SplinePoint(0, 0, B.ControlPointNum);
 
             if (length > 0)
             {
