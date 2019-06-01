@@ -8,8 +8,8 @@ Features:
 - Path visualization.
 - Event points.
 - Adjustable profile speed.
-- Forward and reverse in the same profile
-- Speed and angle profile graphs
+- Forward and reverse in the same profile.
+- Speed and angle profile graphs.
 
 ![Image Of Motion Tool](https://github.com/BytingBulldogs3539/Deep-Space-Motion-Profile-Mapper/blob/master/Images/Capture.JPG)
 ![Image Of Motion Tool](https://github.com/BytingBulldogs3539/Deep-Space-Motion-Profile-Mapper/blob/master/Images/Capture2.JPG)
