@@ -1,5 +1,5 @@
 # Deep-Space-Motion-Profile-Mapper
-A custom motion profiling utility created by the byting bulldogs written from scratch in C#.
+A custom motion profiling utility created by the Byting Bulldogs written from scratch in C#.
 
 Features:
 - Third dirivitive velocity generation.
