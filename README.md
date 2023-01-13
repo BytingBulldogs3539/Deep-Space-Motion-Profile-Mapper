@@ -2,7 +2,7 @@
 A custom motion profiling utility created by the Byting Bulldogs written from scratch in C#.
 
 Features:
-- Third dirivitive velocity generation.
+- Third derivative velocity generation.
 - Direct profile deployment.
 - Angle correction.
 - Path visualization.
